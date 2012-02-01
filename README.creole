@@ -11,7 +11,7 @@ Currently, this plugin is only tested under 64bit Windows 7 and Sublime Text 2.
     ***     git clone https://github.com/timonwong/SublimeAStyleFormatter.git SublimeAStyleFormatter
 
 === Usage ===
-== Key Bindings ==
+==== Key Bindings ==
     |ctrl+alt+f|Format current file
 
 === License ===

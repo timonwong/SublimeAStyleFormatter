@@ -1,0 +1,6 @@
+[
+    {
+        "caption": "SublimeAStyleFormatter: Format Current File",
+        "command": "astyleformat"
+    }
+]
