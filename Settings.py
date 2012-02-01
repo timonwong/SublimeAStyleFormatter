@@ -1,23 +1,4 @@
-=== Description ===
-SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2. It provides ability to format C/C++/C#/Java files.
-
-=== Limitions ===
-Currently, this plugin is only tested under 64bit Windows 7 and Sublime Text 2.
-
-=== Installation ===
-    * Manual Install
-    ** Go to your packages directory
-    ** Type following commands:
-    ***     git clone https://github.com/timonwong/SublimeAStyleFormatter.git SublimeAStyleFormatter
-
-=== Usage ===
-== Key Bindings ==
-    |ctrl+alt+f|Format current file
-
-=== License ===
-This plugin is using MIT License
-
-{{{
+"""
 Copyright (c) 2012 Timon Wong
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -37,13 +18,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-}}}
+"""
 
----------------------------------------------------------
+import sublime
 
-Artistic Style
+__all__ = ["get_settings", "get_setting_view", "get_setting"]
 
-A Free, Fast and Small Automatic Formatter for C, C++, C#, and Java Source Code
+def get_settings():
+    return sublime.load_settings("AStyleFormat.sublime-settings")
 
-Licensed under [[http://astyle.sourceforge.net/license.html|GNU Lesser General Public License version 3.0]]
+def get_setting_view(view, key, default = None):
+    try:
+        settings = view.settings()
+        real_key = "AStyleFormat_%s" % key
+        if settings.has(real_key):
+            return settings.get(real_key)
+    except:
+        pass
+    return get_settings().get(key, default)
 
+def get_setting(key, default = None):
+    return get_settings_view(sublime.active_window().active_view(), key, default)
