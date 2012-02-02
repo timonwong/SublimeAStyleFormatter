@@ -41,9 +41,7 @@ SOFTWARE.
 
 ---------------------------------------------------------
 
-Artistic Style
-
-A Free, Fast and Small Automatic Formatter for C, C++, C#, and Java Source Code
+**Artistic Style** - A Free, Fast and Small Automatic Formatter for C, C++, C#, and Java Source Code
 
 Licensed under [[http://astyle.sourceforge.net/license.html|GNU Lesser General Public License version 3.0]]
 

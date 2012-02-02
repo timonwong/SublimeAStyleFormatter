@@ -18,7 +18,7 @@
                             {
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/SublimeAStyleFormatter/SublimeAStyleFormatter.sublime-settings"
+                                    "file": "${packages}/SublimeAStyleFormatter/Default.sublime-settings"
                                 },
                                 "caption": "Settings – Default"
                             },

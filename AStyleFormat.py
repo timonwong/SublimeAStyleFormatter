@@ -24,58 +24,7 @@ import sublime, sublime_plugin
 import re
 import platform
 import Settings
-from ctypes import *
-
-"""
-typedef void (STDCALL* fpError)(int, const char*);      // pointer to callback error handler
-typedef char* (STDCALL* fpAlloc)(unsigned long);        // pointer to callback memory allocation
-extern "C" EXPORT char* STDCALL AStyleMain(const char*, const char*, fpError, fpAlloc);
-extern "C" EXPORT const char* STDCALL AStyleGetVersion (void);
-"""
-c_error_callback = WINFUNCTYPE(None, c_int, c_char_p)
-c_alloc_callback = WINFUNCTYPE(c_char_p, c_ulong)
-
-def error_callback_func(error, message):
-    print "AStyleFormat: Error[%d]: %s" % (error, message)
-
-g_buffer = None
-def alloc_callback_func(size):
-    buffer_type = c_char * size
-    g_buffer = buffer_type()
-    ptr = addressof(g_buffer)
-    return ptr
-
-def clear_buffer():
-    g_buffer = None
-    return
-
-g_is_win64 = False
-if platform.system() == 'Windows':
-    bits, _ = platform.architecture()
-    if bits == "64bit":
-        g_is_win64 = True
-
-def get_astyle_library():
-    name = platform.system()
-    if name == "Windows":
-        if g_is_win64:
-            return windll.LoadLibrary("AStyle_x64.dll")
-        return windll.LoadLibrary("AStyle.dll")
-    return None
-
-def load_astyle_library():
-    libc = get_astyle_library()
-    # Function prototypes
-    libc.AStyleMain.argtypes        = [c_char_p, c_char_p, c_error_callback, c_alloc_callback]
-    libc.AStyleMain.restype         = c_char_p
-    libc.AStyleGetVersion.restype   = c_char_p
-    print "AStyleFormat: Loadded library: v" + libc.AStyleGetVersion()
-    return libc
-
-lib = load_astyle_library()
-# Callbacks
-error_callback = c_error_callback(error_callback_func)
-alloc_callback = c_alloc_callback(alloc_callback_func)
+import AStyleLib
 
 language_regex = re.compile("(?<=source\.)[\w+#]+")
 
@@ -112,21 +61,17 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         lang = self.get_language()
         if not self.is_supported_language(lang): 
             return
-
         line = self.get_current_line_region()
         # Loading options
         lang_options        = " ".join(self.get_lang_setting(lang, []))
         options = lang_options
         # Current params
         region   = sublime.Region(0, self.view.size())
-        text     = self.view.substr(region)
-        text     = text.encode('utf-8')
+        code     = self.view.substr(region)
         # Calling astyle
-        formatted_code = lib.AStyleMain(text, options, error_callback, alloc_callback)
-        formatted_code = formatted_code.decode('utf-8')
+        formatted_code = AStyleLib.AStyleMain(code, options)
         # Replace to view   
         self.view.replace(edit, region, formatted_code)
-        clear_buffer()
         # Restore view
         self.view.sel().clear()
         self.view.sel().add(line)
