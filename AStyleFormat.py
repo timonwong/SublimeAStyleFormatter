@@ -28,6 +28,8 @@ import AStyleLib
 
 language_regex = re.compile("(?<=source\.)[\w+#]+")
 
+AStyleLib.LoadAStyleLib()
+
 class AstyleformatCommand(sublime_plugin.TextCommand):
     def get_language(self):
         caret = self.view.sel()[0].a
@@ -59,11 +61,9 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         lang = self.get_language()
-        if not self.is_supported_language(lang): 
-            return
         line = self.get_current_line_region()
         # Loading options
-        lang_options        = " ".join(self.get_lang_setting(lang, []))
+        lang_options = " ".join(self.get_lang_setting(lang, []))
         options = lang_options
         # Current params
         region   = sublime.Region(0, self.view.size())
@@ -75,3 +75,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Restore view
         self.view.sel().clear()
         self.view.sel().add(line)
+
+    def is_enabled(self):
+        lang = self.get_language()
+        return self.is_supported_language(lang)

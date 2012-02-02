@@ -25,12 +25,12 @@ import sublime
 __all__ = ["get_settings", "get_setting_view", "get_setting"]
 
 def get_settings():
-    return sublime.load_settings("AStyleFormat.sublime-settings")
+    return sublime.load_settings("Default.sublime-settings")
 
 def get_setting_view(view, key, default = None):
     try:
         settings = view.settings()
-        real_key = "AStyleFormat_%s" % key
+        real_key = "AStyleFormatter_%s" % key
         if settings.has(real_key):
             return settings.get(real_key)
     except:
