@@ -25,7 +25,7 @@ import sublime
 __all__ = ["get_settings", "get_setting_view", "get_setting"]
 
 def get_settings():
-    return sublime.load_settings("Default.sublime-settings")
+    return sublime.load_settings("SublimeAStyleFormatter.sublime-settings")
 
 def get_setting_view(view, key, default = None):
     try:

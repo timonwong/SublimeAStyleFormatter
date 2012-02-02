@@ -102,6 +102,7 @@ def LoadAStyleLib():
     lib = _load_astyle_library()
 
 def AStyleMain(code, options):
+    global lib
     code               = code.encode('utf-8')
     formatted_code_ptr = lib.AStyleMain(code, options, c_error_callback, c_alloc_callback)
     formatted_code     = cast(formatted_code_ptr, c_char_p).value
