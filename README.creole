@@ -1,20 +1,35 @@
-=== Description ===
-SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2. It provides ability to format C/C++/C#/Java files.
+= Sublime Text 2 AStyle Formatter Plugin =
 
-=== Limitions ===
+== Description ==
+SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2. It provides ability to format C, C++, C#, and Java files.
+
+== Limitions ==
 Currently, this plugin is only tested under 64bit Windows 7 and Sublime Text 2, 32bit Windows should also work though.
 
-=== Installation ===
-    * Manual Install
-    ** Go to your packages directory
-    ** Type following commands:
-    ***     {{{ git clone git://github.com/timonwong/SublimeAStyleFormatter.git }}}
+== Installation ==
+=== Manual Install ===
+**Without Git:**
+[[https://github.com/timonwong/SublimeAStyleFormatter|Download]] the latest source code, and extract to the Packages directory.
 
-=== Usage ===
-==== Key Bindings ==
-    |ctrl+alt+f|Format current file
+**With Git:**
+Type the following command in your Sublime Text 2 Packages directory:
 
-=== License ===
+{{{ git clone git://github.com/timonwong/SublimeAStyleFormatter.git }}}
+
+The "Packages" directory is located at:
+|Windows:|  {{{ %APPDATA%\Sublime Text 2\Packages\}}}
+|Linux:|    {{{ ~/.Sublime Text 2/Packages/}}}
+|OS X:|     {{{ ~/Library/Application Support/Sublime Text 2/Packages/ }}}
+
+== Usage ==
+=== Key Bindings ===
+The default key bindings for this plugins:
+
+    |=Shortcuts|=Platform|=Description
+    |ctrl+alt+f|Windows, Linux|Format current file
+    |super+alt+f|OS X|Format current file
+
+== License ==
 This plugin is using MIT License
 
 {{{
@@ -40,7 +55,7 @@ SOFTWARE.
 }}}
 
 ---------------------------------------------------------
-
+== Credits ==
 **Artistic Style** - A Free, Fast and Small Automatic Formatter for C, C++, C#, and Java Source Code
 
 Licensed under [[http://astyle.sourceforge.net/license.html|GNU Lesser General Public License version 3.0]]
