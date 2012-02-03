@@ -4,7 +4,7 @@
 SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2. It provides ability to format C, C++, C#, and Java files.
 
 == Limitions ==
-Currently, this plugin is only tested under 64bit Windows 7 and Sublime Text 2, 32bit Windows should also work though.
+Currently, this plugin is only tested under Windows 7(both 32bit and 64bit).
 
 == Installation ==
 === Manual Install ===
