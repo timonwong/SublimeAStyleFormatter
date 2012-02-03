@@ -23,90 +23,80 @@ SOFTWARE.
 import sublime
 from ctypes import *
 
-__all__ = ["LoadAStyleLib", "AStyleMain"]
+__all__ = ["AStyleLib"]
 
 
-"""
-Function prototypes
-typedef void (STDCALL* fpError)(int, const char*);      // pointer to callback error handler
-typedef char* (STDCALL* fpAlloc)(unsigned long);        // pointer to callback memory allocation
-extern "C" EXPORT char* STDCALL AStyleMain(const char*, const char*, fpError, fpAlloc);
-extern "C" EXPORT const char* STDCALL AStyleGetVersion (void);
-"""
-# AStyle Dynamic Library
-lib = None
-c_alloc_callback = None
-c_error_callback = None
-
-def _load_astyle_library():
-    dll = cdll
+def get_astyle_lib_protos():
+    import os
     func_type = CFUNCTYPE
     platform = sublime.platform()
     arch = sublime.arch()
+    directory = os.path.dirname(os.path.abspath(__file__))
     if platform == "windows":
-        dll = windll
         func_type = WINFUNCTYPE
-        if arch == "x64":
-            libname = "AStyle_x64.dll"
-        else:
-            libname = "AStyle.dll"
+        dll = windll
+        libname = "%s\\AStyle%s.dll" % (directory, \
+                    "" if arch != "x64" else "_x64")
     elif platform == "osx":
-        libname = "AStyle.dynlib"
+        libname = "%s/AStyle.dynlib" % directory
     else:
-        import os
-        dir = os.path.dirname(os.path.abspath(__file__))
-        libname = "%s/libastyle.so" % dir
-    try:
-        global lib
-        lib = dll.LoadLibrary(libname)
-        _init_astyle_library(lib, func_type)
-        return lib
-    except:
-        import traceback
-        traceback.print_exc()
-    return None
+        libname = "%s/libastyle.so" % directory
+    return dll, libname, func_type
 
-def _init_astyle_library(lib, func_type):
-    # Callback
-    error_callback_type = func_type(None, c_int, c_char_p)
-    alloc_callback_type = func_type(c_char_p, c_ulong)
-    global c_alloc_callback, c_error_callback
-    c_alloc_callback = alloc_callback_type(alloc_callback)
-    c_error_callback = error_callback_type(error_callback)
-
-    # Function prototypes
-    lib.AStyleMain.argtypes        = [c_char_p, c_char_p, error_callback_type, alloc_callback_type]
-    lib.AStyleMain.restype         = POINTER(c_char)
-    lib.AStyleGetVersion.restype   = c_char_p
-    print "AStyleFormat: Loadded library: v" + lib.AStyleGetVersion()
-    return lib
+# Should make them public while loading
+g_dll, g_libname, g_func_type = get_astyle_lib_protos()
 
 # Init python api, for PyMem_Malloc and PyMem_Free
-PyMem_Malloc          = pythonapi.PyMem_Malloc
+PyMem_Malloc = pythonapi.PyMem_Malloc
 PyMem_Malloc.argtypes = [c_size_t]
-PyMem_Malloc.restype  = c_void_p
-PyMem_Free            = pythonapi.PyMem_Free
-PyMem_Free.argtypes   = [c_void_p]
-PyMem_Free.restype    = None
+PyMem_Malloc.restype = c_void_p
+PyMem_Free = pythonapi.PyMem_Free
+PyMem_Free.argtypes = [c_void_p]
+PyMem_Free.restype = None
+
 
 # Callback for memory allocation
 def alloc_callback(size):
     return PyMem_Malloc(size)
 
+
 # Callback on error
 def error_callback(error, message):
     sublime.error_message("AStyleFormat: Error[%d]: %s" % (error, message))
 
-# Entry point
-def LoadAStyleLib():
-    lib = _load_astyle_library()
 
-def AStyleMain(code, options):
-    global lib
-    code               = code.encode('utf-8')
-    formatted_code_ptr = lib.AStyleMain(code, options, c_error_callback, c_alloc_callback)
-    formatted_code     = cast(formatted_code_ptr, c_char_p).value
-    formatted_code     = formatted_code.decode('utf-8')
-    # Free buffer
-    PyMem_Free(formatted_code_ptr)
-    return formatted_code
+class AStyleLib:
+    def __init__(self):
+        self.alloc_callback = None
+        self.error_callback = None
+        self.lib = g_dll.LoadLibrary(g_libname)
+        self.__init_astyle_library()
+
+    def __load_astyle_library(self):
+        self.lib = g_dll.LoadLibrary(libname)
+
+    def __init_astyle_library(self):
+        # Callback
+        error_callback_type = g_func_type(None, c_int, c_char_p)
+        alloc_callback_type = g_func_type(c_char_p, c_ulong)
+        self.alloc_callback = alloc_callback_type(alloc_callback)
+        self.error_callback = error_callback_type(error_callback)
+        # Function prototypes
+        self.lib.AStyleMain.argtypes = [c_char_p, \
+                                        c_char_p, \
+                                        error_callback_type, \
+                                        alloc_callback_type]
+
+    def Format(self, code, options):
+        utf8_code = code.encode('utf-8')
+        # Note that c_alloc_callback will alloc memory using PyMem_Malloc
+        #   so we must free them later
+        formatted_code_ptr = self.lib.AStyleMain(utf8_code, \
+                                                 options, \
+                                                 self.error_callback, \
+                                                 self.alloc_callback)
+        formatted_code = cast(formatted_code_ptr, c_char_p).value
+        formatted_code = formatted_code.decode('utf-8')
+        # Free memory
+        PyMem_Free(formatted_code_ptr)
+        return formatted_code

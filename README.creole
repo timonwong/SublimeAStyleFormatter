@@ -17,17 +17,22 @@ Type the following command in your Sublime Text 2 Packages directory:
 {{{ git clone git://github.com/timonwong/SublimeAStyleFormatter.git }}}
 
 The "Packages" directory is located at:
-|Windows:|  {{{ %APPDATA%\Sublime Text 2\Packages\}}}
-|Linux:|    {{{ ~/.Sublime Text 2/Packages/}}}
-|OS X:|     {{{ ~/Library/Application Support/Sublime Text 2/Packages/ }}}
+
+    |Windows:|  {{{ %APPDATA%\Sublime Text 2\Packages\}}}
+    |Linux:|    {{{ ~/.Sublime Text 2/Packages/}}}
+    |OS X:|     {{{ ~/Library/Application Support/Sublime Text 2/Packages/ }}}
+
 
 == Usage ==
 === Key Bindings ===
 The default key bindings for this plugins:
 
-    |=Shortcuts|=Platform|=Description
-    |ctrl+alt+f|Windows, Linux|Format current file
-    |super+alt+f|OS X|Format current file
+**Windows, Linux:**
+    |ctrl+alt+f|Format current file
+
+**OSX:**
+    |super+alt+f|Format current file
+
 
 == License ==
 This plugin is using MIT License
@@ -59,4 +64,3 @@ SOFTWARE.
 **Artistic Style** - A Free, Fast and Small Automatic Formatter for C, C++, C#, and Java Source Code
 
 Licensed under [[http://astyle.sourceforge.net/license.html|GNU Lesser General Public License version 3.0]]
-

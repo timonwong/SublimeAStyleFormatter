@@ -20,20 +20,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
 import re
-import platform
 import Settings
-import AStyleLib
+from AStyleLib import AStyleLib
 
-language_regex = re.compile("(?<=source\.)[\w+#]+")
+g_language_regex = re.compile("(?<=source\.)[\w+#]+")
+g_astyle_lib = AStyleLib()
 
-AStyleLib.LoadAStyleLib()
 
 class AstyleformatCommand(sublime_plugin.TextCommand):
     def get_language(self):
         caret = self.view.sel()[0].a
-        language = language_regex.search(self.view.scope_name(caret))
+        language = g_language_regex.search(self.view.scope_name(caret))
         if language == None:
             return ""
         return language.group(0).lower()
@@ -43,13 +43,13 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             return False
         return lang in ["c", "c++", "cs", "java"]
 
-    def get_setting(self, key, default = None):
+    def get_setting(self, key, default=None):
         return Settings.get_setting_view(self.view, key, default)
 
-    def get_lang_setting(self, lang, default = None):
+    def get_lang_setting(self, lang, default=None):
         key = "options_%s" % lang
         return Settings.get_setting_view(self.view, key, default)
-    
+
     def get_current_line_region(self):
         # Get current selections
         selection = self.view.sel()[0]
@@ -66,11 +66,11 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         lang_options = " ".join(self.get_lang_setting(lang, []))
         options = lang_options
         # Current params
-        region   = sublime.Region(0, self.view.size())
-        code     = self.view.substr(region)
-        # Calling astyle
-        formatted_code = AStyleLib.AStyleMain(code, options)
-        # Replace to view   
+        region = sublime.Region(0, self.view.size())
+        code = self.view.substr(region)
+        # Performing astyle formatter
+        formatted_code = g_astyle_lib.Format(code, options)
+        # Replace to view
         self.view.replace(edit, region, formatted_code)
         # Restore view
         self.view.sel().clear()
