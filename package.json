@@ -1,8 +1,8 @@
 {
     "repo": "SublimeAStyleFormatter",
     "name": "SublimeAStyleFormatter",
-    "description": "Formatting C/C++/C#/Java Files with AStyle",
+    "description": "Formatting C/C++/C#/Java Files with AStyle.",
     "author": "timonwong",
     "homepage": "https://github.com/timonwong/SublimeAStyleFormatter",
-    "platforms": ["windows"]
+    "platforms": ["windows", "osx"]
 }

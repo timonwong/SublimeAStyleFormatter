@@ -24,10 +24,12 @@ import sublime
 
 __all__ = ["get_settings", "get_setting_view", "get_setting"]
 
+
 def get_settings():
     return sublime.load_settings("SublimeAStyleFormatter.sublime-settings")
 
-def get_setting_view(view, key, default = None):
+
+def get_setting_view(view, key, default=None):
     try:
         settings = view.settings()
         real_key = "AStyleFormatter_%s" % key
@@ -37,5 +39,6 @@ def get_setting_view(view, key, default = None):
         pass
     return get_settings().get(key, default)
 
-def get_setting(key, default = None):
-    return get_settings_view(sublime.active_window().active_view(), key, default)
+
+def get_setting(key, default=None):
+    return get_setting_view(sublime.active_window().active_view(), key, default)

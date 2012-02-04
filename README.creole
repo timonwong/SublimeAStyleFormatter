@@ -1,12 +1,30 @@
 = Sublime Text 2 AStyle Formatter Plugin =
 
 == Description ==
-SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2. It provides ability to format C, C++, C#, and Java files.
+SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2. It provides ability to format C,
+C++, C#, and Java files.
 
-== Limitions ==
-Currently, this plugin is only tested under 64bit Windows 7 and Sublime Text 2, 32bit Windows should also work though.
+== Prerequisites (Linux Only) ==
+# [[http://sublimetext.userecho.com/topic/85126-ctypes-cant-be-imported-in-linux/|ctypes can't be imported in Linux]] right now in the Linux versions of Sublime Text 2, 
+[[http://www.sublimetext.com/forum/viewtopic.php?f=5&t=3958&start=10#p18782|However, a workaround is provided by mnus]].
+# The Linux libastyle.so is not provided right now:
+## Download and compile astyle: 
+{{{ cd astyle/build/gcc; make shared }}}
+## Copy libastyle.so to SublimeAStyleFormatter directory: 
+{{{ cp ../../bin/libastyle.so "~/.Sublime Text 2/Packages/SublimeAStyleFormatter" }}}
+
 
 == Installation ==
+=== With the Package Control plugin ===
+The easiest way to install SublimeAStyleFormatter is through [[http://wbond.net/sublime_packages/package_control|Package Control]].
+
+Once you have Package Control installed, restart Sublime Text 2.
+# Bring up the Command Pattle ({{{Ctrl+Shift+P}}} on Windows and Linux. {{{Command+Shift+P}}} on OS X). 
+# Type "Install" and select "Package Control: Install Package".
+# Select "SublimeAStyleFormatter" from list.
+The advantage of using Package Control is that it will keep SublimeAStyleFormatter up to date.
+
+
 === Manual Install ===
 **Without Git:**
 [[https://github.com/timonwong/SublimeAStyleFormatter|Download]] the latest source code, and extract to the Packages directory.
@@ -18,14 +36,14 @@ Type the following command in your Sublime Text 2 Packages directory:
 
 The "Packages" directory is located at:
 
-    |Windows:|  {{{ %APPDATA%\Sublime Text 2\Packages\}}}
-    |Linux:|    {{{ ~/.Sublime Text 2/Packages/}}}
-    |OS X:|     {{{ ~/Library/Application Support/Sublime Text 2/Packages/ }}}
+    |**Windows**|  {{{ %APPDATA%\Sublime Text 2\Packages\}}}
+    |**Linux**|    {{{ ~/.Sublime Text 2/Packages/}}}
+    |**OS X**|     {{{ ~/Library/Application Support/Sublime Text 2/Packages/ }}}
 
 
 == Usage ==
 === Key Bindings ===
-The default key bindings for this plugins:
+The default key bindings for this plugin:
 
 **Windows, Linux:**
     |ctrl+alt+f|Format current file

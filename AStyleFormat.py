@@ -50,21 +50,12 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         key = "options_%s" % lang
         return Settings.get_setting_view(self.view, key, default)
 
-    def get_current_line_region(self):
-        # Get current selections
-        selection = self.view.sel()[0]
-        # Get current line
-        line = self.view.line(selection)
-        # Region as line begin
-        line = sublime.Region(line.begin(), line.begin())
-        return line
-
     def run(self, edit):
-        lang = self.get_language()
-        line = self.get_current_line_region()
+        # Preserve line number
+        preserved_line, _ = self.view.rowcol(self.view.sel()[0].begin())
         # Loading options
-        lang_options = " ".join(self.get_lang_setting(lang, []))
-        options = lang_options
+        lang = self.get_language()
+        options = " ".join(self.get_lang_setting(lang, []))
         # Current params
         region = sublime.Region(0, self.view.size())
         code = self.view.substr(region)
@@ -72,9 +63,11 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         formatted_code = g_astyle_lib.Format(code, options)
         # Replace to view
         self.view.replace(edit, region, formatted_code)
-        # Restore view
+        # "Restore" line
+        pt = self.view.text_point(preserved_line, 0)
         self.view.sel().clear()
-        self.view.sel().add(line)
+        self.view.sel().add(sublime.Region(pt))
+        self.view.show(pt)
 
     def is_enabled(self):
         lang = self.get_language()

@@ -28,6 +28,7 @@ __all__ = ["AStyleLib"]
 
 def get_astyle_lib_protos():
     import os
+    dll = cdll
     func_type = CFUNCTYPE
     platform = sublime.platform()
     arch = sublime.arch()
@@ -38,7 +39,7 @@ def get_astyle_lib_protos():
         libname = "%s\\AStyle%s.dll" % (directory, \
                     "" if arch != "x64" else "_x64")
     elif platform == "osx":
-        libname = "%s/AStyle.dynlib" % directory
+        libname = "%s/libastyle.dylib" % directory
     else:
         libname = "%s/libastyle.so" % directory
     return dll, libname, func_type
@@ -86,6 +87,7 @@ class AStyleLib:
                                         c_char_p, \
                                         error_callback_type, \
                                         alloc_callback_type]
+        self.lib.AStyleMain.restype = c_void_p
 
     def Format(self, code, options):
         utf8_code = code.encode('utf-8')
