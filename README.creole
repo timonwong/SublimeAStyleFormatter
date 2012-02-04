@@ -51,6 +51,10 @@ The default key bindings for this plugin:
 **OSX:**
     |super+alt+f|Format current file
 
+== What's New ==
+v1.1 (2/5/2012)
+* Add support for OS X.
+* More comprehensive options.
 
 == License ==
 This plugin is using MIT License
