@@ -24,6 +24,7 @@ import sublime
 import sublime_plugin
 import re
 import Settings
+import AStyleOptions
 from AStyleLib import AStyleLib
 
 g_language_regex = re.compile("(?<=source\.)[\w+#]+")
@@ -50,12 +51,35 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         key = "options_%s" % lang
         return Settings.get_setting_view(self.view, key, default)
 
+    def get_options(self, lang):
+        # First, check if user will use only additional options
+        use_only_additional_options = False
+        lang_setting = self.get_lang_setting(lang, {})
+        if "use_only_additional_options" in lang_setting:
+            use_only_additional_options = lang_setting["use_only_additional_options"]
+        # Skip other options processing if use_only_additional_options is true
+        if use_only_additional_options:
+            try:
+                options = lang_setting["additional_options"]
+                return " ".join(options)
+            except:
+                return AStyleOptions.get_basic_option_for_lang(lang)
+        # Get the default options
+        default_setting = self.get_setting("options_default", {})
+        # Merge lang_setting with default_setting
+        setting = default_setting.copy()
+        setting.update(lang_setting)
+        options = AStyleOptions.process_setting(setting)
+        # Insert basic lang option
+        options.insert(0, AStyleOptions.get_basic_option_for_lang(lang))
+        return " ".join(options)
+
     def run(self, edit):
         # Preserve line number
         preserved_line, _ = self.view.rowcol(self.view.sel()[0].begin())
         # Loading options
         lang = self.get_language()
-        options = " ".join(self.get_lang_setting(lang, []))
+        options = self.get_options(lang)
         # Current params
         region = sublime.Region(0, self.view.size())
         code = self.view.substr(region)
