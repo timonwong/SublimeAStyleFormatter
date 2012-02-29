@@ -141,7 +141,7 @@ def get_basic_option_for_lang(lang):
 
 def process_setting(setting):
     options = []
-    # Special option handling
+    # Special indent option handling
     if "indent" in setting:
         indent_method = setting["indent"]
         spaces = 4

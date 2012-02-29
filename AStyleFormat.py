@@ -55,24 +55,26 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # First, check if user will use only additional options
         use_only_additional_options = False
         lang_setting = self.get_lang_setting(lang, {})
+        basic_option = AStyleOptions.get_basic_option_for_lang(lang) + " "
+
         if "use_only_additional_options" in lang_setting:
             use_only_additional_options = lang_setting["use_only_additional_options"]
+
         # Skip other options processing if use_only_additional_options is true
         if use_only_additional_options:
             try:
                 options = lang_setting["additional_options"]
-                return " ".join(options)
+                return basic_option + " ".join(options)
             except:
-                return AStyleOptions.get_basic_option_for_lang(lang)
-        # Get the default options
+                return basic_option
+
+        # Get default options
         default_setting = self.get_setting("options_default", {})
         # Merge lang_setting with default_setting
         setting = default_setting.copy()
         setting.update(lang_setting)
         options = AStyleOptions.process_setting(setting)
-        # Insert basic lang option
-        options.insert(0, AStyleOptions.get_basic_option_for_lang(lang))
-        return " ".join(options)
+        return basic_option + " ".join(options)
 
     def run(self, edit):
         # Preserve line number
@@ -80,7 +82,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Loading options
         lang = self.get_language()
         options = self.get_options(lang)
-        # Current params
+        # Preapare full region and its contents
         region = sublime.Region(0, self.view.size())
         code = self.view.substr(region)
         # Performing astyle formatter
@@ -91,7 +93,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         pt = self.view.text_point(preserved_line, 0)
         self.view.sel().clear()
         self.view.sel().add(sublime.Region(pt))
-        self.view.show(pt)
+        self.view.show_at_center(pt)
 
     def is_enabled(self):
         lang = self.get_language()
