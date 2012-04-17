@@ -23,6 +23,7 @@ SOFTWARE.
 import sublime
 import sublime_plugin
 import re
+import os
 import Settings
 import AStyleOptions
 from AStyleLib import AStyleLib
@@ -51,22 +52,46 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         key = "options_%s" % lang
         return Settings.get_setting_view(self.view, key, default)
 
+    def read_options_file(self, path):
+        # Expand environment variables first
+        fullpath = os.path.expandvars(path)
+        if not os.path.exists(fullpath) or not os.path.isfile(fullpath):
+            return ""
+        try:
+            skip_comment = re.compile(r'\s*\#')
+            lines = []
+            with open(fullpath, 'r') as f:
+                for line in f:
+                    if not skip_comment.match(line):
+                        lines.append(line.strip())
+            return " ".join(lines)
+        except:
+            return ""
+        return ""
+
     def get_options(self, lang):
-        # First, check if user will use only additional options
-        use_only_additional_options = False
         lang_setting = self.get_lang_setting(lang, {})
         basic_option = AStyleOptions.get_basic_option_for_lang(lang) + " "
 
+        # First, check if user will use only additional options
         if "use_only_additional_options" in lang_setting:
             use_only_additional_options = lang_setting["use_only_additional_options"]
+        else:
+            use_only_additional_options = False
 
-        # Skip other options processing if use_only_additional_options is true
+        if "additional_options_file" in lang_setting:
+            lang_options_in_file = self.read_options_file(lang_setting["additional_options_file"]) + " "
+        else:
+            lang_options_in_file = ""
+
+        try:
+            lang_options = " ".join(lang_setting["additional_options"]) + " " + lang_options_in_file
+        except:
+            lang_options = "" + lang_options_in_file
+
+        # Skip processing other options when "use_only_additional_options" is true
         if use_only_additional_options:
-            try:
-                options = lang_setting["additional_options"]
-                return basic_option + " ".join(options)
-            except:
-                return basic_option
+            return basic_option + lang_options
 
         # Get default options
         default_setting = self.get_setting("options_default", {})
@@ -74,7 +99,9 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         setting = default_setting.copy()
         setting.update(lang_setting)
         options = AStyleOptions.process_setting(setting)
-        return basic_option + " ".join(options)
+        # print ">>> SbulimeAStyleFormatter Options <<<"
+        # print basic_option + lang_options + " ".join(options)
+        return basic_option + lang_options + " ".join(options)
 
     def run(self, edit):
         # Preserve line number

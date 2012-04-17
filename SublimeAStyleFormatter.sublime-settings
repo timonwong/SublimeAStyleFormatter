@@ -183,23 +183,50 @@
         "align-reference": "name"
     },
 
+    //
+    // Language Specific Options
+    //
+    // You can override default options in language-specific options here.
+    // Addtional options are also provided:
+    //
+    // "additional_options": Addtional options following astyle options file style
+    //                       (http://astyle.sourceforge.net/astyle.html).
+    //                       e.g.: "additional_options": ["--indent=spaces=2", "--convert-tabs"]
+    //
+    // "additional_options_file": Addtional options file for astyle (aka astylerc), you must specify
+    //                            a full path for that file, environment variable may be included.
+    //                            e.g.: "additional_options_file": "%USERPROFILE%/astylerc" // (Windows)
+    //                            e.g.: "additional_options_file": "$HOME/.astylerc" // (Linux)
+    //
+    // "use_only_additional_options": While true, SublimeAStyleFormatter will *only* process
+    //                                options in *both* "additional_options" and "additional_options_file".
+
+
+    // Language-specific options for C
     "options_c": {
         "use_only_additional_options": false,
+        "additional_options_file": "",
         "additional_options": []
     },
 
+    // Language-specific for C++
     "options_c++": {
         "use_only_additional_options": false,
+        "additional_options_file": "",
         "additional_options": []
     },
 
+    // Language-specific for Java
     "options_java": {
         "use_only_additional_options": false,
+        "additional_options_file": "",
         "additional_options": []
     },
 
+    // Language-specific for C#
     "options_cs": {
         "use_only_additional_options": false,
+        "additional_options_file": "",
         "additional_options": []
     }
 }

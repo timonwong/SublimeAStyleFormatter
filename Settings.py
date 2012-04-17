@@ -22,7 +22,7 @@ SOFTWARE.
 
 import sublime
 
-__all__ = ["get_settings", "get_setting_view", "get_setting"]
+__all__ = ["get_setting_view", "get_setting"]
 
 
 def get_settings():

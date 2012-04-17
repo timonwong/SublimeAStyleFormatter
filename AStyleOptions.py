@@ -150,7 +150,7 @@ def process_setting(setting):
         options = special_process_option_indent(options, "indent", indent_method, spaces)
     for option_name, function in g_setting_option_map.items():
         if not option_name in setting:
-            pass
+            continue
         value = setting[option_name]
         options = function(options, option_name, value)
     return options
