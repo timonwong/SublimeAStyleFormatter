@@ -32,9 +32,11 @@ def get_settings():
 def get_setting_view(view, key, default=None):
     try:
         settings = view.settings()
-        real_key = "AStyleFormatter_%s" % key
-        if settings.has(real_key):
-            return settings.get(real_key)
+        sub_key = "AStyleFormatter"
+        if settings.has(sub_key):
+            proj_settings = settings.get(sub_key)
+            if key in proj_settings:
+                return proj_settings[key]
     except:
         pass
     return get_settings().get(key, default)

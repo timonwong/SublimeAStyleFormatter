@@ -51,8 +51,49 @@ The default key bindings for this plugin:
 **OSX:**
     |super+alt+f|Format current file
 
+== Settings ==
+=== Per-project Settings ===
+Before starting, you may want to have a look at SublimeAStyleFormatter.sublime-settings.
+
+To edit your project setting, select {{{Project/Edit Project}}} from main menu. A project setting contains
+per-project settings for SublimeAStyleFormatter should look like this:
+{{{
+{
+    "settings": 
+    {
+        "AStyleFormatter": 
+        {
+        }
+    }
+}
+}}}
+
+For example, if you don't want to inherit the default settings, instead, use your own astylerc file for
+C and C++ individually, then your project setting might look like this:
+{{{
+{
+    "settings": 
+    {
+        "AStyleFormatter": 
+        {
+            "options_c":
+            {
+                "use_only_additional_options": true,
+                "additional_options_file": "/path/to/your/astylerc/for/c"
+            },
+            "options_c++":
+            {
+                "use_only_additional_options": true,
+                "additional_options_file": "/path/to/your/astylerc/for/c++"
+            }
+        }
+    }
+}
+}}}
+
+
 == What's New ==
-v1.2 (TBD)
+v1.2 (4/19/2012)
 * Add support for per-project settings.
 * Fix a bug that "additional_options" is invalid when "use_only_additional_options " is not "true".
 * Fix a bug which will throw python 'KeyError' exception while options in "options_default" are lesser than expected.
