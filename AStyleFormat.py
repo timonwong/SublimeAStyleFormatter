@@ -132,7 +132,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                 ch = view.substr(i)
                 scope = view.scope_name(i)
                 # Skip preprocessors, strings, characaters and comments
-                if scope.find('string.quoted') > -1 or scope.find('comment') > -1 or scope.find('preprocessor') > -1:
+                if 'string.quoted' in scope or 'comment' in scope or 'preprocessor' in scope:
                     extent = view.extract_scope(i)
                     i = extent.a - 1
                     continue
@@ -155,6 +155,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             indent_count = get_indentation_count(view, start)
             # Add braces for indentation hack
             text = '{' * indent_count
+            if indent_count > 0:
+                text += '\n'
             text += view.substr(region)
             # Performing astyle formatter
             formatted_code = g_astyle_lib.Format(text, options)
@@ -162,7 +164,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                 for _ in xrange(indent_count):
                     index = formatted_code.find('{') + 1
                     formatted_code = formatted_code[index:]
-                formatted_code = re.sub(r'[ \t]*[\r\n]([^\r\n])', r'\1', formatted_code, 1)
+                formatted_code = re.sub(r'[ \t]*\n([^\r\n])', r'\1', formatted_code, 1)
             # Applying formatted text
             view.replace(edit, region, formatted_code)
             # Region for replaced text
@@ -176,6 +178,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     def run_whole_file(self, edit, options):
         view = self.view
+        # Preserve current view port
         bkup_region, bkup_viewport = self.get_current_region_and_viewport()
         view.set_viewport_position(tuple([0, 0]))
         # Preapare full region and its contents
