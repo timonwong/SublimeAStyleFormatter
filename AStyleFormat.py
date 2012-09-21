@@ -28,7 +28,7 @@ import Settings
 import AStyleOptions
 from AStyleLib import AStyleLib
 
-g_language_regex = re.compile("(?<=source\.)[\w+#]+")
+g_language_regex = re.compile(r"(?<=source\.)[\w+#]+")
 g_astyle_lib = AStyleLib()
 
 
@@ -103,25 +103,104 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # print basic_option + lang_options + " ".join(options)
         return basic_option + lang_options + " ".join(options)
 
-    def run(self, edit):
-        # Preserve line number
-        preserved_line, _ = self.view.rowcol(self.view.sel()[0].begin())
+    def run(self, edit, selection_only=False):
         # Loading options
         lang = self.get_language()
         options = self.get_options(lang)
+        if selection_only:
+            self.run_selection_only(edit, options)
+        else:
+            self.run_whole_file(edit, options)
+        sublime.status_message('AStyle Formatted')
+
+    def run_selection_only(self, edit, options):
+        def get_line_indentation_pos(view, point):
+            line_region = view.line(point)
+            pos = line_region.a
+            end = line_region.b
+            while pos < end:
+                ch = view.substr(pos)
+                if ch != ' ' and ch != '\t':
+                    break
+                pos += 1
+            return pos
+
+        def get_indentation_count(view, start):
+            indent_count = 0
+            i = start - 1
+            while i > 0:
+                ch = view.substr(i)
+                scope = view.scope_name(i)
+                # Skip preprocessors, strings, characaters and comments
+                if scope.find('string.quoted') > -1 or scope.find('comment') > -1 or scope.find('preprocessor') > -1:
+                    extent = view.extract_scope(i)
+                    i = extent.a - 1
+                    continue
+                else:
+                    i -= 1
+
+                if ch == '}':
+                    indent_count -= 1
+                elif ch == '{':
+                    indent_count += 1
+            return indent_count
+
+        view = self.view
+        regions = []
+        for sel in view.sel():
+            start = get_line_indentation_pos(view, min(sel.a, sel.b))
+            region = sublime.Region(
+                view.line(start).a,  # line start of first line
+                view.line(max(sel.a, sel.b)).b)  # line end of last line
+            indent_count = get_indentation_count(view, start)
+            # Add braces for indentation hack
+            text = '{' * indent_count
+            text += view.substr(region)
+            # Performing astyle formatter
+            formatted_code = g_astyle_lib.Format(text, options)
+            if indent_count > 0:
+                for _ in xrange(indent_count):
+                    index = formatted_code.find('{') + 1
+                    formatted_code = formatted_code[index:]
+                formatted_code = re.sub(r'[ \t]*[\r\n]([^\r\n])', r'\1', formatted_code, 1)
+            # Applying formatted text
+            view.replace(edit, region, formatted_code)
+            # Region for replaced text
+            if sel.a <= sel.b:
+                regions.append(sublime.Region(region.a, region.a + len(formatted_code)))
+            else:
+                regions.append(sublime.Region(region.a + len(formatted_code), region.a))
+        view.sel().clear()
+        # Add regions of formatted text
+        [view.sel().add(region) for region in regions]
+
+    def run_whole_file(self, edit, options):
+        view = self.view
+        bkup_region, bkup_viewport = self.get_current_region_and_viewport()
+        view.set_viewport_position(tuple([0, 0]))
         # Preapare full region and its contents
-        region = sublime.Region(0, self.view.size())
-        code = self.view.substr(region)
+        region = sublime.Region(0, view.size())
+        code = view.substr(region)
         # Performing astyle formatter
         formatted_code = g_astyle_lib.Format(code, options)
         # Replace to view
-        self.view.replace(edit, region, formatted_code)
-        # "Restore" line
-        pt = self.view.text_point(preserved_line, 0)
-        self.view.sel().clear()
-        self.view.sel().add(sublime.Region(pt))
-        self.view.show_at_center(pt)
+        view.replace(edit, region, formatted_code)
+        # "Restore" viewport
+        self.set_region_and_viewport(bkup_region, bkup_viewport)
 
     def is_enabled(self):
         lang = self.get_language()
         return self.is_supported_language(lang)
+
+    def get_current_region_and_viewport(self):
+        view = self.view
+        sel = view.sel()[0].begin()
+        pos = view.rowcol(sel)
+        target = view.text_point(pos[0], 0)
+        return sublime.Region(target), view.viewport_position()
+
+    def set_region_and_viewport(self, region, viewport):
+        view = self.view
+        view.sel().clear()
+        view.sel().add(region)
+        view.set_viewport_position(viewport)

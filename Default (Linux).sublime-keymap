@@ -1,3 +1,4 @@
 [
-	{ "keys": ["ctrl+alt+f"], "command": "astyleformat" }
+	{ "keys": ["ctrl+alt+f"], "command": "astyleformat" },
+    { "keys": ["ctrl+k", "ctrl+f"], "command": "astyleformat", "args": {"selection_only": true} }
 ]
