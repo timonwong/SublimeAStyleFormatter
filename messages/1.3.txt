@@ -1,0 +1,8 @@
+SublimeAStyleFormatter 1.3 Changelog:
+
+New Features
+ - Add support for formatting current selections:
+    Bring up Command Palette, select "SublimeAStyleFormatter Format Current Selection";
+    The default key binding for formatting selections is:
+        * "ctrl+k, ctrl+f" (Windows/Linux) 
+        * "super+k, super+f" (OSX)
