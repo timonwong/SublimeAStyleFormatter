@@ -165,6 +165,10 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                     index = formatted_code.find('{') + 1
                     formatted_code = formatted_code[index:]
                 formatted_code = re.sub(r'[ \t]*\n([^\r\n])', r'\1', formatted_code, 1)
+            else:
+                search = "\n{"
+                if search not in text:
+                    formatted_code = formatted_code.replace(search, '{', 1)
             # Applying formatted text
             view.replace(edit, region, formatted_code)
             # Region for replaced text
