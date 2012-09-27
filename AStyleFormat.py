@@ -111,7 +111,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             self.run_selection_only(edit, options)
         else:
             self.run_whole_file(edit, options)
-        sublime.status_message('AStyle Formatted')
+        sublime.status_message('AStyle (v%s) Formatted' % g_astyle_lib.Version())
 
     def run_selection_only(self, edit, options):
         def get_line_indentation_pos(view, point):
@@ -166,6 +166,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                     formatted_code = formatted_code[index:]
                 formatted_code = re.sub(r'[ \t]*\n([^\r\n])', r'\1', formatted_code, 1)
             else:
+                # HACK: While no identation, a '{' will generate a blank line, so strip it.
                 search = "\n{"
                 if search not in text:
                     formatted_code = formatted_code.replace(search, '{', 1)

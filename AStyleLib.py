@@ -73,9 +73,6 @@ class AStyleLib:
         self.lib = g_dll.LoadLibrary(g_libname)
         self.__init_astyle_library()
 
-    def __load_astyle_library(self):
-        self.lib = g_dll.LoadLibrary(libname)
-
     def __init_astyle_library(self):
         # Callback
         error_callback_type = g_func_type(None, c_int, c_char_p)
@@ -88,6 +85,12 @@ class AStyleLib:
                                         error_callback_type, \
                                         alloc_callback_type]
         self.lib.AStyleMain.restype = c_void_p
+        # Print version info
+        self.lib.AStyleGetVersion.argtypes = None
+        self.lib.AStyleGetVersion.restype = c_char_p
+
+    def Version(self):
+        return self.lib.AStyleGetVersion()
 
     def Format(self, code, options):
         utf8_code = code.encode('utf-8')
