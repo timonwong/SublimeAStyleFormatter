@@ -36,12 +36,13 @@ def get_astyle_lib_protos():
     if platform == "windows":
         func_type = WINFUNCTYPE
         dll = windll
-        libname = "%s\\AStyle%s.dll" % (directory, \
-                    "" if arch != "x64" else "_x64")
+        libname = "%s\\AStyle%s.dll" % (directory,
+                                        "" if arch != "x64" else "_x64")
     elif platform == "osx":
         libname = "%s/libastyle.dylib" % directory
     else:
-        libname = "%s/libastyle.so" % directory
+        libname = "%s/libastyle%s.so" % (directory,
+                                         "" if arch != "x64" else "_x64")
     return dll, libname, func_type
 
 # Should make them public while loading
@@ -80,9 +81,9 @@ class AStyleLib:
         self.alloc_callback = alloc_callback_type(alloc_callback)
         self.error_callback = error_callback_type(error_callback)
         # Function prototypes
-        self.lib.AStyleMain.argtypes = [c_char_p, \
-                                        c_char_p, \
-                                        error_callback_type, \
+        self.lib.AStyleMain.argtypes = [c_char_p,
+                                        c_char_p,
+                                        error_callback_type,
                                         alloc_callback_type]
         self.lib.AStyleMain.restype = c_void_p
         # Print version info
@@ -96,9 +97,9 @@ class AStyleLib:
         utf8_code = code.encode('utf-8')
         # Note that c_alloc_callback will alloc memory using PyMem_Malloc
         #   so we must free them later
-        formatted_code_ptr = self.lib.AStyleMain(utf8_code, \
-                                                 options, \
-                                                 self.error_callback, \
+        formatted_code_ptr = self.lib.AStyleMain(utf8_code,
+                                                 options,
+                                                 self.error_callback,
                                                  self.alloc_callback)
         formatted_code = cast(formatted_code_ptr, c_char_p).value
         formatted_code = formatted_code.decode('utf-8')

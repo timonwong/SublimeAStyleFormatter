@@ -36,7 +36,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
     def get_language(self):
         caret = self.view.sel()[0].a
         language = g_language_regex.search(self.view.scope_name(caret))
-        if language == None:
+        if language is None:
             return ""
         return language.group(0).lower()
 
