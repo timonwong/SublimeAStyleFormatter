@@ -1,34 +1,10 @@
 [
     {
         "keys": ["super+alt+f"], "command": "astyleformat",
-        "context": [{"key": "selector", "operator": "equal", "operand": "source.c"}]
-    },
-    {
-        "keys": ["super+alt+f"], "command": "astyleformat",
-        "context": [{"key": "selector", "operator": "equal", "operand": "source.c++"}]
-    },
-    {
-        "keys": ["super+alt+f"], "command": "astyleformat",
-        "context": [{"key": "selector", "operator": "equal", "operand": "source.cs"}]
-    },
-    {
-        "keys": ["super+alt+f"], "command": "astyleformat",
-        "context": [{"key": "selector", "operator": "equal", "operand": "source.java"}]
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.c,source.c++,source.cs,source.java"}]
     },
     {
         "keys": ["super+k", "super+f"], "command": "astyleformat", "args": {"selection_only": true},
-        "context": [{"key": "selector", "operator": "equal", "operand": "source.c"}]
-    },
-    {
-        "keys": ["super+k", "super+f"], "command": "astyleformat", "args": {"selection_only": true},
-        "context": [{"key": "selector", "operator": "equal", "operand": "source.c++"}]
-    },
-    {
-        "keys": ["super+k", "super+f"], "command": "astyleformat", "args": {"selection_only": true},
-        "context": [{"key": "selector", "operator": "equal", "operand": "source.cs"}]
-    },
-    {
-        "keys": ["super+k", "super+f"], "command": "astyleformat", "args": {"selection_only": true},
-        "context": [{"key": "selector", "operator": "equal", "operand": "source.java"}]
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.c,source.c++,source.cs,source.java"}]
     }
 ]
