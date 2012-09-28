@@ -117,6 +117,11 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
+v1.4 (9/28/2012)
+* Add linux binaries (ctypes should be installed manually in order to get it work).
+* Fix default key binding conflicts with JsFormat (ctrl+alt+f).
+* Windows and Linux astyle libraries are now v2.0.3 beta.
+
 v1.3 (9/21/2012)
 * Added support for formatting selection text only.
 * Restore to previous viewport after formatting entire file. 
