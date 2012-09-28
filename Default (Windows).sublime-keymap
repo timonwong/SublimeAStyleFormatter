@@ -1,4 +1,34 @@
 [
-	{ "keys": ["ctrl+alt+f"], "command": "astyleformat" },
-    { "keys": ["ctrl+k", "ctrl+f"], "command": "astyleformat", "args": {"selection_only": true} }
+    {
+        "keys": ["ctrl+alt+f"], "command": "astyleformat",
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.c"}]
+    },
+    {
+        "keys": ["ctrl+alt+f"], "command": "astyleformat",
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.c++"}]
+    },
+    {
+        "keys": ["ctrl+alt+f"], "command": "astyleformat",
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.cs"}]
+    },
+    {
+        "keys": ["ctrl+alt+f"], "command": "astyleformat",
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.java"}]
+    },
+    {
+        "keys": ["ctrl+k", "ctrl+f"], "command": "astyleformat", "args": {"selection_only": true},
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.c"}]
+    },
+    {
+        "keys": ["ctrl+k", "ctrl+f"], "command": "astyleformat", "args": {"selection_only": true},
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.c++"}]
+    },
+    {
+        "keys": ["ctrl+k", "ctrl+f"], "command": "astyleformat", "args": {"selection_only": true},
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.cs"}]
+    },
+    {
+        "keys": ["ctrl+k", "ctrl+f"], "command": "astyleformat", "args": {"selection_only": true},
+        "context": [{"key": "selector", "operator": "equal", "operand": "source.java"}]
+    }
 ]
