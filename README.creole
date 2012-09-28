@@ -5,20 +5,31 @@ SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2. It 
 C++, C#, and Java files.
 
 == Prerequisites (Linux Only) ==
-# [[http://sublimetext.userecho.com/topic/85126-ctypes-cant-be-imported-in-linux/|ctypes can't be imported in Linux]] right now in the Linux versions of Sublime Text 2.
+* [[http://sublimetext.userecho.com/topic/85126-ctypes-cant-be-imported-in-linux/|ctypes can't be imported in Linux]] right now in the Linux versions of Sublime Text 2.
 Workaround is provided with the power of pythonbrew:
+** SUBLIME_TEXT2_FOLDER="<your Sublime Text 2 folder>"
+** curl -kL http://xrl.us/pythonbrewinstall | bash
+** source "$HOME/.pythonbrew/etc/bashrc"
+** pythonbrew install --configure="--enable-unicode=ucs4" 2.6
+** ln -s $HOME/.pythonbrew/pythons/Python-2.6/lib/python2.6/ "${SUBLIME_TEXT2_FOLDER}/lib/python2.6"
+
+=== NOTE ===
+Linux astyle binaries libastyle.so and libastyle64.so are built with Ubuntu 12.04,
+if you have any problems with these binaries, you have to build with your own:
+
+# Install g++ and [[http://www.scons.org|scons]]
+# Clone astyle-build-scons using git:
 {{{
-SUBLIME_TEXT2_FOLDER="<your Sublime Text 2 folder>" # Required
-curl -kL http://xrl.us/pythonbrewinstall | bash
-source "$HOME/.pythonbrew/etc/bashrc"
-pythonbrew install --configure="--enable-unicode=ucs4" 2.6
-ln -s $HOME/.pythonbrew/pythons/Python-2.6/lib/python2.6/ "${SUBLIME_TEXT2_FOLDER}/lib/python2.6"
+git clone git://github.com/timonwong/astyle-build-scons.git astyle-build
+cd astyle-build
+git submodule init
+git submodule update
 }}}
-# The Linux libastyle.so is not provided right now, you have to build it manually:
-## Download and compile astyle: 
-{{{ cd astyle/build/gcc; make shared }}}
-## Copy libastyle.so to SublimeAStyleFormatter directory: 
-{{{ cp ../../bin/libastyle.so "~/.Sublime Text 2/Packages/SublimeAStyleFormatter" }}}
+# Build with scons:
+{{{
+scons --32  # Build i386 binary
+scons --64  # Build x86_64 binary
+}}}
 
 
 == Installation ==
