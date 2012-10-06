@@ -117,6 +117,9 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
+v1.4.1 (10/6/2012)
+* Fix wrong AStyle.dll for 32bit Windows.
+
 v1.4 (9/28/2012)
 * Add linux binaries (ctypes should be installed manually in order to get it work).
 * Fix default key binding conflicts with JsFormat (ctrl+alt+f).
