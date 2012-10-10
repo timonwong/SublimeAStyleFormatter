@@ -21,7 +21,46 @@ SOFTWARE.
 """
 
 import sublime
-from ctypes import *
+
+
+def cannot_import_ctypes_in_linux():
+    import sys
+    import os.path
+    if sublime.platform() != "linux":
+        return
+    if not sublime.ok_cancel_dialog("SublimeAStyleFormatter cannot work "
+        "because module 'ctypes' cannot be imported under SublimeText2\n"
+        "Click \"OK\" to see how to fix it"):
+        return
+    sublime_app_path = os.path.dirname(sys.executable)
+    script = \
+"""# NOTE: Make sure SUBLIME_TEXT2_FOLDER is assigned correctly.
+# Once the script is executed, you have to restart SublimeText2 to get modules work.
+SUBLIME_TEXT2_FOLDER="%s"
+# Download and install pythonbrew
+curl -kL http://xrl.us/pythonbrewinstall | bash
+source "$HOME/.pythonbrew/etc/bashrc"
+pythonbrew install --configure="--enable-unicode=ucs4" 2.6
+ln -s "$HOME/.pythonbrew/pythons/Python-2.6/lib/python2.6/" "${SUBLIME_TEXT2_FOLDER}/lib/python2.6"
+""" % (sublime_app_path)
+    # Open this script in a new view
+    window = sublime.active_window()
+    view = window.new_file()
+    view.set_name('Workaround for importing ctypes.sh')
+    view.set_scratch(True)
+    edit = view.begin_edit()
+    view.set_syntax_file('Packages/ShellScript/Shell-Unix-Generic.tmLanguage')
+    try:
+        region = sublime.Region(0, view.size())
+        view.replace(edit, region, script)
+        view.sel().clear()
+    finally:
+        view.end_edit(edit)
+
+try:
+    from ctypes import *
+except ImportError:
+    cannot_import_ctypes_in_linux()
 
 __all__ = ["AStyleLib"]
 
