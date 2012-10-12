@@ -24,12 +24,32 @@ import sublime
 import sublime_plugin
 import re
 import os
-import Settings
 import AStyleOptions
 from AStyleLib import AStyleLib
 
 g_language_regex = re.compile(r"(?<=source\.)[\w+#]+")
 g_astyle_lib = AStyleLib()
+
+
+def get_settings():
+    return sublime.load_settings("SublimeAStyleFormatter.sublime-settings")
+
+
+def get_setting_view(view, key, default=None):
+    try:
+        settings = view.settings()
+        sub_key = "AStyleFormatter"
+        if settings.has(sub_key):
+            proj_settings = settings.get(sub_key)
+            if key in proj_settings:
+                return proj_settings[key]
+    except:
+        pass
+    return get_settings().get(key, default)
+
+
+def get_setting(key, default=None):
+    return get_setting_view(sublime.active_window().active_view(), key, default)
 
 
 class AstyleformatCommand(sublime_plugin.TextCommand):
@@ -46,11 +66,11 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         return lang in ["c", "c++", "cs", "java"]
 
     def get_setting(self, key, default=None):
-        return Settings.get_setting_view(self.view, key, default)
+        return get_setting_view(self.view, key, default)
 
     def get_lang_setting(self, lang, default=None):
         key = "options_%s" % lang
-        return Settings.get_setting_view(self.view, key, default)
+        return get_setting_view(self.view, key, default)
 
     def read_options_file(self, path):
         # Expand environment variables first
