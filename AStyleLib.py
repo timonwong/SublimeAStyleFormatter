@@ -42,7 +42,7 @@ def get_astyle_lib_protos():
         libname = "%s/libastyle.dylib" % directory
     else:
         libname = "%s/libastyle%s.so" % (directory,
-                                         "" if arch != "x64" else "_x64")
+                                         "" if arch != "x64" else "64")
     return dll, libname, func_type
 
 # Should make them public while loading
