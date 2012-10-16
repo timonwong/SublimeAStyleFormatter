@@ -38,17 +38,16 @@ except ImportError:
             "because module 'ctypes' cannot be imported under SublimeText2\n"
             "Click \"OK\" to see how to fix it"):
             return
-        sublime_app_path = os.path.realpath(os.path.join('/proc', str(os.getpid()), 'exe'))
-        script = \
-    """# NOTE: Make sure SUBLIME_TEXT2_FOLDER is assigned correctly.
-    # Once the script is executed, you have to restart SublimeText2 to get modules work.
-    SUBLIME_TEXT2_FOLDER="%s"
-    # Download and install pythonbrew
-    curl -kL http://xrl.us/pythonbrewinstall | bash
-    source "$HOME/.pythonbrew/etc/bashrc"
-    pythonbrew install --configure="--enable-unicode=ucs4" 2.6
-    ln -s "$HOME/.pythonbrew/pythons/Python-2.6/lib/python2.6/" "${SUBLIME_TEXT2_FOLDER}/lib/python2.6"
-    """ % (sublime_app_path)
+        sublime_app_path = os.path.dirname(os.path.realpath(os.path.join('/proc', str(os.getpid()), 'exe')))
+        script = """# NOTE: Make sure SUBLIME_TEXT2_FOLDER is assigned correctly.
+# Once the script is executed, you have to restart SublimeText2 to get modules work.
+SUBLIME_TEXT2_FOLDER="%s"
+# Download and install pythonbrew, make sure you have curl installed.
+curl -kL http://xrl.us/pythonbrewinstall | bash
+source "$HOME/.pythonbrew/etc/bashrc"
+pythonbrew install --configure="--enable-unicode=ucs4" 2.6
+ln -s "$HOME/.pythonbrew/pythons/Python-2.6/lib/python2.6/" "${SUBLIME_TEXT2_FOLDER}/lib/python2.6"
+""" % (sublime_app_path)
         # Open this script in a new view
         window = sublime.active_window()
         view = window.new_file()
