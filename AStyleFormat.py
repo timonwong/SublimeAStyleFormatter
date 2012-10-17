@@ -32,14 +32,13 @@ except ImportError:
     def cannot_import_ctypes_in_linux():
         import sublime
         import os.path
-        if sublime.platform() != "linux":
-            return
         if not sublime.ok_cancel_dialog("SublimeAStyleFormatter cannot work "
-            "because module 'ctypes' cannot be imported under SublimeText2\n"
+            "because module 'ctypes' cannot be imported under Sublime Text 2\n"
             "Click \"OK\" to see how to fix it"):
             return
         sublime_app_path = os.path.dirname(os.path.realpath(os.path.join('/proc', str(os.getpid()), 'exe')))
-        script = """# NOTE: Make sure SUBLIME_TEXT2_FOLDER is assigned correctly.
+        script = """#!/bin/sh
+# NOTE: Make sure SUBLIME_TEXT2_FOLDER is assigned correctly.
 # Once the script is executed, you have to restart SublimeText2 to get modules work.
 SUBLIME_TEXT2_FOLDER="%s"
 # Download and install pythonbrew, make sure you have curl installed.
@@ -61,7 +60,8 @@ ln -s "$HOME/.pythonbrew/pythons/Python-2.6/lib/python2.6/" "${SUBLIME_TEXT2_FOL
             view.sel().clear()
         finally:
             view.end_edit(edit)
-    sublime.set_timeout(cannot_import_ctypes_in_linux, 500)
+    if sublime.platform() == "linux":
+        sublime.set_timeout(cannot_import_ctypes_in_linux, 500)
 
 
 g_language_regex = re.compile(r"(?<=source\.)[\w+#]+")
