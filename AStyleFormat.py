@@ -24,48 +24,10 @@ import sublime
 import sublime_plugin
 import re
 import os
+import pyastyle
 import AStyleOptions
 
-try:
-    from AStyleLib import AStyleLib
-except ImportError:
-    def cannot_import_ctypes_in_linux():
-        import sublime
-        import os.path
-        if not sublime.ok_cancel_dialog("SublimeAStyleFormatter cannot work "
-            "because module 'ctypes' cannot be imported under Sublime Text 2\n"
-            "Click \"OK\" to see how to fix it"):
-            return
-        sublime_app_path = os.path.dirname(os.path.realpath(os.path.join('/proc', str(os.getpid()), 'exe')))
-        script = """#!/bin/sh
-# NOTE: Make sure SUBLIME_TEXT2_FOLDER is assigned correctly.
-# Once the script is executed, you have to restart SublimeText2 to get modules work.
-SUBLIME_TEXT2_FOLDER="%s"
-# Download and install pythonbrew, make sure you have curl installed.
-curl -kL http://xrl.us/pythonbrewinstall | bash
-source "$HOME/.pythonbrew/etc/bashrc"
-pythonbrew install --configure="--enable-unicode=ucs4" 2.6
-ln -s "$HOME/.pythonbrew/pythons/Python-2.6/lib/python2.6/" "${SUBLIME_TEXT2_FOLDER}/lib/python2.6"
-""" % (sublime_app_path)
-        # Open this script in a new view
-        window = sublime.active_window()
-        view = window.new_file()
-        view.set_name('Workaround for importing ctypes.sh')
-        view.set_scratch(True)
-        edit = view.begin_edit()
-        view.set_syntax_file('Packages/ShellScript/Shell-Unix-Generic.tmLanguage')
-        try:
-            region = sublime.Region(0, view.size())
-            view.replace(edit, region, script)
-            view.sel().clear()
-        finally:
-            view.end_edit(edit)
-    if sublime.platform() == "linux":
-        sublime.set_timeout(cannot_import_ctypes_in_linux, 500)
-
-
 g_language_regex = re.compile(r"(?<=source\.)[\w+#]+")
-g_astyle_lib = AStyleLib()
 
 
 def get_settings():
@@ -168,7 +130,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             self.run_selection_only(edit, options)
         else:
             self.run_whole_file(edit, options)
-        sublime.status_message('AStyle (v%s) Formatted' % g_astyle_lib.Version())
+        sublime.status_message('AStyle (v%s) Formatted' % pyastyle.version())
 
     def run_selection_only(self, edit, options):
         def get_line_indentation_pos(view, point):
@@ -216,7 +178,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                 text += '\n'
             text += view.substr(region)
             # Performing astyle formatter
-            formatted_code = g_astyle_lib.Format(text, options)
+            formatted_code = pyastyle.format(text, options)
             if indent_count > 0:
                 for _ in xrange(indent_count):
                     index = formatted_code.find('{') + 1
@@ -247,7 +209,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         region = sublime.Region(0, view.size())
         code = view.substr(region)
         # Performing astyle formatter
-        formatted_code = g_astyle_lib.Format(code, options)
+        formatted_code = pyastyle.format(code, options)
         # Replace to view
         view.replace(edit, region, formatted_code)
         # "Restore" viewport
