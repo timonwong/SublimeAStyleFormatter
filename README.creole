@@ -4,24 +4,6 @@
 SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2. It provides ability to format C,
 C++, C#, and Java files.
 
-=== NOTE (Linux only) ===
-Linux astyle binaries libastyle.so and libastyle64.so are built with Ubuntu 12.04,
-if you have any problems with these binaries, you have to build with your own:
-
-# Install g++ and [[http://www.scons.org|scons]]
-# Clone astyle-build-scons using git:
-{{{
-git clone git://github.com/timonwong/astyle-build-scons.git astyle-build
-cd astyle-build
-git submodule init
-git submodule update
-}}}
-# Build with scons:
-{{{
-scons --32  # Build i386 binary
-scons --64  # Build x86_64 binary
-}}}
-
 
 == Installation ==
 === With the Package Control plugin ===
@@ -108,8 +90,8 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
-v1.6 (TBD)
-* 
+v1.6 (10/19/2012)
+* Remove dependency for ctypes.
 
 v1.5 (10/16/2012)
 * Update AStyle binrary of OSX.
