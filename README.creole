@@ -4,16 +4,7 @@
 SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2. It provides ability to format C,
 C++, C#, and Java files.
 
-== Prerequisites (Linux Only) ==
-* [[http://sublimetext.userecho.com/topic/85126-ctypes-cant-be-imported-in-linux/|ctypes can't be imported in Linux]] right now in the Linux versions of Sublime Text 2.
-Workaround is provided with the power of pythonbrew:
-** SUBLIME_TEXT2_FOLDER="<your Sublime Text 2 folder>"
-** curl -kL http://xrl.us/pythonbrewinstall | bash
-** source "$HOME/.pythonbrew/etc/bashrc"
-** pythonbrew install --configure="--enable-unicode=ucs4" 2.6
-** ln -s "$HOME/.pythonbrew/pythons/Python-2.6/lib/python2.6/" "${SUBLIME_TEXT2_FOLDER}/lib/python2.6"
-
-=== NOTE ===
+=== NOTE (Linux only) ===
 Linux astyle binaries libastyle.so and libastyle64.so are built with Ubuntu 12.04,
 if you have any problems with these binaries, you have to build with your own:
 
@@ -117,6 +108,9 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
+v1.6 (TBD)
+* 
+
 v1.5 (10/16/2012)
 * Update AStyle binrary of OSX.
 * Add meaningful prompt dialog while ctypes module cannot be imported in Linux.
