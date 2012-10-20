@@ -90,6 +90,9 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
+v1.6.1 (10/20/2012)
+* Fix ascii decoder error if source contains non-ascii characters.
+
 v1.6 (10/19/2012)
 * Remove dependency for ctypes.
 
