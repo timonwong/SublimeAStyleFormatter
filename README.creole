@@ -45,7 +45,7 @@ The default key bindings for this plugin:
     |super+k,super+f|Format current selection
 
 === Command Palette ===
-Open the command palette, it apperas as {{{SublimeAStyleFormatter: Format Current File}}} and 
+Open the command palette, it apperas as {{{SublimeAStyleFormatter: Format Current File}}} and
 {{{SublimeAStyleFormatter Format Current Selection}}}.
 
 == Settings ==
@@ -56,9 +56,9 @@ To edit your project setting, select {{{Project/Edit Project}}} from main menu. 
 per-project settings for SublimeAStyleFormatter should look like this:
 {{{
 {
-    "settings": 
+    "settings":
     {
-        "AStyleFormatter": 
+        "AStyleFormatter":
         {
         }
     }
@@ -69,9 +69,9 @@ For example, if you don't want to inherit the default settings, instead, use you
 C and C++ individually, then your project setting might look like this:
 {{{
 {
-    "settings": 
+    "settings":
     {
-        "AStyleFormatter": 
+        "AStyleFormatter":
         {
             "options_c":
             {
@@ -90,6 +90,9 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
+v1.6.2 (11/5/2012)
+* Rebuild pyastyle x86_64 binary which should work on older version of linux distros.
+
 v1.6.1 (10/20/2012)
 * Fix ascii decoder error if source contains non-ascii characters.
 
@@ -110,7 +113,7 @@ v1.4 (9/28/2012)
 
 v1.3 (9/21/2012)
 * Added support for formatting selection text only.
-* Restore to previous viewport after formatting entire file. 
+* Restore to previous viewport after formatting entire file.
 
 v1.2 (4/19/2012)
 * Added support for per-project settings.
