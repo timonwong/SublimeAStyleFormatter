@@ -203,7 +203,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
     def run_whole_file(self, edit, options):
         view = self.view
         # Preserve current view port
-        bkup_region, bkup_viewport = self.get_current_region_and_viewport()
+        bkup_line, bkup_viewport = self.get_line_and_viewport()
         view.set_viewport_position(tuple([0, 0]))
         # Preapare full region and its contents
         region = sublime.Region(0, view.size())
@@ -213,21 +213,21 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Replace to view
         view.replace(edit, region, formatted_code)
         # "Restore" viewport
-        self.set_region_and_viewport(bkup_region, bkup_viewport)
+        self.goto_line_and_view_port(bkup_line, bkup_viewport)
 
     def is_enabled(self):
         lang = self.get_language()
         return self.is_supported_language(lang)
 
-    def get_current_region_and_viewport(self):
+    def get_line_and_viewport(self):
         view = self.view
         sel = view.sel()[0].begin()
-        pos = view.rowcol(sel)
-        target = view.text_point(pos[0], 0)
-        return sublime.Region(target), view.viewport_position()
+        rowcol = view.rowcol(sel)
+        return rowcol[0], view.viewport_position()
 
-    def set_region_and_viewport(self, region, viewport):
+    def goto_line_and_view_port(self, bkup_line, viewport):
         view = self.view
+        point = view.text_point(bkup_line, 0)
         view.sel().clear()
-        view.sel().add(region)
+        view.sel().add(sublime.Region(point, point))
         view.set_viewport_position(viewport)
