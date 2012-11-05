@@ -1,0 +1,3 @@
+python 2.6
+python 2.6 dev headers and libraries
+gcc and g++
