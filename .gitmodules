@@ -1,0 +1,3 @@
+[submodule "src/pyastyle"]
+	path = src/pyastyle
+	url = git://github.com/timonwong/pyastyle.git
