@@ -90,6 +90,9 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
+v1.7 (TBD)
+* Buffer will not scroll up and down during formatting now.
+
 v1.6.2 (11/5/2012)
 * Rebuild pyastyle x86_64 binary which should work on older version of linux distros.
 

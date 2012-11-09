@@ -26,6 +26,8 @@ import re
 import os
 import pyastyle
 import AStyleOptions
+from diff_match_patch.diff_match_patch import diff_match_patch
+
 
 g_language_regex = re.compile(r"(?<=source\.)[\w+#]+")
 
@@ -200,34 +202,79 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Add regions of formatted text
         [view.sel().add(region) for region in regions]
 
+    class MergeException(Exception):
+        pass
+
+    def _merge_code(self, edit, code, formatted):
+        # borrowed from GoSublime
+        view = self.view
+
+        def ss(start, end):
+            return view.substr(sublime.Region(start, end))
+
+        dmp = diff_match_patch()
+        diffs = dmp.diff_main(code, formatted)
+        dmp.diff_cleanupEfficiency(diffs)
+        i = 0
+        dirty = False
+        for k, s in diffs:
+            l = len(s)
+            if k == 0:
+                # match
+                l = len(s)
+                if ss(i, i + l) != s:
+                    raise self.MergeException('mismatch', dirty)
+                i += l
+            else:
+                dirty = True
+                if k > 0:
+                    # insert
+                    view.insert(edit, i, s)
+                    i += l
+                else:
+                    # delete
+                    if ss(i, i + l) != s:
+                        raise self.MergeException('mismatch', dirty)
+                    view.erase(edit, sublime.Region(i, i + l))
+        return dirty
+
+    def merge_code(self, edit, code, formatted_code):
+        view = self.view
+        vs = view.settings()
+        ttts = vs.get("translate_tabs_to_spaces")
+        vs.set("translate_tabs_to_spaces", False)
+        if not code.strip():
+            return (False, '')
+
+        try:
+            dirty = False
+            err = ''
+            dirty = self._merge_code(edit, code, formatted_code)
+        except self.MergeException as (err, d):
+            dirty = True
+            err = "Could not merge changes into the buffer, edit aborted: %s" % err
+            view.replace(edit, sublime.Region(0, view.size()), code)
+        except Exception as ex:
+            err = "where ma bees at?: %s" % ex
+        finally:
+            vs.set("translate_tabs_to_spaces", ttts)
+            return (dirty, err)
+
     def run_whole_file(self, edit, options):
         view = self.view
-        # Preserve current view port
-        bkup_line, bkup_viewport = self.get_line_and_viewport()
-        view.set_viewport_position(tuple([0, 0]))
-        # Preapare full region and its contents
         region = sublime.Region(0, view.size())
         code = view.substr(region)
         # Performing astyle formatter
         formatted_code = pyastyle.format(code, options)
         # Replace to view
-        view.replace(edit, region, formatted_code)
-        # "Restore" viewport
-        self.goto_line_and_view_port(bkup_line, bkup_viewport)
+        _, err = self.merge_code(edit, code, formatted_code)
+        if err:
+            sublime.error_message(
+                "SublimeAStyleFormatter: Merge failure: `%s'" % (
+                    'SublimeAStyleFormatter', err
+                )
+            )
 
     def is_enabled(self):
         lang = self.get_language()
         return self.is_supported_language(lang)
-
-    def get_line_and_viewport(self):
-        view = self.view
-        sel = view.sel()[0].begin()
-        rowcol = view.rowcol(sel)
-        return rowcol[0], view.viewport_position()
-
-    def goto_line_and_view_port(self, bkup_line, viewport):
-        view = self.view
-        point = view.text_point(bkup_line, 0)
-        view.sel().clear()
-        view.sel().add(sublime.Region(point, point))
-        view.set_viewport_position(viewport)
