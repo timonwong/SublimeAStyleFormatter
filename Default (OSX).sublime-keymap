@@ -1,6 +1,6 @@
 [
     {
-        "keys": ["super+alt+f"], "command": "astyleformat",
+        "keys": ["ctrl+alt+f"], "command": "astyleformat",
         "context": [{"key": "selector", "operator": "equal", "operand": "source.c,source.c++,source.cs,source.java"}]
     },
     {

@@ -41,7 +41,7 @@ The default key bindings for this plugin:
     |ctrl+k, ctrl+f|Format current selection
 
 **OSX:**
-    |super+alt+f|Format current file
+    |ctrl+alt+f|Format current file
     |super+k,super+f|Format current selection
 
 === Command Palette ===
@@ -90,6 +90,9 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
+v1.7.1 (11/19/2012)
+* Change default keybinding for OSX (was conflict with "replace" in Sublime Text 2).
+
 v1.7 (11/10/2012)
 * Buffer will not scroll up and down during formatting now.
 

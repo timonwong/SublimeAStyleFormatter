@@ -1,0 +1,6 @@
+SublimeAStyleFormatter 1.7.1 Changelog:
+
+NOTE:
+  The default keybinding for OSX is changed from `super+alt+f` to `ctrl+alt+f`.
+
+* Change default keybinding for OSX (was conflict with "replace" in Sublime Text 2).

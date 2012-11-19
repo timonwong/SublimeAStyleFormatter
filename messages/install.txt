@@ -14,7 +14,7 @@ The default key bindings for this plugin:
 + `ctrl+k, ctrl+f`: Format current selection
 
 **OSX:**
-+ `super+alt+f`: Format current file
++ `ctrl+alt+f`: Format current file
 + `super+k,super+f`: Format current selection
 
 ### Command Palette
