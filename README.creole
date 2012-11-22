@@ -90,7 +90,7 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
-v1.7.1 (11/19/2012)
+v1.7.1 (11/22/2012)
 * Change default keybinding for OSX (was conflict with "replace" in Sublime Text 2).
 
 v1.7 (11/10/2012)
