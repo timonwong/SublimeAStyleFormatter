@@ -34,7 +34,7 @@ def process_option_style(options, option_name, value):
         return options
     if not value in ["allman", "ansi", "bsd", "break", "java", "attach", "kr", "k&r", "k/r",
                      "stroustrup", "whitesmith", "banner", "gnu", "linux", "horstmann", "1tbs",
-                     "otbs ", "pico", "lisp", "python"]:
+                     "otbs", "pico", "lisp", "python"]:
         return options
     options.append("--style={0}".format(value))
     return options
