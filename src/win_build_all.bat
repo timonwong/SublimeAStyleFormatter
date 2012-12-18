@@ -9,8 +9,8 @@ set PYTHON64="F:\Langs\Python26_x64\python.exe"
 set MSSdk=1
 set DISTUTILS_USE_SDK=1
 
-if not exist ..\_win32 mkdir ..\_win32
-if not exist ..\_win64 mkdir ..\_win64
+if not exist ..\pyastyle\_win32 mkdir ..\pyastyle\_win32
+if not exist ..\pyastyle\_win64 mkdir ..\pyastyle\_win64
 
 :: Clean
 rmdir /s /q pyastyle\build
@@ -29,6 +29,6 @@ cd pyastyle
 cd ..
 endlocal
 
-copy /y pyastyle\build\lib.win32-2.6\pyastyle.pyd ..\_win32\
-copy /y pyastyle\build\lib.win-amd64-2.6\pyastyle.pyd ..\_win64\
+copy /y pyastyle\build\lib.win32-2.6\pyastyle.pyd ..\pyastyle\_win32\
+copy /y pyastyle\build\lib.win-amd64-2.6\pyastyle.pyd ..\pyastyle\_win64\
 
