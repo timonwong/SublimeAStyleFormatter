@@ -32,10 +32,6 @@ from AStyleFormatterLib.MergeUtils import merge_code
 LANGUAGE_RE = re.compile(r"(?<=source\.)[\w+#]+")
 
 
-def get_settings():
-    return sublime.load_settings("SublimeAStyleFormatter.sublime-settings")
-
-
 def get_setting_view(view, key, default=None):
     try:
         settings = view.settings()
@@ -46,7 +42,8 @@ def get_setting_view(view, key, default=None):
                 return proj_settings[key]
     except:
         pass
-    return get_settings().get(key, default)
+    settings = sublime.load_settings("SublimeAStyleFormatter.sublime-settings")
+    return settings.get(key, default)
 
 
 def get_setting(key, default=None):
@@ -227,9 +224,9 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
 
 class PluginEventListener(sublime_plugin.EventListener):
-    # def on_post_save(self, view):
-    #     if SETTINGS.get('format_on_save', False):
-    #         view.run_command('astyleformat')
+    def on_pre_save(self, view):
+        if is_enabled_in_view(view) and get_setting('autoformat_on_save', False):
+            view.run_command('astyleformat')
 
     def on_query_context(self, view, key, operator, operand, match_all):
         if key == 'astyleformat_is_enabled':
