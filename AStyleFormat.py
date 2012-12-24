@@ -29,7 +29,7 @@ from AStyleFormatterLib import Options
 from AStyleFormatterLib.MergeUtils import merge_code
 
 
-g_language_regex = re.compile(r"(?<=source\.)[\w+#]+")
+LANGUAGE_RE = re.compile(r"(?<=source\.)[\w+#]+")
 
 
 def get_settings():
@@ -53,19 +53,24 @@ def get_setting(key, default=None):
     return get_setting_view(sublime.active_window().active_view(), key, default)
 
 
+def get_language_in_view(view):
+    caret = view.sel()[0].a
+    language = LANGUAGE_RE.search(view.scope_name(caret))
+    if language is None:
+        return ""
+    return language.group(0).lower()
+
+
+def is_supported_language(lang):
+    return lang in ["c", "c++", "cs", "java"]
+
+
+def is_enabled_in_view(view):
+    lang = get_language_in_view(view)
+    return is_supported_language(lang)
+
+
 class AstyleformatCommand(sublime_plugin.TextCommand):
-    def get_language(self):
-        caret = self.view.sel()[0].a
-        language = g_language_regex.search(self.view.scope_name(caret))
-        if language is None:
-            return ""
-        return language.group(0).lower()
-
-    def is_supported_language(self, lang):
-        if self.view.is_scratch():
-            return False
-        return lang in ["c", "c++", "cs", "java"]
-
     def get_setting(self, key, default=None):
         return get_setting_view(self.view, key, default)
 
@@ -126,7 +131,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, selection_only=False):
         # Loading options
-        lang = self.get_language()
+        lang = get_language_in_view(self.view)
         options = self.get_options(lang)
         if selection_only:
             self.run_selection_only(edit, options)
@@ -218,5 +223,15 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             )
 
     def is_enabled(self):
-        lang = self.get_language()
-        return self.is_supported_language(lang)
+        return is_enabled_in_view(self.view)
+
+
+class PluginEventListener(sublime_plugin.EventListener):
+    # def on_post_save(self, view):
+    #     if SETTINGS.get('format_on_save', False):
+    #         view.run_command('astyleformat')
+
+    def on_query_context(self, view, key, operator, operand, match_all):
+        if key == 'astyleformat_is_enabled':
+            return is_enabled_in_view(view)
+        return None

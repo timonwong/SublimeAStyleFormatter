@@ -1,0 +1,14 @@
+[
+    { "caption": "-" },
+    {
+        "caption": "AStyleFormatter",
+        "children":
+        [
+            { "caption": "Format", "command": "astyleformat" },
+            {
+                "caption": "Format selection", "command": "astyleformat",
+                "args": {"selection_only": true}
+            }
+        ]
+    }
+]

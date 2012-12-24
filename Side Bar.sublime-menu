@@ -1,0 +1,10 @@
+[
+    { "caption": "-" },
+    {
+        "caption": "AStyleFormatter",
+        "children":
+        [
+            { "caption": "Format", "command": "astyleformat" }
+        ]
+    }
+]
