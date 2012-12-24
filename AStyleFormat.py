@@ -25,8 +25,8 @@ import sublime_plugin
 import re
 import os
 import pyastyle
-import AStyleOptions
-from diff_match_patch.diff_match_patch import diff_match_patch
+from AStyleFormatterLib import Options
+from AStyleFormatterLib.MergeUtils import merge_code
 
 
 g_language_regex = re.compile(r"(?<=source\.)[\w+#]+")
@@ -51,64 +51,6 @@ def get_setting_view(view, key, default=None):
 
 def get_setting(key, default=None):
     return get_setting_view(sublime.active_window().active_view(), key, default)
-
-
-# borrowed from GoSublime
-class MergeException(Exception):
-    pass
-
-
-def _merge_code(view, edit, code, formatted):
-    def ss(start, end):
-        return view.substr(sublime.Region(start, end))
-
-    dmp = diff_match_patch()
-    diffs = dmp.diff_main(code, formatted)
-    dmp.diff_cleanupEfficiency(diffs)
-    i = 0
-    dirty = False
-    for k, s in diffs:
-        l = len(s)
-        if k == 0:
-            # match
-            l = len(s)
-            if ss(i, i + l) != s:
-                raise MergeException('mismatch', dirty)
-            i += l
-        else:
-            dirty = True
-            if k > 0:
-                # insert
-                view.insert(edit, i, s)
-                i += l
-            else:
-                # delete
-                if ss(i, i + l) != s:
-                    raise MergeException('mismatch', dirty)
-                view.erase(edit, sublime.Region(i, i + l))
-    return dirty
-
-
-def merge_code(view, edit, code, formatted_code):
-    vs = view.settings()
-    ttts = vs.get("translate_tabs_to_spaces")
-    vs.set("translate_tabs_to_spaces", False)
-    if not code.strip():
-        return (False, '')
-
-    dirty = False
-    err = ''
-    try:
-        dirty = _merge_code(view, edit, code, formatted_code)
-    except MergeException as (err, d):
-        dirty = True
-        err = "Could not merge changes into the buffer, edit aborted: %s" % err
-        view.replace(edit, sublime.Region(0, view.size()), code)
-    except Exception as ex:
-        err = "Unknown exception: %s" % ex
-    finally:
-        vs.set("translate_tabs_to_spaces", ttts)
-        return (dirty, err)
 
 
 class AstyleformatCommand(sublime_plugin.TextCommand):
@@ -150,7 +92,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     def get_options(self, lang):
         lang_setting = self.get_lang_setting(lang, {})
-        basic_option = AStyleOptions.get_basic_option_for_lang(lang) + " "
+        basic_option = Options.get_basic_option_for_lang(lang) + " "
 
         # First, check if user will use only additional options
         if "use_only_additional_options" in lang_setting:
@@ -177,7 +119,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Merge lang_setting with default_setting
         setting = default_setting.copy()
         setting.update(lang_setting)
-        options = AStyleOptions.process_setting(setting)
+        options = Options.process_setting(setting)
         # print ">>> SbulimeAStyleFormatter Options <<<"
         # print basic_option + lang_options + " ".join(options)
         return basic_option + lang_options + " ".join(options)
@@ -270,7 +212,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         _, err = merge_code(view, edit, code, formatted_code)
         if err:
             sublime.error_message(
-                "SublimeAStyleFormatter: Merge failure: `%s'" % (
+                "%s: Merge failure: '%s'" % (
                     'SublimeAStyleFormatter', err
                 )
             )
