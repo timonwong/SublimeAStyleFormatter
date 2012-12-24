@@ -1,0 +1,4 @@
+SublimeAStyleFormatter 1.8 Changelog:
+
+* Add auto format on file save (option "autoformat_on_save").
+* Add context and side bar commands.

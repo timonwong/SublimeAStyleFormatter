@@ -90,6 +90,10 @@ C and C++ individually, then your project setting might look like this:
 
 
 == What's New ==
+v1.8 (12/24/2012)
+* Add auto format on file save (through option {{{autoformat_on_save}}}).
+* Add context and side bar commands.
+
 v1.7.3 (12/18/2012)
 * Fix a conflict with SublimeCodeIntel.
 
