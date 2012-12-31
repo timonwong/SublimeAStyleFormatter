@@ -71,9 +71,9 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
     def get_setting(self, key, default=None):
         return get_setting_view(self.view, key, default)
 
-    def get_lang_setting(self, lang, default=None):
+    def get_lang_setting(self, lang):
         key = "options_%s" % lang
-        return get_setting_view(self.view, key, default)
+        return get_setting_view(self.view, key, {})
 
     def read_options_file(self, path):
         # Expand environment variables first
@@ -93,7 +93,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         return ""
 
     def get_options(self, lang):
-        lang_setting = self.get_lang_setting(lang, {})
+        lang_setting = self.get_lang_setting(lang)
         basic_option = Options.get_basic_option_for_lang(lang) + " "
 
         # First, check if user will use only additional options
