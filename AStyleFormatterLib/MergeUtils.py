@@ -23,7 +23,8 @@ SOFTWARE.
 # Borrowed from GoSublime
 
 import sublime
-from diff_match_patch.diff_match_patch import diff_match_patch
+
+from .diff_match_patch import diff_match_patch
 
 
 class MergeException(Exception):
@@ -72,7 +73,7 @@ def merge_code(view, edit, code, formatted_code):
     err = ''
     try:
         dirty = _merge_code(view, edit, code, formatted_code)
-    except MergeException as (err, d):
+    except MergeException as err:
         dirty = True
         err = "Could not merge changes into the buffer, edit aborted: %s" % err
         view.replace(edit, sublime.Region(0, view.size()), code)

@@ -24,9 +24,16 @@ import sublime
 import sublime_plugin
 import re
 import os
-import pyastyle
-from AStyleFormatterLib import Options
-from AStyleFormatterLib.MergeUtils import merge_code
+import sys
+
+if sys.version_info < (3, 0):
+    import pyastyle
+    from AStyleFormatterLib import Options
+    from AStyleFormatterLib.MergeUtils import merge_code
+else:
+    from . import pyastyle
+    from .AStyleFormatterLib import Options
+    from .AStyleFormatterLib.MergeUtils import merge_code
 
 
 LANGUAGE_RE = re.compile(r"(?<=source\.)[\w+#]+")
@@ -122,8 +129,6 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         setting = default_setting.copy()
         setting.update(lang_setting)
         options = Options.process_setting(setting)
-        # print ">>> SbulimeAStyleFormatter Options <<<"
-        # print basic_option + lang_options + " ".join(options)
         return basic_option + lang_options + " ".join(options)
 
     def run(self, edit, selection_only=False):
@@ -184,7 +189,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             # Performing astyle formatter
             formatted_code = pyastyle.format(text, options)
             if indent_count > 0:
-                for _ in xrange(indent_count):
+                for _ in range(indent_count):
                     index = formatted_code.find('{') + 1
                     formatted_code = formatted_code[index:]
                 formatted_code = re.sub(r'[ \t]*\n([^\r\n])', r'\1', formatted_code, 1)

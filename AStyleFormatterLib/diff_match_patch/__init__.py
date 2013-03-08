@@ -1,2 +1,6 @@
-from .diff_match_patch import diff_match_patch, patch_obj
+import sys
 
+if sys.version_info < (3, 0):
+    from .python2 import *
+else:
+    from .python3 import *

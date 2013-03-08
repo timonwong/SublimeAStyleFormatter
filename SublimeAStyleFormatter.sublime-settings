@@ -220,6 +220,7 @@
 
     // Language-specific for Java
     "options_java": {
+        "style": "java",
         "use_only_additional_options": false,
         "additional_options_file": "",
         "additional_options": []
