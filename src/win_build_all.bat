@@ -10,7 +10,7 @@ set PYTHON33_X86="F:\Langs\Python33\python.exe"
 set PYTHON33_X64="F:\Langs\Python33_x64\python.exe"
 
 :: Clean
-if exist pyastyle\build rmdir /s /q pyastyle\build > NUL
+:: if exist pyastyle\build rmdir /s /q pyastyle\build > NUL
 
 call :buildExtension %PYTHON26_X86%
 call :buildExtension %PYTHON26_X64%
