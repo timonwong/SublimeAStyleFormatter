@@ -17,14 +17,14 @@ if [ $OSTYPE = "linux-gnu" ]; then
 		export CXXFLAGS="-fPIC $CFLAGS"
 		export CFLAGS="-fPIC $CFLAGS"
 	else
-		export CXXFLAGS="-I $CFLAGS"
-		export CFLAGS="-I $CFLAGS"
+		export CXXFLAGS="$CFLAGS"
+		export CFLAGS="$CFLAGS"
 	fi
 elif [ ${OSTYPE:0:6} = "darwin" ]; then
 	echo "Mac OS X build!"
 	export ARCHFLAGS="-arch x86_64 $ARCHFLAGS"
-	export CXXFLAGS="arch x86_64 -I /tmp/pcre-8.21 $CFLAGS"
-	export CFLAGS="-arch x86_64 -I /tmp/pcre-8.21 $CFLAGS"
+	export CXXFLAGS="arch x86_64 $CFLAGS"
+	export CFLAGS="-arch x86_64 $CFLAGS"
 	export LDFLAGS="-arch x86_64 $LDFLAGS"
 fi
 
@@ -34,7 +34,7 @@ fi
 	cd "$CURRENT_PATH"
 ) && \
 
-find . -type f -name "pyastyle.so" -exec cp {} ../pyastyle/python3/_local_arch \; && \
+find . -type f -name "pyastyle*.so" -exec cp {} ../pyastyle/python3/_local_arch/pyastyle.so \; && \
 
 reset && \
 echo "Done!" || \

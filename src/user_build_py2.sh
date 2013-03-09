@@ -17,14 +17,14 @@ if [ $OSTYPE = "linux-gnu" ]; then
 		export CXXFLAGS="-fPIC -DPy_UNICODE_SIZE=4 $CFLAGS"
 		export CFLAGS="-fPIC -DPy_UNICODE_SIZE=4 $CFLAGS"
 	else
-		export CXXFLAGS="-DPy_UNICODE_SIZE=4 -I $CFLAGS"
-		export CFLAGS="-DPy_UNICODE_SIZE=4 -I $CFLAGS"
+		export CXXFLAGS="-DPy_UNICODE_SIZE=4 $CFLAGS"
+		export CFLAGS="-DPy_UNICODE_SIZE=4 $CFLAGS"
 	fi
 elif [ ${OSTYPE:0:6} = "darwin" ]; then
 	echo "Mac OS X build!"
 	export ARCHFLAGS="-arch i386 -arch x86_64 $ARCHFLAGS"
-	export CXXFLAGS="-arch i386 -arch x86_64 -I /tmp/pcre-8.21 $CFLAGS"
-	export CFLAGS="-arch i386 -arch x86_64 -I /tmp/pcre-8.21 $CFLAGS"
+	export CXXFLAGS="-arch i386 -arch x86_64 $CFLAGS"
+	export CFLAGS="-arch i386 -arch x86_64 $CFLAGS"
 	export LDFLAGS="-arch i386 -arch x86_64 $LDFLAGS"
 fi
 
