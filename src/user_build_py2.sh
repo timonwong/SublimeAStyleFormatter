@@ -34,10 +34,10 @@ fi
 	cd "$CURRENT_PATH"
 ) && \
 
-find . -type f -name "pyastyle.so" -exec cp {} ../pyastyle/_local_arch \; && \
+find . -type f -name "pyastyle.so" -exec cp {} ../pyastyle/python2/_local_arch \; && \
 
 reset && \
 echo "Done!" || \
 echo "Build Failed!$ERR"
 
-strip ../pyastyle/_local_arch/*.so > /dev/null 2>&1
+strip ../pyastyle/python2/_local_arch/*.so > /dev/null 2>&1
