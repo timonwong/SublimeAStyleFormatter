@@ -77,13 +77,21 @@ The default key bindings for this plugin:
 
 **Windows, Linux:**
 
-    |ctrl+alt+f|Format current file
-    |ctrl+k, ctrl+f|Format current selection
+<table>
+<tbody>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd></td><td>Format current file</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd>, <kbd>Ctrl</kbd>+<kbd>F</kbd></td><td>Format current selection</td></tr>
+</tbody>
+</table>
 
 **OSX:**
 
-    |ctrl+alt+f|Format current file
-    |super+k,super+f|Format current selection
+<table>
+<tbody>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd></td><td>Format current file</td></tr>
+<tr><td><kbd>⌘</kbd>+<kbd>K</kbd>, <kbd>⌘</kbd>+<kbd>F</kbd></td><td>Format current selection</td></tr>
+</tbody>
+</table>
 
 ### Command Palette
 
