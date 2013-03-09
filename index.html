@@ -1,0 +1,294 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>SublimeAStyleFormatter by timonwong</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>SublimeAStyleFormatter</h1>
+        <p>SublimeAStyleFormatter is a code formatter/beautifier for Sublime Text 2 &amp; 3. It provides ability to format C/C++/C#/Java files.</p>
+        <p class="view"><a href="https://github.com/timonwong/SublimeAStyleFormatter">View the Project on GitHub <small>timonwong/SublimeAStyleFormatter</small></a></p>
+        <ul>
+          <li><a href="https://github.com/timonwong/SublimeAStyleFormatter/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/timonwong/SublimeAStyleFormatter/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/timonwong/SublimeAStyleFormatter">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Sublime Text 2 &amp; 3 AStyle Formatter Plugin</h1>
+
+<h2>Description</h2>
+
+<p>SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2 &amp; Sublime Text 3.
+It provides ability to format C, C++, C#, and Java files.</p>
+
+<h3>Donation</h3>
+
+<p>If you find my work useful, please consider buying me a cup of coffee, all
+donations are much appreciated :)</p>
+
+<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=timon86%2ewang%40gmail%2ecom&amp;lc=US&amp;item_name=Buy%20me%20a%20cup%20of%20coffee&amp;item_number=SublimeAStyleFormatter&amp;no_note=0&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest"><img src="https://raw.github.com/timonwong/SublimeAStyleFormatter/master/donate-with-paypal.png" alt="Donate via PayPal"></a>
+<a href="https://me.alipay.com/timonwong"><img src="https://raw.github.com/timonwong/SublimeAStyleFormatter/master/donate-with-alipay.png" alt="使用支付宝捐赠"></a></p>
+
+<h2>Installation</h2>
+
+<h3>With the Package Control plugin</h3>
+
+<p>The easiest way to install SublimeAStyleFormatter is through <a href="http://wbond.net/sublime_packages/package_control">Package Control</a>.</p>
+
+<p>Once you have Package Control installed, restart Sublime Text.</p>
+
+<ol>
+<li>Bring up the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
+on Windows and Linux. <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>P</kbd> on OS X).</li>
+<li>Type "Install" and select "Package Control: Install Package".</li>
+<li>Select "SublimeAStyleFormatter" from list.</li>
+</ol><p>The advantage of using Package Control is that it will keep SublimeAStyleFormatter up to date.</p>
+
+<h3>Manual Install</h3>
+
+<p><strong>Without Git:</strong></p>
+
+<p><a href="https://github.com/timonwong/SublimeAStyleFormatter">Download</a> the latest source code,
+and extract it to the Packages directory.</p>
+
+<p><strong>With Git:</strong></p>
+
+<p>Type the following command in your Sublime Text 2 or Sublime Text 3 Packages directory:</p>
+
+<p><code>git clone git://github.com/timonwong/SublimeAStyleFormatter.git</code></p>
+
+<p>The "Packages" directory is located at:</p>
+
+<p><strong>Sublime Text 2</strong></p>
+
+<table>
+<tr>
+<td><strong>Windows</strong></td>
+<td><tt>%APPDATA%\Sublime Text 2\Packages\</tt></td>
+</tr>
+<tr>
+<td><strong>Linux</strong></td>
+<td><tt>~/.config/sublime-text-2/Packages/</tt></td>
+</tr>
+<tr>
+<td><strong>OSX</strong></td>
+<td><tt>~/Library/Application Support/Sublime Text 2/Packages/</tt></td>
+</tr>
+</table><p><strong>Sublime Text 3</strong></p>
+
+<table>
+<tr>
+<td><strong>Windows</strong></td>
+<td><tt>%APPDATA%\Sublime Text 3\Packages\</tt></td>
+</tr>
+<tr>
+<td><strong>Linux</strong></td>
+<td><tt>~/.config/sublime-text-3/Packages/</tt></td>
+</tr>
+<tr>
+<td><strong>OSX</strong></td>
+<td><tt>~/Library/Application Support/Sublime Text 3/Packages/</tt></td>
+</tr>
+</table><h2>Usage</h2>
+
+<h3>Key Bindings</h3>
+
+<p>The default key bindings for this plugin:</p>
+
+<p><strong>Windows, Linux:</strong></p>
+
+<table>
+<tr>
+<td>
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>
+</td>
+<td>Format current file</td>
+</tr>
+<tr>
+<td>
+<kbd>Ctrl</kbd>+<kbd>K</kbd>, <kbd>Ctrl</kbd>+<kbd>F</kbd>
+</td>
+<td>Format current selection</td>
+</tr>
+</table><p><strong>OSX:</strong></p>
+
+<table>
+<tr>
+<td>
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>
+</td>
+<td>Format current file</td>
+</tr>
+<tr>
+<td>
+<kbd>⌘</kbd>+<kbd>K</kbd>, <kbd>⌘</kbd>+<kbd>F</kbd>
+</td>
+<td>Format current selection</td>
+</tr>
+</table><h3>Command Palette</h3>
+
+<p>Open the command palette, it apperas as <code>SublimeAStyleFormatter: Format Current File</code> and
+<code>SublimeAStyleFormatter Format Current Selection</code>.</p>
+
+<h2>Settings</h2>
+
+<h3>Per-project Settings</h3>
+
+<p>Before starting, you may want to have a look at SublimeAStyleFormatter.sublime-settings.</p>
+
+<p>To edit your project setting, select <code>Project/Edit Project</code> from main menu. A project setting contains
+per-project settings for SublimeAStyleFormatter should look like this:</p>
+
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">"settings"</span><span class="p">:</span>
+    <span class="p">{</span>
+        <span class="nt">"AStyleFormatter"</span><span class="p">:</span>
+        <span class="p">{</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>For example, if you don't want to inherit the default settings, instead, use your own astylerc file for
+C and C++ individually, then your project setting might look like this:</p>
+
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">"settings"</span><span class="p">:</span>
+    <span class="p">{</span>
+        <span class="nt">"AStyleFormatter"</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="nt">"options_c"</span><span class="p">:</span>
+            <span class="p">{</span>
+                <span class="nt">"use_only_additional_options"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nt">"additional_options_file"</span><span class="p">:</span> <span class="s2">"/path/to/your/astylerc/for/c"</span>
+            <span class="p">},</span>
+            <span class="nt">"options_c++"</span><span class="p">:</span>
+            <span class="p">{</span>
+                <span class="nt">"use_only_additional_options"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nt">"additional_options_file"</span><span class="p">:</span> <span class="s2">"/path/to/your/astylerc/for/c++"</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>What's New</h2>
+
+<p>v1.9 (03/08/2013)</p>
+
+<ul>
+<li>Preliminary support for Sublime Text 3 (Now only Windows x86 and Windows x86_64).</li>
+</ul><p>v1.8 (12/24/2012)</p>
+
+<ul>
+<li>Add auto format on file save (through option <code>autoformat_on_save</code>).</li>
+<li>Add context and side bar commands.</li>
+</ul><p>v1.7.3 (12/18/2012)</p>
+
+<ul>
+<li>Fix a conflict with SublimeCodeIntel.</li>
+</ul><p>v1.7.1 (11/22/2012)</p>
+
+<ul>
+<li>Change default keybinding for OSX (was conflict with "replace" in Sublime Text 2).</li>
+</ul><p>v1.7 (11/10/2012)</p>
+
+<ul>
+<li>Buffer will not scroll up and down during formatting now.</li>
+</ul><p>v1.6.2 (11/5/2012)</p>
+
+<ul>
+<li>Rebuild pyastyle x86_64 binary which should work on older version of linux distros.</li>
+</ul><p>v1.6.1 (10/20/2012)</p>
+
+<ul>
+<li>Fix ascii decoder error if source contains non-ascii characters.</li>
+</ul><p>v1.6 (10/19/2012)</p>
+
+<ul>
+<li>Remove dependency for ctypes.</li>
+</ul><p>v1.5 (10/16/2012)</p>
+
+<ul>
+<li>Update AStyle binrary of OSX.</li>
+<li>Add meaningful prompt dialog while ctypes module cannot be imported in Linux.</li>
+</ul><p>v1.4.1 (10/6/2012)</p>
+
+<ul>
+<li>Fix wrong AStyle.dll for 32bit Windows.</li>
+</ul><p>v1.4 (9/28/2012)</p>
+
+<ul>
+<li>Add linux binaries (ctypes should be installed manually in order to get it work).</li>
+<li>Fix default key binding conflicts with JsFormat (ctrl+alt+f).</li>
+<li>Windows and Linux astyle libraries are now v2.0.3 beta.</li>
+</ul><p>v1.3 (9/21/2012)</p>
+
+<ul>
+<li>Added support for formatting selection text only.</li>
+<li>Restore to previous viewport after formatting entire file.</li>
+</ul><p>v1.2 (4/19/2012)</p>
+
+<ul>
+<li>Added support for per-project settings.</li>
+<li>Fixed a bug that "additional_options" is invalid when "use_only_additional_options " is not "true".</li>
+<li>Fixed a bug which will throw python 'KeyError' exception while options in "options_default" are lesser than expected.</li>
+</ul><p>v1.1 (2/5/2012)</p>
+
+<ul>
+<li>Added support for OS X.</li>
+<li>More comprehensive options.</li>
+</ul><h2>License</h2>
+
+<p>This plugin is using MIT License:</p>
+
+<pre><code>Copyright (c) 2012 Timon Wong
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</code></pre>
+
+<h2>Credits</h2>
+
+<p><strong><a href="http://sourceforge.net/projects/astyle/">Artistic Style</a></strong> - A Free, Fast and Small Automatic Formatter for C, C++, C#,
+and Java Source Code.</p>
+
+<p>Licensed under <a href="http://astyle.sourceforge.net/license.html">GNU Lesser General Public License version 3.0</a></p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/timonwong">timonwong</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
