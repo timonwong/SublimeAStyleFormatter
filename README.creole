@@ -4,6 +4,12 @@
 SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2 & Sublime Text 3.
 It provides ability to format C, C++, C#, and Java files.
 
+=== Donation ===
+
+If you find my work useful, please consider buying me a cup of coffee, all donations are much appreciated :)
+
+[[https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=timon86%2ewang%40gmail%2ecom&lc=US&item_name=Buy%20me%20a%20cup%20of%20coffee&item_number=SublimeAStyleFormatter&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest|{{donate-with-paypal.png|Donate via paypal}}]]
+[[https://me.alipay.com/timonwong|{{donate-with-alipay.png|使用支付宝捐赠}}]]
 
 == Installation ==
 === With the Package Control plugin ===
