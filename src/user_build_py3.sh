@@ -33,8 +33,8 @@ fi
 	$PYTHON setup.py build && \
 	cd "$CURRENT_PATH"
 ) && \
-
-find . -type f -name "pyastyle*.so" -exec cp {} ../pyastyle/python3/_local_arch/pyastyle.so \; && \
+mkdir -p ../pyastyle/python3/_local_arch && \
+find . -type f -name "pyastyle*.so" -exec cp {} ../pyastyle/python3/_local_arch \; && \
 
 reset && \
 echo "Done!" || \

@@ -147,6 +147,10 @@ C and C++ individually, then your project setting might look like this:
 What's New
 -------------
 
+v1.9.1 (03/10/2013)
+
+* Linux (Both x86 and x86_64) support added to Sublime Text 3.
+
 v1.9 (03/08/2013)
 
 * Preliminary support for Sublime Text 3 (Now only Windows x86 and Windows x86_64).

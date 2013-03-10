@@ -3,6 +3,6 @@
     "name": "SublimeAStyleFormatter",
     "description": "C/C++/C#/Java code formatter/beautifier with AStyle.",
     "author": "timonwong",
-    "homepage": "https://github.com/timonwong/SublimeAStyleFormatter",
+    "homepage": "http://theo.im/SublimeAStyleFormatter/",
     "platforms": "*"
 }
