@@ -12,8 +12,8 @@ It provides ability to format C, C++, C#, and Java files.
 If you find my work useful, please consider buying me a cup of coffee, all
 donations are much appreciated :)
 
-[![Donate via PayPal](./donate-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=timon86%2ewang%40gmail%2ecom&lc=US&item_name=Buy%20me%20a%20cup%20of%20coffee&item_number=SublimeAStyleFormatter&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest)
-[![使用支付宝捐赠](./donate-with-alipay.png)](https://me.alipay.com/timonwong)
+[![Donate via PayPal](http://dl.dropbox.com/u/2451120/donate-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=timon86%2ewang%40gmail%2ecom&lc=US&item_name=Buy%20me%20a%20cup%20of%20coffee&item_number=SublimeAStyleFormatter&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest)
+[![使用支付宝捐赠](http://dl.dropbox.com/u/2451120/donate-with-alipay.png)](https://me.alipay.com/timonwong)
 
 Installation
 ------------
@@ -50,23 +50,15 @@ The "Packages" directory is located at:
 
 **Sublime Text 2**
 
-<table>
-<tbody>
-<tr><td><strong>Windows</strong></td><td><tt>%APPDATA%\Sublime Text 2\Packages\</tt></td></tr>
-<tr><td><strong>Linux</strong></td><td><tt>~/.config/sublime-text-2/Packages/</tt></td></tr>
-<tr><td><strong>OSX</strong></td><td><tt>~/Library/Application Support/Sublime Text 2/Packages/</tt></td></tr>
-</tbody>
-</table>
+* **Windows**: `%APPDATA%\Sublime Text 2\Packages`
+* **Linux**: `~/.config/sublime-text-2/Packages/`
+* **OS X**: `~/Library/Application Support/Sublime Text 2/Packages/`
 
 **Sublime Text 3**
 
-<table>
-<tbody>
-<tr><td><strong>Windows</strong></td><td><tt>%APPDATA%\Sublime Text 3\Packages\</tt></td></tr>
-<tr><td><strong>Linux</strong></td><td><tt>~/.config/sublime-text-3/Packages/</tt></td></tr>
-<tr><td><strong>OSX</strong></td><td><tt>~/Library/Application Support/Sublime Text 3/Packages/</tt></td></tr>
-</tbody>
-</table>
+* **Windows**: `%APPDATA%\Sublime Text 3\Packages`
+* **Linux**: `~/.config/sublime-text-3/Packages/`
+* **OS X**: `~/Library/Application Support/Sublime Text 3/Packages/`
 
 Usage
 -----
@@ -77,21 +69,13 @@ The default key bindings for this plugin:
 
 **Windows, Linux:**
 
-<table>
-<tbody>
-<tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd></td><td>Format current file</td></tr>
-<tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd>, <kbd>Ctrl</kbd>+<kbd>F</kbd></td><td>Format current selection</td></tr>
-</tbody>
-</table>
+* <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>: Format current file.
+* <kbd>Ctrl</kbd>+<kbd>K</kbd>, <kbd>Ctrl</kbd>+<kbd>F</kbd>: Format current selection.
 
 **OSX:**
 
-<table>
-<tbody>
-<tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd></td><td>Format current file</td></tr>
-<tr><td><kbd>⌘</kbd>+<kbd>K</kbd>, <kbd>⌘</kbd>+<kbd>F</kbd></td><td>Format current selection</td></tr>
-</tbody>
-</table>
+* <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>: Format current file.
+* <kbd>⌘</kbd>+<kbd>K</kbd>, <kbd>⌘</kbd>+<kbd>F</kbd>: Format current selection.
 
 ### Command Palette
 
@@ -147,9 +131,13 @@ C and C++ individually, then your project setting might look like this:
 What's New
 -------------
 
+v1.9.2 (03/16/2013)
+
+* Add OS X support for Sublime Text 3.
+
 v1.9.1 (03/10/2013)
 
-* Linux (Both x86 and x86_64) support added to Sublime Text 3.
+* Add Linux support (Both x86 and x86_64) for Sublime Text 3.
 
 v1.9 (03/08/2013)
 
