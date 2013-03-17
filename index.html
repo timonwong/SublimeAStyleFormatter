@@ -39,8 +39,8 @@ It provides ability to format C, C++, C#, and Java files.</p>
 <p>If you find my work useful, please consider buying me a cup of coffee, all
 donations are much appreciated :)</p>
 
-<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=timon86%2ewang%40gmail%2ecom&amp;lc=US&amp;item_name=Buy%20me%20a%20cup%20of%20coffee&amp;item_number=SublimeAStyleFormatter&amp;no_note=0&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest"><img src="https://raw.github.com/timonwong/SublimeAStyleFormatter/master/donate-with-paypal.png" alt="Donate via PayPal"></a>
-<a href="https://me.alipay.com/timonwong"><img src="https://raw.github.com/timonwong/SublimeAStyleFormatter/master/donate-with-alipay.png" alt="使用支付宝捐赠"></a></p>
+<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=timon86%2ewang%40gmail%2ecom&amp;lc=US&amp;item_name=Buy%20me%20a%20cup%20of%20coffee&amp;item_number=SublimeAStyleFormatter&amp;no_note=0&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest"><img src="http://dl.dropbox.com/u/2451120/donate-with-paypal.png" alt="Donate via PayPal"></a>
+<a href="https://me.alipay.com/timonwong"><img src="http://dl.dropbox.com/u/2451120/donate-with-alipay.png" alt="使用支付宝捐赠"></a></p>
 
 <h2>Installation</h2>
 
@@ -74,35 +74,29 @@ and extract it to the Packages directory.</p>
 
 <p><strong>Sublime Text 2</strong></p>
 
-<table>
-<tr>
-<td><strong>Windows</strong></td>
-<td><tt>%APPDATA%\Sublime Text 2\Packages\</tt></td>
-</tr>
-<tr>
-<td><strong>Linux</strong></td>
-<td><tt>~/.config/sublime-text-2/Packages/</tt></td>
-</tr>
-<tr>
-<td><strong>OSX</strong></td>
-<td><tt>~/Library/Application Support/Sublime Text 2/Packages/</tt></td>
-</tr>
-</table><p><strong>Sublime Text 3</strong></p>
+<ul>
+<li>
+<strong>Windows</strong>: <code>%APPDATA%\Sublime Text 2\Packages</code>
+</li>
+<li>
+<strong>Linux</strong>: <code>~/.config/sublime-text-2/Packages/</code>
+</li>
+<li>
+<strong>OS X</strong>: <code>~/Library/Application Support/Sublime Text 2/Packages/</code>
+</li>
+</ul><p><strong>Sublime Text 3</strong></p>
 
-<table>
-<tr>
-<td><strong>Windows</strong></td>
-<td><tt>%APPDATA%\Sublime Text 3\Packages\</tt></td>
-</tr>
-<tr>
-<td><strong>Linux</strong></td>
-<td><tt>~/.config/sublime-text-3/Packages/</tt></td>
-</tr>
-<tr>
-<td><strong>OSX</strong></td>
-<td><tt>~/Library/Application Support/Sublime Text 3/Packages/</tt></td>
-</tr>
-</table><h2>Usage</h2>
+<ul>
+<li>
+<strong>Windows</strong>: <code>%APPDATA%\Sublime Text 3\Packages</code>
+</li>
+<li>
+<strong>Linux</strong>: <code>~/.config/sublime-text-3/Packages/</code>
+</li>
+<li>
+<strong>OS X</strong>: <code>~/Library/Application Support/Sublime Text 3/Packages/</code>
+</li>
+</ul><h2>Usage</h2>
 
 <h3>Key Bindings</h3>
 
@@ -110,35 +104,19 @@ and extract it to the Packages directory.</p>
 
 <p><strong>Windows, Linux:</strong></p>
 
-<table>
-<tr>
-<td>
-<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>
-</td>
-<td>Format current file</td>
-</tr>
-<tr>
-<td>
-<kbd>Ctrl</kbd>+<kbd>K</kbd>, <kbd>Ctrl</kbd>+<kbd>F</kbd>
-</td>
-<td>Format current selection</td>
-</tr>
-</table><p><strong>OSX:</strong></p>
+<ul>
+<li>
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>: Format current file.</li>
+<li>
+<kbd>Ctrl</kbd>+<kbd>K</kbd>, <kbd>Ctrl</kbd>+<kbd>F</kbd>: Format current selection.</li>
+</ul><p><strong>OSX:</strong></p>
 
-<table>
-<tr>
-<td>
-<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>
-</td>
-<td>Format current file</td>
-</tr>
-<tr>
-<td>
-<kbd>⌘</kbd>+<kbd>K</kbd>, <kbd>⌘</kbd>+<kbd>F</kbd>
-</td>
-<td>Format current selection</td>
-</tr>
-</table><h3>Command Palette</h3>
+<ul>
+<li>
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>: Format current file.</li>
+<li>
+<kbd>⌘</kbd>+<kbd>K</kbd>, <kbd>⌘</kbd>+<kbd>F</kbd>: Format current selection.</li>
+</ul><h3>Command Palette</h3>
 
 <p>Open the command palette, it apperas as <code>SublimeAStyleFormatter: Format Current File</code> and
 <code>SublimeAStyleFormatter Format Current Selection</code>.</p>
@@ -187,7 +165,15 @@ C and C++ individually, then your project setting might look like this:</p>
 
 <h2>What's New</h2>
 
-<p>v1.9 (03/08/2013)</p>
+<p>v1.9.2 (03/16/2013)</p>
+
+<ul>
+<li>Add OS X support for Sublime Text 3.</li>
+</ul><p>v1.9.1 (03/10/2013)</p>
+
+<ul>
+<li>Add Linux support (Both x86 and x86_64) for Sublime Text 3.</li>
+</ul><p>v1.9 (03/08/2013)</p>
 
 <ul>
 <li>Preliminary support for Sublime Text 3 (Now only Windows x86 and Windows x86_64).</li>
