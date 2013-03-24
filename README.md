@@ -131,6 +131,10 @@ C and C++ individually, then your project setting might look like this:
 What's New
 -------------
 
+v1.9.3 (03/24/2013)
+
+* Can be now installed from Package Control (latest) for Sublime Text 3.
+
 v1.9.2 (03/16/2013)
 
 * Add OS X support for Sublime Text 3.
