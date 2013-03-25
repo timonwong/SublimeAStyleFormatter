@@ -12,6 +12,7 @@
                 "children":
                 [
                     {
+                        "id": "SublimeAStyleFormatter",
                         "caption": "SublimeAStyleFormatter",
                         "children":
                         [
