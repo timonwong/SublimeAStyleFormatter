@@ -12,7 +12,7 @@ It provides ability to format C, C++, C#, and Java files.
 If you find my work useful, please consider buying me a cup of coffee, all
 donations are much appreciated :)
 
-[![Donate via PayPal](http://dl.dropbox.com/u/2451120/donate-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=timon86%2ewang%40gmail%2ecom&lc=US&item_name=Buy%20me%20a%20cup%20of%20coffee&item_number=SublimeAStyleFormatter&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHostedGuest)
+[![Donate via PayPal](http://dl.dropbox.com/u/2451120/donate-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGVE2BPUP7KEC)
 [![使用支付宝捐赠](http://dl.dropbox.com/u/2451120/donate-with-alipay.png)](https://me.alipay.com/timonwong)
 
 Installation
