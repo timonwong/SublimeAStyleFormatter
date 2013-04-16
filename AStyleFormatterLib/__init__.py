@@ -27,7 +27,7 @@ LANGUAGE_MODE_MAPPING = {
     'cuda-c++': 'c',
     'java': 'java',
     'cs': 'cs',
-    'pde': 'pde',
+    'pde': 'java',
 }
 
 SUPPORTED_LANGUAGES = set(LANGUAGE_MODE_MAPPING.keys())
