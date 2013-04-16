@@ -20,6 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from . import LANGUAGE_MODE_MAPPING
+
 __all__ = ["get_basic_option_for_lang", "process_setting"]
 
 
@@ -130,13 +132,9 @@ g_setting_option_map = {
 
 
 def get_basic_option_for_lang(lang):
-    if lang == "c" or lang == "c++":
-        return "--mode=c"
-    elif lang == "cs":
-        return "--mode=cs"
-    elif lang == "java":
-        return "--mode=java"
-    return ""
+    if lang not in LANGUAGE_MODE_MAPPING:
+        return ""
+    return "--mode=" + LANGUAGE_MODE_MAPPING[lang]
 
 
 def process_setting(setting):

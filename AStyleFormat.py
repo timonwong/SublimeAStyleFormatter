@@ -28,11 +28,11 @@ import sys
 
 if sys.version_info < (3, 0):
     import pyastyle
-    from AStyleFormatterLib import Options
+    from AStyleFormatterLib import SUPPORTED_LANGUAGES, Options
     from AStyleFormatterLib.MergeUtils import merge_code
 else:
     from . import pyastyle
-    from .AStyleFormatterLib import Options
+    from .AStyleFormatterLib import SUPPORTED_LANGUAGES, Options
     from .AStyleFormatterLib.MergeUtils import merge_code
 
 
@@ -66,7 +66,7 @@ def get_language_in_view(view):
 
 
 def is_supported_language(lang):
-    return lang in ["c", "c++", "cs", "java"]
+    return lang in SUPPORTED_LANGUAGES
 
 
 def is_enabled_in_view(view):
