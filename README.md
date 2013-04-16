@@ -133,6 +133,14 @@ C and C++ individually, then your project setting might look like this:
 What's New
 -------------
 
+v2.0.0 (TBD)
+
+* Update Artistic Style to v2.03 release ([News](http://astyle.sourceforge.net/news.html)
+  and [Release Notes](http://astyle.sourceforge.net/notes.html)).
+* Please note that deprecated bracket options are now removed from astyle v2.03, use
+  `style` options instead if you have any those deprecated options.
+* Add new options: `pad-first-paren-out`, `close-templates`, `max-code-length` and `break-after-logical`.
+
 v1.9.4 (04/16/2013)
 
 * Add OpenCL and Cuda-C++ (each require its syntax file installed) support.
