@@ -1,0 +1,3 @@
+SublimeAStyleFormatter 1.9.4 Changelog:
+
+* Add OpenCL and Cuda-C++ (each require its syntax file installed) support.
