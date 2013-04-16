@@ -13,7 +13,7 @@
         "style": "ansi",
 
         // Tab options
-        // Can be either "spaces", "tab" or "force-tab",
+        // Can be either "spaces", "tab" or "force-tab", "force-tab-x",
         "indent": "spaces",
         "indent-spaces": 4,
 
@@ -101,6 +101,14 @@
         // This can be used with `unpad-paren` below to remove unwanted spaces.
         "pad-paren-out": false,
 
+        // Insert space padding around the first parenthesis in a series on the
+        // outside only. Any end of line comments will remain in the original
+        // column, if possible. This can be used with unpad-paren below to remove
+        // unwanted spaces. If used with pad-paren or pad-paren-out, this
+        // option will be ignored. If used with pad-paren-in, the result will
+        // be the same as pad-paren.
+        "pad-first-paren-out": false,
+
         // Insert space padding around parenthesis on the inside only. Any
         // end of line comments will remain in the original column, if possible.
         // This can be used with `unpad-paren` below to remove unwanted spaces.
@@ -167,6 +175,28 @@
         //  spaces per tab is used. It may not produce the expected results if `convert-tabs`
         //  is used when changing spaces per tab. Tabs are not replaced in quotes.
         "convert-tabs": true,
+
+        // Closes whitespace in the angle brackets of template definitions. Closing
+        // the ending angle brackets is now allowed by the C++11 standard.
+        // Be sure your compiler supports this before making the changes.
+        "close-templates": false,
+
+        // The option max‑code‑length will break a line if the code exceeds # characters.
+        // The valid values are 50 thru 200. Lines without logical conditionals will
+        // break on a logical conditional (||, &&, ...), comma, paren, semicolon, or space.
+        //
+        // Some code will not be broken, such as comments, quotes, and arrays.
+        // If used with keep‑one‑line‑blocks or add-one-line-brackets the blocks
+        // will NOT be broken. If used with keep‑one‑line‑statements the statements
+        // will be broken at a semicolon if the line goes over the maximum length.
+        // If there is no available break point within the max code length, the
+        // line will be broken at the first available break point after the max code length.
+        //
+        // By default logical conditionals will be placed first on the new line.
+        // The option break‑after‑logical will cause the logical conditionals to be
+        // placed last on the previous line. This option has no effect without max‑code‑length.
+        "max-code-length": -1,
+        "break-after-logical": false,
 
         // Attach a pointer or reference operator (* or &) to either the variable type (left)
         // or variable name (right), or place it between the type and name (middle).

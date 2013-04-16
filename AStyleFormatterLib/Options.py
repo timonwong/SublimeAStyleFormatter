@@ -60,6 +60,20 @@ def process_option_max_instatement_indent(options, option_name, value):
     return options
 
 
+def process_option_max_code_length(options, option_name, value):
+    if option_name != "max-code-length" or value == -1:
+        return options
+    options.append("--max-code-length={0}".format(value))
+    return options
+
+
+def process_option_max_code_length(options, option_name, value):
+    if option_name != "max-code-length" or value == -1:
+        return options
+    options.append("--max-code-length={0}".format(value))
+    return options
+
+
 def process_option_break_blocks(options, option_name, value):
     if option_name != "break-blocks" or value == "":
         return options
@@ -91,7 +105,7 @@ def process_option_align_reference(options, option_name, value):
 def special_process_option_indent(options, option_name, indent_method, spaces):
     if option_name != "indent":
         return options
-    if not indent_method in ["spaces", "tab", "force-tab"]:
+    if not indent_method in ["spaces", "tab", "force-tab", "force-tab-x"]:
         return options
     if not spaces:
         spaces = 4
@@ -114,6 +128,7 @@ g_setting_option_map = {
     "pad-oper":                 process_option_generic,
     "pad-paren":                process_option_generic,
     "pad-paren-out":            process_option_generic,
+    "pad-first-paren-out":      process_option_generic,
     "pad-paren-in":             process_option_generic,
     "pad-header":               process_option_generic,
     "unpad-paren":              process_option_generic,
@@ -126,6 +141,9 @@ g_setting_option_map = {
     "keep-one-line-blocks":     process_option_generic,
     "keep-one-line-statements": process_option_generic,
     "convert-tabs":             process_option_generic,
+    "close-templates":          process_option_generic,
+    "max-code-length":          process_option_max_code_length,
+    "break-after-logical":      process_option_generic,
     "align-pointer":            process_option_align_pointer,
     "align-reference":          process_option_align_reference
 }
