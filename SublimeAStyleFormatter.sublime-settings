@@ -139,6 +139,22 @@
         // Fill empty lines with the white space of the previous line.
         "fill-empty-lines": false,
 
+        // Attach a pointer or reference operator (* or &) to either the variable type (left)
+        // or variable name (right), or place it between the type and name (middle).
+        // The spacing between the type and name will be preserved, if possible. To format
+        // references separately use the following `align-reference` option.
+        // can be either "", "type", "middle" or "name"
+        "align-pointer": "name",
+
+        // This option will align references separate from pointers. Pointers are not changed
+        // by this option. If pointers and references are to be aligned the same, use the
+        //  previous `align-pointer` option. The option align-reference=none will not change
+        // the reference alignment. The other options are the same as for `align-pointer`.
+        // In the case of a reference to a pointer (*&) with conflicting alignments, the
+        // `align-pointer` value will be used.
+        // can be either "none", "type", "middle", "name"
+        "align-reference": "name",
+
         // === Formatting Options ===
 
         // When `style` is "attach", "linux" or "stroustrup", this breaks closing headers
@@ -196,23 +212,7 @@
         // The option break‑after‑logical will cause the logical conditionals to be
         // placed last on the previous line. This option has no effect without max‑code‑length.
         "max-code-length": -1,
-        "break-after-logical": false,
-
-        // Attach a pointer or reference operator (* or &) to either the variable type (left)
-        // or variable name (right), or place it between the type and name (middle).
-        // The spacing between the type and name will be preserved, if possible. To format
-        // references separately use the following `align-reference` option.
-        // can be either "", "type", "middle" or "name"
-        "align-pointer": "name",
-
-        // This option will align references separate from pointers. Pointers are not changed
-        // by this option. If pointers and references are to be aligned the same, use the
-        //  previous `align-pointer` option. The option align-reference=none will not change
-        // the reference alignment. The other options are the same as for `align-pointer`.
-        // In the case of a reference to a pointer (*&) with conflicting alignments, the
-        // `align-pointer` value will be used.
-        // can be either "none", "type", "middle", "name"
-        "align-reference": "name"
+        "break-after-logical": false
     },
 
     //

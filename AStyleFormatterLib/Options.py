@@ -67,13 +67,6 @@ def process_option_max_code_length(options, option_name, value):
     return options
 
 
-def process_option_max_code_length(options, option_name, value):
-    if option_name != "max-code-length" or value == -1:
-        return options
-    options.append("--max-code-length={0}".format(value))
-    return options
-
-
 def process_option_break_blocks(options, option_name, value):
     if option_name != "break-blocks" or value == "":
         return options
