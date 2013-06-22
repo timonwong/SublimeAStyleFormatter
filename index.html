@@ -27,16 +27,19 @@
         </ul>
       </header>
       <section>
-        <h1>Sublime Text 2 &amp; 3 AStyle Formatter Plugin</h1>
+        <h1>
+<a name="sublime-text-2--3-astyle-formatter-plugin" class="anchor" href="#sublime-text-2--3-astyle-formatter-plugin"><span class="octicon octicon-link"></span></a>Sublime Text 2 &amp; 3 AStyle Formatter Plugin</h1>
 
-<h2>Description</h2>
+<h2>
+<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h2>
 
-<p>SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2 &amp; Sublime Text 3.
+<p>SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text.
 It provides ability to format C, C++, Cuda-C++, OpenCL, C#, and Java files.</p>
 
 <p><strong>NOTE</strong>: Syntax files required to be installed separately for Cuda-C++ and OpenCL.</p>
 
-<h3>Donation</h3>
+<h3>
+<a name="donation" class="anchor" href="#donation"><span class="octicon octicon-link"></span></a>Donation</h3>
 
 <p>If you find my work useful, please consider buying me a cup of coffee, all
 donations are much appreciated :)</p>
@@ -44,9 +47,11 @@ donations are much appreciated :)</p>
 <p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GGVE2BPUP7KEC"><img src="http://dl.dropbox.com/u/2451120/donate-with-paypal.png" alt="Donate via PayPal"></a>
 <a href="https://me.alipay.com/timonwong"><img src="http://dl.dropbox.com/u/2451120/donate-with-alipay.png" alt="使用支付宝捐赠"></a></p>
 
-<h2>Installation</h2>
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<h3>With the Package Control plugin</h3>
+<h3>
+<a name="with-the-package-control-plugin" class="anchor" href="#with-the-package-control-plugin"><span class="octicon octicon-link"></span></a>With the Package Control plugin</h3>
 
 <p>The easiest way to install SublimeAStyleFormatter is through <a href="http://wbond.net/sublime_packages/package_control">Package Control</a>.</p>
 
@@ -59,7 +64,8 @@ on Windows and Linux. <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>P</kbd> on OS X).</li>
 <li>Select "SublimeAStyleFormatter" from list.</li>
 </ol><p>The advantage of using Package Control is that it will keep SublimeAStyleFormatter up to date.</p>
 
-<h3>Manual Install</h3>
+<h3>
+<a name="manual-install" class="anchor" href="#manual-install"><span class="octicon octicon-link"></span></a>Manual Install</h3>
 
 <p><strong>Without Git:</strong></p>
 
@@ -98,9 +104,11 @@ and extract it to the Packages directory.</p>
 <li>
 <strong>OS X</strong>: <code>~/Library/Application Support/Sublime Text 3/Packages/</code>
 </li>
-</ul><h2>Usage</h2>
+</ul><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<h3>Key Bindings</h3>
+<h3>
+<a name="key-bindings" class="anchor" href="#key-bindings"><span class="octicon octicon-link"></span></a>Key Bindings</h3>
 
 <p>The default key bindings for this plugin:</p>
 
@@ -118,14 +126,17 @@ and extract it to the Packages directory.</p>
 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>: Format current file.</li>
 <li>
 <kbd>⌘</kbd>+<kbd>K</kbd>, <kbd>⌘</kbd>+<kbd>F</kbd>: Format current selection.</li>
-</ul><h3>Command Palette</h3>
+</ul><h3>
+<a name="command-palette" class="anchor" href="#command-palette"><span class="octicon octicon-link"></span></a>Command Palette</h3>
 
 <p>Open the command palette, it apperas as <code>SublimeAStyleFormatter: Format Current File</code> and
 <code>SublimeAStyleFormatter Format Current Selection</code>.</p>
 
-<h2>Settings</h2>
+<h2>
+<a name="settings" class="anchor" href="#settings"><span class="octicon octicon-link"></span></a>Settings</h2>
 
-<h3>Per-project Settings</h3>
+<h3>
+<a name="per-project-settings" class="anchor" href="#per-project-settings"><span class="octicon octicon-link"></span></a>Per-project Settings</h3>
 
 <p>Before starting, you may want to have a look at SublimeAStyleFormatter.sublime-settings.</p>
 
@@ -165,12 +176,21 @@ C and C++ individually, then your project setting might look like this:</p>
 <span class="p">}</span>
 </pre></div>
 
-<h2>What's New</h2>
+<h2>
+<a name="whats-new" class="anchor" href="#whats-new"><span class="octicon octicon-link"></span></a>What's New</h2>
 
-<p>v1.9.4 (04/16/2013)</p>
+<p>v2.0.0 (06/22/2013)</p>
 
 <ul>
-<li>Add OpenCL and Cuda-C++ (each require its syntax file installed) support.</li>
+<li>Update Artistic Style to v2.03 release (<a href="http://astyle.sourceforge.net/news.html">News</a>
+and <a href="http://astyle.sourceforge.net/notes.html">Release Notes</a>).</li>
+<li>Please note that deprecated bracket options are now removed from astyle v2.03, use
+<code>style</code> options instead if you have any those deprecated options (usually in your <code>astylerc</code> files).</li>
+<li>Add new options: <code>pad-first-paren-out</code>, <code>close-templates</code>, <code>max-code-length</code> and <code>break-after-logical</code>.</li>
+</ul><p>v1.9.4 (04/16/2013)</p>
+
+<ul>
+<li>Add OpenCL and Cuda-C++ (each requires its syntax file installed) support.</li>
 </ul><p>v1.9.3 (03/24/2013)</p>
 
 <ul>
@@ -247,7 +267,8 @@ C and C++ individually, then your project setting might look like this:</p>
 <ul>
 <li>Added support for OS X.</li>
 <li>More comprehensive options.</li>
-</ul><h2>License</h2>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>This plugin is using MIT License:</p>
 
@@ -272,16 +293,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </code></pre>
 
-<h2>Credits</h2>
+<h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
 
 <p><strong><a href="http://sourceforge.net/projects/astyle/">Artistic Style</a></strong> - A Free, Fast and Small Automatic Formatter for C, C++, C#,
 and Java Source Code.</p>
 
 <p>Licensed under <a href="http://astyle.sourceforge.net/license.html">GNU Lesser General Public License version 3.0</a></p>
 
-<h2>Donors</h2>
+<h2>
+<a name="donors" class="anchor" href="#donors"><span class="octicon octicon-link"></span></a>Donors</h2>
 
-<p><a href="https://github.com/timonwong/SublimeAStyleFormatter/blob/master/DONORS.md">DONORS.md</a></p>
+<p><a href="./DONORS.md">DONORS.md</a></p>
       </section>
     </div>
     <footer>
