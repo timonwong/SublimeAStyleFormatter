@@ -1,6 +1,8 @@
 #!/bin/bash
 
-PYTHON=python
+if [ -z "$PYTHON" ]; then
+	PYTHON=python
+fi
 
 reset() {
 	rm -rf pyastyle/build
