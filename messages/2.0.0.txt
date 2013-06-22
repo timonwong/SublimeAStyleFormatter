@@ -1,0 +1,7 @@
+SublimeAStyleFormatter 2.0.0 Changelog:
+
+* Update Artistic Style to v2.03 release ([News](http://astyle.sourceforge.net/news.html)
+  and [Release Notes](http://astyle.sourceforge.net/notes.html)).
+* Please note that deprecated bracket options are now removed from astyle v2.03, use
+  `style` options instead if you have any those deprecated options (usually in your `astylerc` files).
+* Add new options: `pad-first-paren-out`, `close-templates`, `max-code-length` and `break-after-logical`.

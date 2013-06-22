@@ -4,7 +4,7 @@ Sublime Text 2 & 3 AStyle Formatter Plugin
 Description
 -----------
 
-SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text 2 & Sublime Text 3.
+SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text.
 It provides ability to format C, C++, Cuda-C++, OpenCL, C#, and Java files.
 
 **NOTE**: Syntax files required to be installed separately for Cuda-C++ and OpenCL.
@@ -133,17 +133,17 @@ C and C++ individually, then your project setting might look like this:
 What's New
 -------------
 
-v2.0.0 (TBD)
+v2.0.0 (06/22/2013)
 
 * Update Artistic Style to v2.03 release ([News](http://astyle.sourceforge.net/news.html)
   and [Release Notes](http://astyle.sourceforge.net/notes.html)).
 * Please note that deprecated bracket options are now removed from astyle v2.03, use
-  `style` options instead if you have any those deprecated options.
+  `style` options instead if you have any those deprecated options (usually in your `astylerc` files).
 * Add new options: `pad-first-paren-out`, `close-templates`, `max-code-length` and `break-after-logical`.
 
 v1.9.4 (04/16/2013)
 
-* Add OpenCL and Cuda-C++ (each require its syntax file installed) support.
+* Add OpenCL and Cuda-C++ (each requires its syntax file installed) support.
 
 v1.9.3 (03/24/2013)
 
