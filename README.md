@@ -15,7 +15,6 @@ If you find my work useful, please consider buying me a cup of coffee, all
 donations are much appreciated :)
 
 [![Donate via PayPal](http://dl.dropbox.com/u/2451120/donate-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGVE2BPUP7KEC)
-[![使用支付宝捐赠](http://dl.dropbox.com/u/2451120/donate-with-alipay.png)](https://me.alipay.com/timonwong)
 
 Installation
 ------------
@@ -132,6 +131,10 @@ C and C++ individually, then your project setting might look like this:
 
 What's New
 -------------
+
+v2.0.1 (06/26/2013)
+
+* Rebuild pyastyle libraries for linux amd64 in order to resolve libc/libc++ compatibility issues.
 
 v2.0.0 (06/22/2013)
 
