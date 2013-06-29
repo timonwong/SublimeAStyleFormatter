@@ -24,10 +24,10 @@ if [ $OSTYPE = "linux-gnu" ]; then
 	fi
 elif [ ${OSTYPE:0:6} = "darwin" ]; then
 	echo "Mac OS X build!"
-	export ARCHFLAGS="-arch i386 -arch x86_64 $ARCHFLAGS"
-	export CXXFLAGS="-arch i386 -arch x86_64 $CFLAGS"
-	export CFLAGS="-arch i386 -arch x86_64 $CFLAGS"
-	export LDFLAGS="-arch i386 -arch x86_64 $LDFLAGS"
+	export ARCHFLAGS="-arch x86_64 $ARCHFLAGS"
+	export CXXFLAGS="-arch x86_64 $CFLAGS"
+	export CFLAGS="-arch x86_64 $CFLAGS"
+	export LDFLAGS="-arch x86_64 $LDFLAGS"
 fi
 
 (echo "Building pyastyle..." && \
