@@ -22,6 +22,7 @@ SOFTWARE.
 
 import sublime
 import sublime_plugin
+import json
 import re
 import os
 import sys
@@ -36,7 +37,13 @@ else:
     from .AStyleFormatterLib.MergeUtils import merge_code
 
 
+__file__ = os.path.normpath(os.path.abspath(__file__))
+__path__ = os.path.dirname(__file__)
+
 LANGUAGE_RE = re.compile(r"(?<=source\.)[\w+#]+")
+
+with open(os.path.join(__path__, 'options_default.json')) as fp:
+    OPTIONS_DEFAULT = json.load(fp)
 
 
 def get_setting_view(view, key, default=None):
@@ -53,7 +60,7 @@ def get_setting_view(view, key, default=None):
     return settings.get(key, default)
 
 
-def get_setting(key, default=None):
+def get_setting_for_active_view(key, default=None):
     return get_setting_view(sublime.active_window().active_view(), key, default)
 
 
@@ -76,13 +83,19 @@ def is_enabled_in_view(view):
 
 class AstyleformatCommand(sublime_plugin.TextCommand):
     def get_setting(self, key, default=None):
-        return get_setting_view(self.view, key, default)
+        return get_setting_view(self.view, key, default=default)
 
     def get_lang_setting(self, lang):
         key = "options_%s" % lang
-        return get_setting_view(self.view, key, {})
+        return get_setting_view(self.view, key, default={})
 
-    def read_options_file(self, path):
+    def get_options_default(self):
+        options_default = OPTIONS_DEFAULT.copy()
+        options_default_override = self.get_setting("options_default", {})
+        options_default.update(options_default_override)
+        return options_default
+
+    def read_astylerc(self, path):
         # Expand environment variables first
         fullpath = os.path.expandvars(path)
         if not os.path.exists(fullpath) or not os.path.isfile(fullpath):
@@ -110,7 +123,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             use_only_additional_options = False
 
         if "additional_options_file" in lang_setting:
-            lang_options_in_file = self.read_options_file(lang_setting["additional_options_file"]) + " "
+            lang_options_in_file = self.read_astylerc(lang_setting["additional_options_file"]) + " "
         else:
             lang_options_in_file = ""
 
@@ -124,7 +137,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             return basic_option + lang_options
 
         # Get default options
-        default_setting = self.get_setting("options_default", {})
+        default_setting = self.get_options_default()
         # Merge lang_setting with default_setting
         setting = default_setting.copy()
         setting.update(lang_setting)
@@ -230,7 +243,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
 class PluginEventListener(sublime_plugin.EventListener):
     def on_pre_save(self, view):
-        if is_enabled_in_view(view) and get_setting('autoformat_on_save', False):
+        if is_enabled_in_view(view) and get_setting_for_active_view('autoformat_on_save', default=False):
             view.run_command('astyleformat')
 
     def on_query_context(self, view, key, operator, operand, match_all):
