@@ -91,7 +91,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     def get_options_default(self):
         options_default = OPTIONS_DEFAULT.copy()
-        options_default_override = self.get_setting("options_default", {})
+        options_default_override = self.get_setting("options_default", default={})
         options_default.update(options_default_override)
         return options_default
 

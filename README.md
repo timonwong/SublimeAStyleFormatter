@@ -93,7 +93,7 @@ Before starting, you may want to have a look at SublimeAStyleFormatter.sublime-s
 To edit your project setting, select `Project/Edit Project` from main menu. A project setting contains
 per-project settings for SublimeAStyleFormatter should look like this:
 
-```json
+```javascript
 {
     "settings":
     {
@@ -107,12 +107,21 @@ per-project settings for SublimeAStyleFormatter should look like this:
 For example, if you don't want to inherit the default settings, instead, use your own astylerc file for
 C and C++ individually, then your project setting might look like this:
 
-```json
+```javascript
 {
+    // project folders, etc
+    // ...
+    // project settings
     "settings":
     {
         "AStyleFormatter":
         {
+            "options_default":
+            {
+                // Use 2 spaces for indentation
+                "indent": "spaces",
+                "indent-spaces": 2
+            },
             "options_c":
             {
                 "use_only_additional_options": true,
@@ -131,6 +140,12 @@ C and C++ individually, then your project setting might look like this:
 
 What's New
 -------------
+
+v2.0.2 (07/19/2013)
+
+* Less error-prone default options overriding (You don't need to duplicate whole
+  `options_defaut` section before customizing now, default options in `options_defaut`
+  section will be retrieved automatically).
 
 v2.0.1 (06/26/2013)
 

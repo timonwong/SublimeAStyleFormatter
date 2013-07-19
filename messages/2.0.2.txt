@@ -1,0 +1,6 @@
+SublimeAStyleFormatter 2.0.2 Changelog:
+
+
+* Less error-prone default options overriding (You don't need to duplicate whole
+  `options_defaut` section before customizing now, default options in `options_defaut`
+  section will be retrieved automatically).
