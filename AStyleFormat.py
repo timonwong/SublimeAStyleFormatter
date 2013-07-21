@@ -40,10 +40,20 @@ else:
 __file__ = os.path.normpath(os.path.abspath(__file__))
 __path__ = os.path.dirname(__file__)
 
+PLUGIN_NAME = "SublimeAStyleFormatter"
 LANGUAGE_RE = re.compile(r"(?<=source\.)[\w+#]+")
 
-with open(os.path.join(__path__, 'options_default.json')) as fp:
+with open(os.path.join(__path__, "options_default.json")) as fp:
     OPTIONS_DEFAULT = json.load(fp)
+
+
+def log(level, fmt, args):
+    s = PLUGIN_NAME + ": [" + level + "] " + (fmt.format(*args))
+    print(s)
+
+
+def log_debug(fmt, *args):
+    log("DEBUG", fmt, args)
 
 
 def get_setting_view(view, key, default=None):
@@ -56,7 +66,7 @@ def get_setting_view(view, key, default=None):
                 return proj_settings[key]
     except:
         pass
-    settings = sublime.load_settings("SublimeAStyleFormatter.sublime-settings")
+    settings = sublime.load_settings(PLUGIN_NAME + ".sublime-settings")
     return settings.get(key, default)
 
 
@@ -112,46 +122,63 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             return ""
         return ""
 
+    def join_options(self, options_list):
+        options_string = ""
+        first = True
+        for i, o in enumerate(options_list):
+            if len(o) == 0:
+                continue
+            if first:
+                options_string += o
+                first = False
+            else:
+                options_string += " " + o
+        return options_string
+
     def get_options(self, lang):
         lang_setting = self.get_lang_setting(lang)
-        basic_option = Options.get_basic_option_for_lang(lang) + " "
-
-        # First, check if user will use only additional options
-        if "use_only_additional_options" in lang_setting:
-            use_only_additional_options = lang_setting["use_only_additional_options"]
-        else:
-            use_only_additional_options = False
+        # --mode=xxx placed first
+        options_list = [Options.get_basic_option_for_lang(lang)]
 
         if "additional_options_file" in lang_setting:
-            lang_options_in_file = self.read_astylerc(lang_setting["additional_options_file"]) + " "
+            astylerc_string = self.read_astylerc(lang_setting["additional_options_file"])
         else:
-            lang_options_in_file = ""
+            astylerc_string = ""
 
-        try:
-            lang_options = " ".join(lang_setting["additional_options"]) + " " + lang_options_in_file
-        except:
-            lang_options = "" + lang_options_in_file
+        additional_options = " ".join(lang_setting.get("additional_options"))
+        options_list.append(additional_options)
+        options_list.append(astylerc_string)
 
+        # Check if user will use only additional options
         # Skip processing other options when "use_only_additional_options" is true
-        if use_only_additional_options:
-            return basic_option + lang_options
+        if lang_setting.get("use_only_additional_options", False):
+            return self.join_options(options_list)
 
         # Get default options
         default_setting = self.get_options_default()
         # Merge lang_setting with default_setting
         setting = default_setting.copy()
         setting.update(lang_setting)
-        options = Options.process_setting(setting)
-        return basic_option + lang_options + " ".join(options)
+        options = " ".join(Options.process_setting(setting))
+        options_list.insert(1, options)
+        return self.join_options(options_list)
 
     def run(self, edit, selection_only=False):
-        # Loading options
-        lang = get_language_in_view(self.view)
-        options = self.get_options(lang)
+        try:
+            # Loading options
+            lang = get_language_in_view(self.view)
+            options = self.get_options(lang)
+        except Options.RangeError as e:
+            sublime.error_message(str(e))
+            return
+        # Options ok, format now
         if selection_only:
             self.run_selection_only(edit, options)
         else:
             self.run_whole_file(edit, options)
+        if self.get_setting("debug", False):
+            log_debug("AStyle version: {0}", pyastyle.version())
+            log_debug("Options: " + options)
         sublime.status_message('AStyle (v%s) Formatted' % pyastyle.version())
 
     def run_selection_only(self, edit, options):
@@ -231,11 +258,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Replace to view
         _, err = merge_code(view, edit, code, formatted_code)
         if err:
-            sublime.error_message(
-                "%s: Merge failure: '%s'" % (
-                    'SublimeAStyleFormatter', err
-                )
-            )
+            sublime.error_message("%s: Merge failure: '%s'" % (PLUGIN_NAME, err))
 
     def is_enabled(self):
         return is_enabled_in_view(self.view)

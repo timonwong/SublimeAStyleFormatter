@@ -1,6 +1,9 @@
 {
     // NOTE: You should always edit options in user file, not this file.
 
+    // Print debug message
+    "debug": false,
+
     // Auto format on file save
     "autoformat_on_save": false,
 
@@ -74,6 +77,8 @@
         // will prevent continuation lines from extending too
         // far to the right. Setting a larger value will allow
         // the code to be extended further to the right.
+        //
+        // range: [40, 120]
         "max-instatement-indent": 40,
 
         // === Padding Options ===

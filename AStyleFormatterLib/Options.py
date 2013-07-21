@@ -25,6 +25,26 @@ from . import LANGUAGE_MODE_MAPPING
 __all__ = ["get_basic_option_for_lang", "process_setting"]
 
 
+class RangeError(Exception):
+    pass
+
+
+def ensure_value_range(option_name, value, minval=None, maxval=None):
+    new_value = value
+    # Clamp value when out of range
+    if value < minval:
+        new_value = minval
+    elif value > maxval:
+        new_value = maxval
+    # Good
+    if new_value == value:
+        return
+
+    minval_str = "-Inf" if minval is None else str(minval)
+    maxval_str = "+Inf" if maxval is None else str(maxval)
+    raise RangeError("{0} should between {1} and {2}".format(option_name, minval_str, maxval_str))
+
+
 def process_option_generic(options, option_name, value):
     if value and len(option_name) > 0:
         options.append("--{0}".format(option_name))
@@ -43,32 +63,31 @@ def process_option_style(options, option_name, value):
 
 
 def process_option_min_conditional_indent(options, option_name, value):
-    if option_name != "min-conditional-indent":
+    if option_name != "min-conditional-indent" or value is None:
         return options
-    if not value:
-        value = 2
+    ensure_value_range(option_name, value, minval=0, maxval=3)
     options.append("--min-conditional-indent={0}".format(value))
     return options
 
 
 def process_option_max_instatement_indent(options, option_name, value):
-    if option_name != "max-instatement-indent":
+    if option_name != "max-instatement-indent" or value is None:
         return options
-    if not value:
-        value = 40
+    ensure_value_range(option_name, value, minval=40, maxval=120)
     options.append("--max-instatement-indent={0}".format(value))
     return options
 
 
 def process_option_max_code_length(options, option_name, value):
-    if option_name != "max-code-length" or value == -1:
+    if option_name != "max-code-length" or value is None or value == -1:
         return options
+    ensure_value_range(option_name, value, minval=50, maxval=200)
     options.append("--max-code-length={0}".format(value))
     return options
 
 
 def process_option_break_blocks(options, option_name, value):
-    if option_name != "break-blocks" or value == "":
+    if option_name != "break-blocks" or value is None or value == "":
         return options
     if value == "default":
         options.append("--break-blocks")
@@ -102,6 +121,7 @@ def special_process_option_indent(options, option_name, indent_method, spaces):
         return options
     if not spaces:
         spaces = 4
+    ensure_value_range("indent=%s" % indent_method, spaces, 2, 20)
     options.append("--indent={0}={1}".format(indent_method, spaces))
     return options
 
