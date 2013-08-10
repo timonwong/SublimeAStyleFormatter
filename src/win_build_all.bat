@@ -80,7 +80,8 @@ cd ..
 
 if not exist %TARGET_DIR% mkdir %TARGET_DIR%
 copy /y %OUTPUT_FILE% %TARGET_DIR%
-echo "Finished building extension for Python %PY_VERSION% (%PY_32OR64%bit)"
+echo Finished building extension for Python %PY_VERSION% (%PY_32OR64%bit)
+echo.
 
 :buildExtensionReturn
 endlocal
