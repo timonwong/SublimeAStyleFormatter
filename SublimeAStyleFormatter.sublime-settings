@@ -202,46 +202,46 @@
         // Be sure your compiler supports this before making the changes.
         "close-templates": false,
 
-        // The option max‑code‑length will break a line if the code exceeds # characters.
+        // The option max-code-length will break a line if the code exceeds # characters.
         // The valid values are 50 thru 200. Lines without logical conditionals will
         // break on a logical conditional (||, &&, ...), comma, paren, semicolon, or space.
         //
         // Some code will not be broken, such as comments, quotes, and arrays.
-        // If used with keep‑one‑line‑blocks or add-one-line-brackets the blocks
-        // will NOT be broken. If used with keep‑one‑line‑statements the statements
+        // If used with keep-one-line-blocks or add-one-line-brackets the blocks
+        // will NOT be broken. If used with keep-one-line-statements the statements
         // will be broken at a semicolon if the line goes over the maximum length.
         // If there is no available break point within the max code length, the
         // line will be broken at the first available break point after the max code length.
         //
         // By default logical conditionals will be placed first on the new line.
-        // The option break‑after‑logical will cause the logical conditionals to be
-        // placed last on the previous line. This option has no effect without max‑code‑length.
+        // The option break-after-logical will cause the logical conditionals to be
+        // placed last on the previous line. This option has no effect without max-code-length.
         "max-code-length": -1,
         "break-after-logical": false,
 
         // == Objective-C Options ==
-        // Because of the longer indents sometimes needed for Objective‑C, the option
+        // Because of the longer indents sometimes needed for Objective-C, the option
         // "max-instatement-indent" may need to be increased. If you are not getting
         // the paren and square bracket alignment you want, try increasing this value.
 
-        // Align the colons in Objective‑C method declarations. This option is effective
-        // for Objective‑C files only.
+        // Align the colons in Objective-C method declarations. This option is effective
+        // for Objective-C files only.
         "align-method-colon": false,
 
-        // Insert space padding after the '-' or '+' Objective‑C method prefix. This will
+        // Insert space padding after the '-' or '+' Objective-C method prefix. This will
         // add exactly one space. Any additional spaces will be deleted. This option is
-        // effective for Objective‑C files only.
+        // effective for Objective-C files only.
         "pad-method-prefix": false,
 
-        // Remove all space padding after the '-' or '+' Objective‑C method prefix.
+        // Remove all space padding after the '-' or '+' Objective-C method prefix.
         // If used with pad-method-prefix, this option will be ignored. This option
-        // is effective for Objective‑C files only.
+        // is effective for Objective-C files only.
         "unpad-method-prefix": false,
 
-        // Add or remove space padding before or after the colons in an Objective‑C
+        // Add or remove space padding before or after the colons in an Objective-C
         // method call. These options will pad exactly one space. Any additional
         // spaces will be deleted. Colons immediarely preceeding a paren will not
-        // be padded. This option is effective for Objective‑C files only.
+        // be padded. This option is effective for Objective-C files only.
         //
         // Can be either "none", "all", "after" or "before"
         "pad-method-colon": "none"

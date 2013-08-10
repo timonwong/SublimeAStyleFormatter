@@ -4,5 +4,6 @@
     "description": "C/C++/C#/Java code formatter/beautifier with AStyle.",
     "author": "timonwong",
     "homepage": "http://timonwong.github.io/SublimeAStyleFormatter/",
+    "details": "https://github.com/timonwong/SublimeAStyleFormatter",
     "platforms": "*"
 }
