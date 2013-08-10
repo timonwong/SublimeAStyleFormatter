@@ -40,33 +40,33 @@ else:
 __file__ = os.path.normpath(os.path.abspath(__file__))
 __path__ = os.path.dirname(__file__)
 
-PLUGIN_NAME = "SublimeAStyleFormatter"
-LANGUAGE_RE = re.compile(r"(?<=source\.)[\w+#]+")
+PLUGIN_NAME = 'SublimeAStyleFormatter'
+LANGUAGE_RE = re.compile(r'(?<=source\.)[\w+#]+')
 
-with open(os.path.join(__path__, "options_default.json")) as fp:
+with open(os.path.join(__path__, 'options_default.json')) as fp:
     OPTIONS_DEFAULT = json.load(fp)
 
 
 def log(level, fmt, args):
-    s = PLUGIN_NAME + ": [" + level + "] " + (fmt.format(*args))
+    s = PLUGIN_NAME + ': [' + level + '] ' + (fmt.format(*args))
     print(s)
 
 
 def log_debug(fmt, *args):
-    log("DEBUG", fmt, args)
+    log('DEBUG', fmt, args)
 
 
 def get_setting_view(view, key, default=None):
     try:
         settings = view.settings()
-        sub_key = "AStyleFormatter"
+        sub_key = 'AStyleFormatter'
         if settings.has(sub_key):
             proj_settings = settings.get(sub_key)
             if key in proj_settings:
                 return proj_settings[key]
     except:
         pass
-    settings = sublime.load_settings(PLUGIN_NAME + ".sublime-settings")
+    settings = sublime.load_settings(PLUGIN_NAME + '.sublime-settings')
     return settings.get(key, default)
 
 
@@ -78,7 +78,7 @@ def get_language_in_view(view):
     caret = view.sel()[0].a
     language = LANGUAGE_RE.search(view.scope_name(caret))
     if language is None:
-        return ""
+        return ''
     return language.group(0).lower()
 
 
@@ -96,12 +96,12 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         return get_setting_view(self.view, key, default=default)
 
     def get_lang_setting(self, lang):
-        key = "options_%s" % lang
+        key = 'options_%s' % lang
         return get_setting_view(self.view, key, default={})
 
     def get_options_default(self):
         options_default = OPTIONS_DEFAULT.copy()
-        options_default_override = self.get_setting("options_default", default={})
+        options_default_override = self.get_setting('options_default', default={})
         options_default.update(options_default_override)
         return options_default
 
@@ -109,7 +109,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Expand environment variables first
         fullpath = os.path.expandvars(path)
         if not os.path.exists(fullpath) or not os.path.isfile(fullpath):
-            return ""
+            return ''
         try:
             skip_comment = re.compile(r'\s*\#')
             lines = []
@@ -117,13 +117,13 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                 for line in f:
                     if not skip_comment.match(line):
                         lines.append(line.strip())
-            return " ".join(lines)
+            return ' '.join(lines)
         except:
-            return ""
-        return ""
+            return ''
+        return ''
 
     def join_options(self, options_list):
-        options_string = ""
+        options_string = ''
         first = True
         for i, o in enumerate(options_list):
             if len(o) == 0:
@@ -132,7 +132,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                 options_string += o
                 first = False
             else:
-                options_string += " " + o
+                options_string += ' ' + o
         return options_string
 
     def get_options(self, lang):
@@ -140,18 +140,18 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # --mode=xxx placed first
         options_list = [Options.get_basic_option_for_lang(lang)]
 
-        if "additional_options_file" in lang_setting:
-            astylerc_string = self.read_astylerc(lang_setting["additional_options_file"])
+        if 'additional_options_file' in lang_setting:
+            astylerc_string = self.read_astylerc(lang_setting['additional_options_file'])
         else:
-            astylerc_string = ""
+            astylerc_string = ''
 
-        additional_options = " ".join(lang_setting.get("additional_options"))
+        additional_options = ' '.join(lang_setting.get('additional_options'))
         options_list.append(additional_options)
         options_list.append(astylerc_string)
 
         # Check if user will use only additional options
-        # Skip processing other options when "use_only_additional_options" is true
-        if lang_setting.get("use_only_additional_options", False):
+        # Skip processing other options when 'use_only_additional_options' is true
+        if lang_setting.get('use_only_additional_options', False):
             return self.join_options(options_list)
 
         # Get default options
@@ -159,7 +159,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Merge lang_setting with default_setting
         setting = default_setting.copy()
         setting.update(lang_setting)
-        options = " ".join(Options.process_setting(setting))
+        options = ' '.join(Options.process_setting(setting))
         options_list.insert(1, options)
         return self.join_options(options_list)
 
@@ -176,9 +176,9 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             self.run_selection_only(edit, options)
         else:
             self.run_whole_file(edit, options)
-        if self.get_setting("debug", False):
-            log_debug("AStyle version: {0}", pyastyle.version())
-            log_debug("Options: " + options)
+        if self.get_setting('debug', False):
+            log_debug('AStyle version: {0}', pyastyle.version())
+            log_debug('Options: ' + options)
         sublime.status_message('AStyle (v%s) Formatted' % pyastyle.version())
 
     def run_selection_only(self, edit, options):
@@ -235,7 +235,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                 formatted_code = re.sub(r'[ \t]*\n([^\r\n])', r'\1', formatted_code, 1)
             else:
                 # HACK: While no identation, a '{' will generate a blank line, so strip it.
-                search = "\n{"
+                search = '\n{'
                 if search not in text:
                     formatted_code = formatted_code.replace(search, '{', 1)
             # Applying formatted text
@@ -258,7 +258,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Replace to view
         _, err = merge_code(view, edit, code, formatted_code)
         if err:
-            sublime.error_message("%s: Merge failure: '%s'" % (PLUGIN_NAME, err))
+            sublime.error_message('%s: Merge failure: "%s"' % (PLUGIN_NAME, err))
 
     def is_enabled(self):
         return is_enabled_in_view(self.view)
