@@ -54,11 +54,11 @@ def process_option_generic(options, option_name, value):
 def process_option_style(options, option_name, value):
     if option_name != "style":
         return options
-    if not value in ["allman", "ansi", "bsd", "break", "java", "attach", "kr", "k&r", "k/r",
+    if not value in ("allman", "ansi", "bsd", "break", "java", "attach", "kr", "k&r", "k/r",
                      "stroustrup", "whitesmith", "banner", "gnu", "linux", "horstmann", "1tbs",
-                     "otbs", "pico", "lisp", "python"]:
+                     "otbs", "pico", "lisp", "python"):
         return options
-    options.append("--style={0}".format(value))
+    options.append("--{0}={1}".format(option_name, value))
     return options
 
 
@@ -66,7 +66,7 @@ def process_option_min_conditional_indent(options, option_name, value):
     if option_name != "min-conditional-indent" or value is None:
         return options
     ensure_value_range(option_name, value, minval=0, maxval=3)
-    options.append("--min-conditional-indent={0}".format(value))
+    options.append("--{0}={1}".format(option_name, value))
     return options
 
 
@@ -74,7 +74,7 @@ def process_option_max_instatement_indent(options, option_name, value):
     if option_name != "max-instatement-indent" or value is None:
         return options
     ensure_value_range(option_name, value, minval=40, maxval=120)
-    options.append("--max-instatement-indent={0}".format(value))
+    options.append("--{0}={1}".format(option_name, value))
     return options
 
 
@@ -82,7 +82,7 @@ def process_option_max_code_length(options, option_name, value):
     if option_name != "max-code-length" or value is None or value == -1:
         return options
     ensure_value_range(option_name, value, minval=50, maxval=200)
-    options.append("--max-code-length={0}".format(value))
+    options.append("--{0}={1}".format(option_name, value))
     return options
 
 
@@ -99,25 +99,34 @@ def process_option_break_blocks(options, option_name, value):
 def process_option_align_pointer(options, option_name, value):
     if option_name != "align-pointer":
         return options
-    if not value in ["type", "middle", "name"]:
+    if not value in ("type", "middle", "name"):
         return options
-    options.append("--align-pointer={0}".format(value))
+    options.append("--{0}={1}".format(option_name, value))
     return options
 
 
 def process_option_align_reference(options, option_name, value):
     if option_name != "align-reference":
         return options
-    if not value in ["none", "type", "middle", "name"]:
+    if not value in ("none", "type", "middle", "name"):
         return options
-    options.append("--align-reference={0}".format(value))
+    options.append("--{0}={1}".format(option_name, value))
+    return options
+
+
+def process_option_pad_method_colon(options, option_name, value):
+    if option_name != "pad-method-colon":
+        return options
+    if not value in ("none", "all", "after", "before"):
+        return options
+    options.append("--{0}={1}".format(option_name, value))
     return options
 
 
 def special_process_option_indent(options, option_name, indent_method, spaces):
     if option_name != "indent":
         return options
-    if not indent_method in ["spaces", "tab", "force-tab", "force-tab-x"]:
+    if not indent_method in ("spaces", "tab", "force-tab", "force-tab-x"):
         return options
     if not spaces:
         spaces = 4
@@ -158,7 +167,11 @@ g_setting_option_map = {
     "max-code-length":          process_option_max_code_length,
     "break-after-logical":      process_option_generic,
     "align-pointer":            process_option_align_pointer,
-    "align-reference":          process_option_align_reference
+    "align-reference":          process_option_align_reference,
+    "align-method-colon":       process_option_generic,
+    "pad-method-prefix":        process_option_generic,
+    "unpad-method-prefix":      process_option_generic,
+    "pad-method-colon":         process_option_pad_method_colon,
 }
 
 
@@ -173,9 +186,7 @@ def process_setting(setting):
     # Special indent option handling
     if "indent" in setting:
         indent_method = setting["indent"]
-        spaces = 4
-        if "indent-spaces" in setting:
-            spaces = setting["indent-spaces"]
+        spaces = setting.get("indent-spaces", 4)
         options = special_process_option_indent(options, "indent", indent_method, spaces)
     for option_name, function in g_setting_option_map.items():
         if not option_name in setting:
