@@ -27,6 +27,7 @@ LANGUAGE_MODE_MAPPING = {
     'objc++': 'c',
     'opencl': 'c',
     'cuda-c++': 'c',
+    'arduino': 'c',
     'java': 'java',
     'cs': 'cs',
     'pde': 'java',
