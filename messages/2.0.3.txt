@@ -1,0 +1,4 @@
+SublimeAStyleFormatter 2.0.3 Changelog:
+
+
+* Add Arduino files support.

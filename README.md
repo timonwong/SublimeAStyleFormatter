@@ -5,7 +5,7 @@ Description
 -----------
 
 SublimeAStyleFormatter is a simple code formatter plugin for Sublime Text.
-It provides ability to format C, C++, Cuda-C++, OpenCL, C#, and Java files.
+It provides ability to format C, C++, Cuda-C++, OpenCL, Arduino, C#, and Java files.
 
 **NOTE**: Syntax files required to be installed separately for Cuda-C++ and OpenCL.
 
@@ -140,6 +140,10 @@ C and C++ individually, then your project setting might look like this:
 
 What's New
 -------------
+
+v2.0.3 (10/28/2013)
+
+* Add Arduino files support.
 
 v2.0.2 (07/19/2013)
 
