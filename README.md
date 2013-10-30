@@ -141,6 +141,10 @@ C and C++ individually, then your project setting might look like this:
 What's New
 -------------
 
+v2.0.4 (10/30/2013)
+
+* Fix OSX and Linux pyastyle binaries.
+
 v2.0.3 (10/28/2013)
 
 * Add Arduino files support.

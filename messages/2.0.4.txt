@@ -1,0 +1,4 @@
+SublimeAStyleFormatter 2.0.4 Changelog:
+
+
+* Fix OSX and Linux pyastyle binaries.
