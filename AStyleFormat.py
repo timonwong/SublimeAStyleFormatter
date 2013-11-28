@@ -145,7 +145,11 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         else:
             astylerc_string = ''
 
-        additional_options = ' '.join(lang_setting.get('additional_options'))
+        if 'additional_options' in lang_setting:
+            additional_options = ' '.join(lang_setting['additional_options'])
+        else:
+            additional_options = ''
+
         options_list.append(additional_options)
         options_list.append(astylerc_string)
 
