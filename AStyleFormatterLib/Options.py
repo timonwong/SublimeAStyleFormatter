@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__all__ = ["get_syntax_formatting_mode", "process_setting"]
+__all__ = ["parse_mode_setting", "parse_setting"]
 
 
 class RangeError(Exception):
@@ -173,13 +173,13 @@ g_setting_option_map = {
 }
 
 
-def get_syntax_formatting_mode(syntax_mode_mapping, syntax):
-    if syntax not in syntax_mode_mapping:
-        return ""
-    return "--mode=" + syntax_mode_mapping[syntax]
+def parse_mode_setting(mode):
+    if not mode:
+        return ''
+    return '--mode=' + mode
 
 
-def process_setting(setting):
+def parse_setting(setting):
     options = []
     # Special indent option handling
     if "indent" in setting:

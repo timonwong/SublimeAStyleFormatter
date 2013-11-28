@@ -86,6 +86,10 @@ def get_syntax_for_view(view):
     return syntax.group(0).lower()
 
 
+def get_formatting_mode_for_syntax(syntax):
+    return get_syntax_mode_mapping().get(syntax, '')
+
+
 def is_supported_syntax(syntax):
     return syntax in get_syntax_mode_mapping()
 
@@ -99,9 +103,14 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
     def get_setting(self, key, default=None):
         return get_setting_for_view(self.view, key, default=default)
 
-    def get_syntax_setting(self, syntax):
-        key = 'options_%s' % syntax
-        return get_setting_for_view(self.view, key, default={})
+    def get_syntax_setting(self, syntax, formatting_mode):
+        key = 'options_%s' % formatting_mode
+        setting = get_setting_for_view(self.view, key, default={})
+        if syntax and syntax != formatting_mode:
+            key = 'options_%s' % syntax
+            setting_override = get_setting_for_view(self.view, key, default={})
+            setting.update(setting_override)
+        return setting
 
     def get_options_default(self):
         options_default = OPTIONS_DEFAULT.copy()
@@ -139,10 +148,10 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                 options_string += ' ' + o
         return options_string
 
-    def get_options(self, syntax):
-        syntax_setting = self.get_syntax_setting(syntax)
+    def get_options(self, syntax, formatting_mode):
+        syntax_setting = self.get_syntax_setting(syntax, formatting_mode)
         # --mode=xxx placed first
-        options_list = [Options.get_syntax_formatting_mode(get_syntax_mode_mapping(), syntax)]
+        options_list = [Options.parse_mode_setting(formatting_mode)]
 
         if 'additional_options_file' in syntax_setting:
             astylerc_string = self.read_astylerc(syntax_setting['additional_options_file'])
@@ -165,9 +174,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Get default options
         default_setting = self.get_options_default()
         # Merge syntax_setting with default_setting
-        setting = default_setting.copy()
-        setting.update(syntax_setting)
-        options = ' '.join(Options.process_setting(setting))
+        default_setting.update(syntax_setting)
+        options = ' '.join(Options.parse_setting(default_setting))
         options_list.insert(1, options)
         return self.join_options(options_list)
 
@@ -175,7 +183,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         try:
             # Loading options
             syntax = get_syntax_for_view(self.view)
-            options = self.get_options(syntax)
+            formatting_mode = get_formatting_mode_for_syntax(syntax)
+            options = self.get_options(syntax, formatting_mode)
         except Options.RangeError as e:
             sublime.error_message(str(e))
             return
