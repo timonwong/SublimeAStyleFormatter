@@ -28,9 +28,10 @@ LANGUAGE_MODE_MAPPING = {
     'opencl': 'c',
     'cuda-c++': 'c',
     'arduino': 'c',
-    'java': 'java',
     'cs': 'cs',
+    'java': 'java',
     'pde': 'java',
+    'apex': 'java',
 }
 
 SUPPORTED_LANGUAGES = set(LANGUAGE_MODE_MAPPING.keys())
