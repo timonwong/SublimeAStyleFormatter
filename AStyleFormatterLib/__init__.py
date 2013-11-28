@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-LANGUAGE_MODE_MAPPING = {
+SYNTAX_MODE_MAPPING = {
     'c': 'c',
     'c++': 'c',
     'objc': 'c',
@@ -34,4 +34,11 @@ LANGUAGE_MODE_MAPPING = {
     'apex': 'java',
 }
 
-SUPPORTED_LANGUAGES = set(LANGUAGE_MODE_MAPPING.keys())
+SUPPORTED_SYNTAXES = set(SYNTAX_MODE_MAPPING.keys())
+
+
+def get_syntax_mode_mapping(user_defined_syntax_mode_mapping=None):
+    mapping = SYNTAX_MODE_MAPPING.copy()
+    if user_defined_syntax_mode_mapping:
+        mapping.update(user_defined_syntax_mode_mapping)
+    return mapping

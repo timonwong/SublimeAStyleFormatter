@@ -29,11 +29,11 @@ import sys
 
 if sys.version_info < (3, 0):
     import pyastyle
-    from AStyleFormatterLib import SUPPORTED_LANGUAGES, Options
+    from AStyleFormatterLib import get_syntax_mode_mapping, Options
     from AStyleFormatterLib.MergeUtils import merge_code
 else:
     from . import pyastyle
-    from .AStyleFormatterLib import SUPPORTED_LANGUAGES, Options
+    from .AStyleFormatterLib import get_syntax_mode_mapping, Options
     from .AStyleFormatterLib.MergeUtils import merge_code
 
 
@@ -41,7 +41,7 @@ __file__ = os.path.normpath(os.path.abspath(__file__))
 __path__ = os.path.dirname(__file__)
 
 PLUGIN_NAME = 'SublimeAStyleFormatter'
-LANGUAGE_RE = re.compile(r'(?<=source\.)[\w+#]+')
+SYNTAX_RE = re.compile(r'(?<=source\.)[\w+#]+')
 
 with open(os.path.join(__path__, 'options_default.json')) as fp:
     OPTIONS_DEFAULT = json.load(fp)
@@ -56,7 +56,11 @@ def log_debug(fmt, *args):
     log('DEBUG', fmt, args)
 
 
-def get_setting_view(view, key, default=None):
+def load_settings():
+    return sublime.load_settings(PLUGIN_NAME + '.sublime-settings')
+
+
+def get_setting_for_view(view, key, default=None):
     try:
         settings = view.settings()
         sub_key = 'AStyleFormatter'
@@ -66,38 +70,38 @@ def get_setting_view(view, key, default=None):
                 return proj_settings[key]
     except:
         pass
-    settings = sublime.load_settings(PLUGIN_NAME + '.sublime-settings')
+    settings = load_settings()
     return settings.get(key, default)
 
 
 def get_setting_for_active_view(key, default=None):
-    return get_setting_view(sublime.active_window().active_view(), key, default)
+    return get_setting_for_view(sublime.active_window().active_view(), key, default)
 
 
-def get_language_in_view(view):
+def get_syntax_for_view(view):
     caret = view.sel()[0].a
-    language = LANGUAGE_RE.search(view.scope_name(caret))
-    if language is None:
+    syntax = SYNTAX_RE.search(view.scope_name(caret))
+    if syntax is None:
         return ''
-    return language.group(0).lower()
+    return syntax.group(0).lower()
 
 
-def is_supported_language(lang):
-    return lang in SUPPORTED_LANGUAGES
+def is_supported_syntax(syntax):
+    return syntax in get_syntax_mode_mapping()
 
 
 def is_enabled_in_view(view):
-    lang = get_language_in_view(view)
-    return is_supported_language(lang)
+    syntax = get_syntax_for_view(view)
+    return is_supported_syntax(syntax)
 
 
 class AstyleformatCommand(sublime_plugin.TextCommand):
     def get_setting(self, key, default=None):
-        return get_setting_view(self.view, key, default=default)
+        return get_setting_for_view(self.view, key, default=default)
 
-    def get_lang_setting(self, lang):
-        key = 'options_%s' % lang
-        return get_setting_view(self.view, key, default={})
+    def get_syntax_setting(self, syntax):
+        key = 'options_%s' % syntax
+        return get_setting_for_view(self.view, key, default={})
 
     def get_options_default(self):
         options_default = OPTIONS_DEFAULT.copy()
@@ -135,18 +139,18 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                 options_string += ' ' + o
         return options_string
 
-    def get_options(self, lang):
-        lang_setting = self.get_lang_setting(lang)
+    def get_options(self, syntax):
+        syntax_setting = self.get_syntax_setting(syntax)
         # --mode=xxx placed first
-        options_list = [Options.get_basic_option_for_lang(lang)]
+        options_list = [Options.get_syntax_formatting_mode(get_syntax_mode_mapping(), syntax)]
 
-        if 'additional_options_file' in lang_setting:
-            astylerc_string = self.read_astylerc(lang_setting['additional_options_file'])
+        if 'additional_options_file' in syntax_setting:
+            astylerc_string = self.read_astylerc(syntax_setting['additional_options_file'])
         else:
             astylerc_string = ''
 
-        if 'additional_options' in lang_setting:
-            additional_options = ' '.join(lang_setting['additional_options'])
+        if 'additional_options' in syntax_setting:
+            additional_options = ' '.join(syntax_setting['additional_options'])
         else:
             additional_options = ''
 
@@ -155,14 +159,14 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
         # Check if user will use only additional options
         # Skip processing other options when 'use_only_additional_options' is true
-        if lang_setting.get('use_only_additional_options', False):
+        if syntax_setting.get('use_only_additional_options', False):
             return self.join_options(options_list)
 
         # Get default options
         default_setting = self.get_options_default()
-        # Merge lang_setting with default_setting
+        # Merge syntax_setting with default_setting
         setting = default_setting.copy()
-        setting.update(lang_setting)
+        setting.update(syntax_setting)
         options = ' '.join(Options.process_setting(setting))
         options_list.insert(1, options)
         return self.join_options(options_list)
@@ -170,8 +174,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
     def run(self, edit, selection_only=False):
         try:
             # Loading options
-            lang = get_language_in_view(self.view)
-            options = self.get_options(lang)
+            syntax = get_syntax_for_view(self.view)
+            options = self.get_options(syntax)
         except Options.RangeError as e:
             sublime.error_message(str(e))
             return

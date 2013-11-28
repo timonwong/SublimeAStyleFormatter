@@ -7,6 +7,17 @@
     // Auto format on file save
     "autoformat_on_save": false,
 
+    // The mapping key is `syntax name`, and the value is `formatting mode`.
+    // Note that the value for each mapping should be "c", "java" or "cs".
+    "user_defined_syntax_mode_mapping": {
+        // For example:
+        /*
+        "arduino": "c",
+        "pde": "java",
+        "apex": "java"
+        */
+    },
+
     // Please visit http://astyle.sourceforge.net/astyle.html for more information
     "options_default": {
         // Default bracket style

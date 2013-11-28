@@ -20,9 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from . import LANGUAGE_MODE_MAPPING
-
-__all__ = ["get_basic_option_for_lang", "process_setting"]
+__all__ = ["get_syntax_formatting_mode", "process_setting"]
 
 
 class RangeError(Exception):
@@ -175,10 +173,10 @@ g_setting_option_map = {
 }
 
 
-def get_basic_option_for_lang(lang):
-    if lang not in LANGUAGE_MODE_MAPPING:
+def get_syntax_formatting_mode(syntax_mode_mapping, syntax):
+    if syntax not in syntax_mode_mapping:
         return ""
-    return "--mode=" + LANGUAGE_MODE_MAPPING[lang]
+    return "--mode=" + syntax_mode_mapping[syntax]
 
 
 def process_setting(setting):
