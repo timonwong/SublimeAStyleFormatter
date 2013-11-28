@@ -141,6 +141,12 @@ C and C++ individually, then your project setting might look like this:
 What's New
 -------------
 
+v2.0.5 (11/28/2013)
+
+* Fix plugin stop working while `additional_options` missing from user options.
+* Add `apex` syntax support.
+* Add new option: `user_defined_syntax_mode_mapping`.
+
 v2.0.4 (10/30/2013)
 
 * Fix OSX and Linux pyastyle binaries.

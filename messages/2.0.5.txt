@@ -1,0 +1,6 @@
+SublimeAStyleFormatter 2.0.5 Changelog:
+
+
+* Fix plugin stop working while `additional_options` missing from user options.
+* Add `apex` syntax support.
+* Add new option: `user_defined_syntax_mode_mapping`.

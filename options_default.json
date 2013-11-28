@@ -4,6 +4,7 @@
     "break-closing-brackets": false,
     "pad-paren-out": false,
     "pad-paren": false,
+    "unpad-method-prefix": false,
     "indent-switches": false,
     "close-templates": false,
     "indent-classes": false,
@@ -12,6 +13,7 @@
     "style": "ansi",
     "keep-one-line-blocks": false,
     "indent-labels": false,
+    "pad-method-colon": "none",
     "add-one-line-brackets": false,
     "fill-empty-lines": false,
     "max-code-length": -1,
@@ -32,5 +34,7 @@
     "add-brackets": false,
     "indent-col1-comments": true,
     "max-instatement-indent": 40,
+    "align-method-colon": false,
+    "pad-method-prefix": false,
     "pad-first-paren-out": false
 }
