@@ -80,7 +80,7 @@ The default key bindings for this plugin:
 
 ### Command Palette
 
-Open the command palette, it apperas as `SublimeAStyleFormatter: Format Current File` and
+Open the command palette, it appears as `SublimeAStyleFormatter: Format Current File` and
 `SublimeAStyleFormatter Format Current Selection`.
 
 Settings
