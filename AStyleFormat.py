@@ -86,24 +86,21 @@ def get_syntax_for_view(view):
     return syntax.group(0).lower()
 
 
-def get_formatting_mode_for_syntax(syntax):
-    return get_syntax_mode_mapping().get(syntax, '')
-
-
-def is_supported_syntax(syntax):
-    return syntax in get_syntax_mode_mapping()
+def is_supported_syntax(view, syntax):
+    mapping = get_setting_for_view(view, 'user_defined_syntax_mode_mapping', {})
+    return syntax in get_syntax_mode_mapping(mapping)
 
 
 def is_enabled_in_view(view):
     syntax = get_syntax_for_view(view)
-    return is_supported_syntax(syntax)
+    return is_supported_syntax(view, syntax)
 
 
 class AstyleformatCommand(sublime_plugin.TextCommand):
-    def get_setting(self, key, default=None):
+    def _get_setting(self, key, default=None):
         return get_setting_for_view(self.view, key, default=default)
 
-    def get_syntax_setting(self, syntax, formatting_mode):
+    def _get_syntax_setting(self, syntax, formatting_mode):
         key = 'options_%s' % formatting_mode
         setting = get_setting_for_view(self.view, key, default={})
         if syntax and syntax != formatting_mode:
@@ -112,13 +109,14 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             setting.update(setting_override)
         return setting
 
-    def get_options_default(self):
+    def _get_default_options(self):
         options_default = OPTIONS_DEFAULT.copy()
-        options_default_override = self.get_setting('options_default', default={})
+        options_default_override = self._get_setting('options_default', default={})
         options_default.update(options_default_override)
         return options_default
 
-    def read_astylerc(self, path):
+    @staticmethod
+    def _read_astylerc(path):
         # Expand environment variables first
         fullpath = os.path.expandvars(path)
         if not os.path.exists(fullpath) or not os.path.isfile(fullpath):
@@ -135,7 +133,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             return ''
         return ''
 
-    def join_options(self, options_list):
+    @staticmethod
+    def _join_options(options_list):
         options_string = ''
         first = True
         for i, o in enumerate(options_list):
@@ -149,12 +148,12 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         return options_string
 
     def get_options(self, syntax, formatting_mode):
-        syntax_setting = self.get_syntax_setting(syntax, formatting_mode)
+        syntax_setting = self._get_syntax_setting(syntax, formatting_mode)
         # --mode=xxx placed first
         options_list = [Options.parse_mode_setting(formatting_mode)]
 
         if 'additional_options_file' in syntax_setting:
-            astylerc_string = self.read_astylerc(syntax_setting['additional_options_file'])
+            astylerc_string = self._read_astylerc(syntax_setting['additional_options_file'])
         else:
             astylerc_string = ''
 
@@ -169,21 +168,27 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Check if user will use only additional options
         # Skip processing other options when 'use_only_additional_options' is true
         if syntax_setting.get('use_only_additional_options', False):
-            return self.join_options(options_list)
+            return self._join_options(options_list)
 
         # Get default options
-        default_setting = self.get_options_default()
+        default_setting = self._get_default_options()
         # Merge syntax_setting with default_setting
         default_setting.update(syntax_setting)
         options = ' '.join(Options.parse_setting(default_setting))
         options_list.insert(1, options)
-        return self.join_options(options_list)
+        return self._join_options(options_list)
+
+    def _get_formatting_mode(self, syntax):
+        mapping = get_setting_for_view(self.view,
+                                       'user_defined_syntax_mode_mapping',
+                                       {})
+        return get_syntax_mode_mapping(mapping).get(syntax, '')
 
     def run(self, edit, selection_only=False):
         try:
             # Loading options
             syntax = get_syntax_for_view(self.view)
-            formatting_mode = get_formatting_mode_for_syntax(syntax)
+            formatting_mode = self._get_formatting_mode(syntax)
             options = self.get_options(syntax, formatting_mode)
         except Options.RangeError as e:
             sublime.error_message(str(e))
@@ -193,7 +198,7 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             self.run_selection_only(edit, options)
         else:
             self.run_whole_file(edit, options)
-        if self.get_setting('debug', False):
+        if self._get_setting('debug', False):
             log_debug('AStyle version: {0}', pyastyle.version())
             log_debug('Options: ' + options)
         sublime.status_message('AStyle (v%s) Formatted' % pyastyle.version())
