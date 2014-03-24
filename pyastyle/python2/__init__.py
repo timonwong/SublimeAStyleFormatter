@@ -3,11 +3,11 @@ try:
     platform = "Local arch"
 except ImportError:
     try:
-        from ._linux_libcpp6_x86_64.pyastyle import *
+        from ._linux_x86_64.pyastyle import *
         platform = "Linux 64 bits"
     except ImportError:
         try:
-            from ._linux_libcpp6_x86.pyastyle import *
+            from ._linux_x86.pyastyle import *
             platform = "Linux 32 bits"
         except ImportError:
             try:
