@@ -23,13 +23,37 @@
         // Default bracket style
         // Can be either "allman", "ansi", "bsd", "break", "java", "attach", "kr", "k&r",
         // "k/r" "stroustrup", "whitesmith", "banner", "gnu", "linux", "horstmann",
-        // "1tbs", "otbs ", "pico", "lisp", "python", or ""
+        // "1tbs", "otbs ", "google", "pico", "lisp", "python", or ""
         "style": "ansi",
 
         // Tab options
         // Can be either "spaces", "tab" "force-tab" or "force-tab-x"
         "indent": "spaces",
         "indent-spaces": 4,
+
+        // === Bracket Modify Options ===
+        // Attach brackets to a namespace statement. This is done regardless of
+        // the bracket style being used.
+        "attach-namespaces": false,
+
+        // Attach brackets to a class statement. This is done regardless of the
+        // bracket style being used.
+        "attach-classes": false,
+
+        // Attach brackets to class and struct inline function definitions. This
+        // is not done for run-in type brackets (Horstmann and Pico styles). This
+        // option is effective for C++ files only.
+        "attach-inlines": false,
+
+        // Attach brackets to a bracketed extern "C" statement. This is done
+        // regardless of the bracket style being used. This option is effective
+        // for C++ files only.
+        //
+        // An extern "C" statement that is part of a function definition is
+        // formatted according to the requested bracket style. Bracketed extern
+        // "C" statements are unaffected by the bracket style and this option is
+        // the only way to change them.
+        "attach-extern-c": false,
 
         // === Indentation Options ===
 
@@ -38,6 +62,12 @@
         // indented only if an access modifier is declared somewhere in the
         // struct. The entire block is indented. This option is effective for C++ files only.
         "indent-classes": false,
+
+        // Indent 'class' and 'struct' access modifiers, 'public:', 'protected:'
+        // and 'private:', one half indent. The rest of the class is not indented.
+        // This option is effective for C++ files only. If used with indent‑classes
+        // this option will be ignored.
+        "indent-modifiers": false,
 
         // Indent 'switch' blocks so that the 'case X:' statements are indented
         // in the switch block. The entire case block is indented.
@@ -59,7 +89,11 @@
         // Should be used with `convert-tabs` for proper results. Does a pretty
         // good job, but cannot perform miracles in obfuscated preprocessor
         // definitions. Without this option the preprocessor statements remain unchanged.
-        "indent-preprocessor": true,
+        "indent-preproc-define": true,
+
+        // Indent preprocessor conditional statements to the same level as the
+        // source code.
+        "indent-preproc-cond": false,
 
         // Indent C++ comments beginning in column one. By default C++ comments
         // beginning in column one are not indented. This option will allow the
@@ -196,6 +230,13 @@
         // The option implies `keep-one-line-blocks` and will not break the one line blocks.
         "add-one-line-brackets": false,
 
+        // Remove brackets from conditional statements (e.g. 'if', 'for', 'while'...).
+        // The statement must be a single statement on a single line. If
+        // --add-brackets or --add-one-line-brackets is also used the result will
+        // be to add brackets. Brackets will not be removed from
+        // "One True Brace Style", --style=1tbs.
+        "remove-brackets": false,
+
         // Don't break one-line blocks.
         "keep-one-line-blocks": false,
 
@@ -212,6 +253,16 @@
         // the ending angle brackets is now allowed by the C++11 standard.
         // Be sure your compiler supports this before making the changes.
         "close-templates": false,
+
+        // Remove the preceding '*' in a multi-line comment that begins a line.
+        // A trailing '*', if present, is also removed. Text that is less than one
+        // is indent is indented to one indent. Text greater than one indent is
+        // not changed. Multi-line comments that begin a line but without the
+        // preceding '*' are indented to one indent for consistency. This can
+        // slightly modify the indentation of commented out blocks of code.
+        // Lines containing all '*' are left unchanged. Extra spacing is removed
+        // from the comment close '*/'.
+        "remove-comment-prefix": false,
 
         // The option max-code-length will break a line if the code exceeds # characters.
         // The valid values are 50 thru 200. Lines without logical conditionals will

@@ -54,7 +54,7 @@ def process_option_style(options, option_name, value):
         return options
     if not value in ("allman", "ansi", "bsd", "break", "java", "attach", "kr", "k&r", "k/r",
                      "stroustrup", "whitesmith", "banner", "gnu", "linux", "horstmann", "1tbs",
-                     "otbs", "pico", "lisp", "python"):
+                     "otbs", "python", "pico", "lisp", "python"):
         return options
     options.append("--{0}={1}".format(option_name, value))
     return options
@@ -136,12 +136,19 @@ def special_process_option_indent(options, option_name, indent_method, spaces):
 g_setting_option_map = {
     "style":                    process_option_style,
     "indent-classes":           process_option_generic,
+    "indent-modifiers":         process_option_generic,
     "indent-switches":          process_option_generic,
     "indent-cases":             process_option_generic,
     "indent-namespaces":        process_option_generic,
     "indent-labels":            process_option_generic,
     "indent-preprocessor":      process_option_generic,
+    "indent-preproc-define":    process_option_generic,
+    "indent-preproc-cond":      process_option_generic,
     "indent-col1-comments":     process_option_generic,
+    "attach-namespaces":        process_option_generic,
+    "attach-classes":           process_option_generic,
+    "attach-inlines":           process_option_generic,
+    "attach-extern-c":          process_option_generic,
     "min-conditional-indent":   process_option_min_conditional_indent,
     "max-instatement-indent":   process_option_max_instatement_indent,
     "break-blocks":             process_option_break_blocks,
@@ -157,11 +164,13 @@ g_setting_option_map = {
     "break-closing-brackets":   process_option_generic,
     "break-elseifs":            process_option_generic,
     "add-brackets":             process_option_generic,
+    "remove-brackets":          process_option_generic,
     "add-one-line-brackets":    process_option_generic,
     "keep-one-line-blocks":     process_option_generic,
     "keep-one-line-statements": process_option_generic,
     "convert-tabs":             process_option_generic,
     "close-templates":          process_option_generic,
+    "remove-comment-prefix":    process_option_generic,
     "max-code-length":          process_option_max_code_length,
     "break-after-logical":      process_option_generic,
     "align-pointer":            process_option_align_pointer,
