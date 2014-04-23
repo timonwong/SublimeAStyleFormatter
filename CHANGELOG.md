@@ -1,6 +1,6 @@
-v2.1.0 (TBD/2014)
+v2.1.0 (04/23/2014)
 
-* Upgrade astyle: v2.04.
+* Upgrade astyle binary to v2.04.
 * Fix unfunctional `user_defined_syntax_mode_mapping` option.
 * Fix wrong user keymap setting file location.
 

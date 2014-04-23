@@ -1,6 +1,6 @@
 SublimeAStyleFormatter 2.1.0 Changelog:
 
 
-* Upgrade astyle: v2.04.
+* Upgrade astyle binary to v2.04.
 * Fix unfunctional `user_defined_syntax_mode_mapping` option.
 * Fix wrong user keymap setting file location.
