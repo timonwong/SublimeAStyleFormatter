@@ -118,7 +118,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
     @staticmethod
     def _read_astylerc(path):
         # Expand environment variables first
-        fullpath = os.path.expandvars(path)
+        project_path = os.path.dirname(sublime.active_window().project_file_name())
+        fullpath = os.path.expandvars(path).replace('$project_path', project_path)
         if not os.path.exists(fullpath) or not os.path.isfile(fullpath):
             return ''
         try:
