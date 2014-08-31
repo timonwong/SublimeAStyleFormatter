@@ -48,13 +48,16 @@ def process_option_generic(options, option_name, value):
         options.append("--{0}".format(option_name))
     return options
 
+STYLE_OPTIONS = set([
+    "allman", "ansi", "bsd", "break", "java", "attach", "kr", "k&r", "k/r",
+    "stroustrup", "whitesmith", "banner", "gnu", "linux", "horstmann", "1tbs",
+    "otbs", "google", "pico", "lisp", "python"])
+
 
 def process_option_style(options, option_name, value):
     if option_name != "style":
         return options
-    if not value in ("allman", "ansi", "bsd", "break", "java", "attach", "kr", "k&r", "k/r",
-                     "stroustrup", "whitesmith", "banner", "gnu", "linux", "horstmann", "1tbs",
-                     "otbs", "python", "pico", "lisp", "python"):
+    if not value in STYLE_OPTIONS:
         return options
     options.append("--{0}={1}".format(option_name, value))
     return options
