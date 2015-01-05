@@ -144,7 +144,6 @@ g_setting_option_map = {
     "indent-cases":             process_option_generic,
     "indent-namespaces":        process_option_generic,
     "indent-labels":            process_option_generic,
-    "indent-preprocessor":      process_option_generic,
     "indent-preproc-define":    process_option_generic,
     "indent-preproc-cond":      process_option_generic,
     "indent-col1-comments":     process_option_generic,
