@@ -85,6 +85,13 @@
         // current indentation, rather than being flushed to the left (the default).
         "indent-labels": false,
 
+        // Indent preprocessor blocks at bracket level zero, and immediately within 
+        // a namespace. There are restrictions on what will be indented. Blocks 
+        // within methods, classes, arrays, etc, will not be indented. Blocks 
+        // containing brackets or multi-line define statements will not be indented. 
+        // Without this option the preprocessor block is not indented.
+        "indent-preproc-block": false,
+
         // Indent multi-line preprocessor definitions ending with a backslash.
         // Should be used with `convert-tabs` for proper results. Does a pretty
         // good job, but cannot perform miracles in obfuscated preprocessor

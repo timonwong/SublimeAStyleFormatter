@@ -32,6 +32,7 @@
     "indent-namespaces": false,
     "convert-tabs": true,
     "add-brackets": false,
+    "indent-preproc-block": false,
     "indent-col1-comments": true,
     "max-instatement-indent": 40,
     "align-method-colon": false,

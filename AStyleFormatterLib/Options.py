@@ -1,5 +1,5 @@
 """
-Copyright (c) 2012 Timon Wong
+Copyright (c) 2012-2015 Timon Wong
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -144,6 +144,7 @@ g_setting_option_map = {
     "indent-cases":             process_option_generic,
     "indent-namespaces":        process_option_generic,
     "indent-labels":            process_option_generic,
+    "indent-preproc-block":     process_option_generic,
     "indent-preproc-define":    process_option_generic,
     "indent-preproc-cond":      process_option_generic,
     "indent-col1-comments":     process_option_generic,
