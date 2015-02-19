@@ -60,6 +60,33 @@ def load_settings():
     return sublime.load_settings(PLUGIN_NAME + '.sublime-settings')
 
 
+_VARPROG_RE = re.compile(r'\$(\w+|\{[^}]*\})')
+
+
+def custom_expandvars(path, custom_envs):
+    if '$' not in path:
+        return path
+    envs = custom_envs.copy()
+    envs.update(os.environ)
+    i = 0
+    while True:
+        m = _VARPROG_RE.search(path, i)
+        if not m:
+            break
+        i, j = m.span(0)
+        name = m.group(1)
+        if name.startswith('{') and name.endswith('}'):
+            name = name[1:-1]
+        if name in envs:
+            tail = path[j:]
+            path = path[:i] + envs[name]
+            i = len(path)
+            path += tail
+        else:
+            i = j
+    return path
+
+
 def get_settings_for_view(view, key, default=None):
     try:
         settings = view.settings()
@@ -121,17 +148,45 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     _SKIP_COMMENT_RE = re.compile(r'\s*\#')
 
-    @classmethod
-    def _read_astylerc(cls, path):
+    def _build_custom_vars(self):
+        view = self.view
+        full_path = view.file_name()
+        file_name = os.path.basename(full_path)
+        file_base_name, file_extension = os.path.splitext(file_name)
+        custom_vars = {
+            'file_path': os.path.dirname(full_path),
+            'file': full_path,
+            'file_name': file_name,
+            'file_extension': file_extension,
+            'file_base_name': file_base_name,
+            'packages': sublime.packages_path(),
+        }
+        if sublime.version() > '3000':
+            window = view.window()
+            project_file_name = window.project_file_name()
+            if project_file_name:
+                project_name = os.path.basename(project_file_name)
+                project_base_name, project_extension = os.path.splitext(
+                    project_name)
+                custom_vars.update({
+                    'project': project_file_name,
+                    'project_path': os.path.dirname(project_file_name),
+                    'project_name': project_name,
+                    'project_extension': project_extension,
+                    'project_base_name': project_base_name,
+                })
+        return custom_vars
+
+    def _read_astylerc(self, path):
         # Expand environment variables first
-        fullpath = os.path.expandvars(path)
-        if not os.path.exists(fullpath) or not os.path.isfile(fullpath):
+        fullpath = custom_expandvars(path, self._build_custom_vars())
+        if not os.path.isfile(fullpath):
             return ''
         try:
             lines = []
             with open(fullpath, 'r') as f:
                 for line in f:
-                    if not cls._SKIP_COMMENT_RE.match(line):
+                    if not self._SKIP_COMMENT_RE.match(line):
                         lines.append(line.strip())
             return ' '.join(lines)
         except Exception:
