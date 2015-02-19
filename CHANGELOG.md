@@ -1,3 +1,14 @@
+v3.0.0 (TBD/2015)
+
+* Upgrade astyle binary to v2.05.1.
+* Improper configuration settings will raise errors now.
+* Fix missing "google" style option.
+* Remove "ansi" style option because it's deprecated in astyle v2.05.
+* Remove "indent-preprocessor" option because it was deprecated in astyle v2.04.
+* Add "indent-preproc-block" option (introduced in astyle v2.05).
+* Add more expanded variables for reaching astylerc file (see `SublimeAStyleFormatter.sublime-settings` for more details, in `additional_options_file`).
+
+
 v2.1.0 (04/23/2014)
 
 * Upgrade astyle binary to v2.04.
