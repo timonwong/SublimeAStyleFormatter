@@ -88,16 +88,17 @@ fi
 
 target_folder="../pyastyle/python${python_ver}/${pkg_folder}"
 
-(echo "Building pyastyle to python${python_ver}/${pkg_folder}..." && \
+(echo "Building pyastyle..." && \
 	cd "${SCRIPTPATH}/pyastyle" && \
 	${python_bin} setup.py build && \
 	cd "${SCRIPTPATH}"
 ) && \
 mkdir -p "${target_folder}" && \
-find . -type f -name "pyastyle.so" -o -name "pyastyle.*.so" -exec cp {} "${target_folder}" \; && \
+echo "Copying binary to ${target_folder}..." && \
+find "${SCRIPTPATH}/pyastyle/build" -type f '(' -name "pyastyle.so" -o -name "pyastyle.*.so" ')' -exec cp {} "${target_folder}" \; && \
 
 reset && \
 echo "Done!" || \
 echo "Build Failed!${ERR}"
 
-strip "${target_folder}/*.so" > /dev/null 2>&1
+strip "${target_folder}"/*.so > /dev/null 2>&1
