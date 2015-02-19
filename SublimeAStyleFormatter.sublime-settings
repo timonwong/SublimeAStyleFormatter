@@ -21,10 +21,10 @@
     // Please visit http://astyle.sourceforge.net/astyle.html for more information
     "options_default": {
         // Default bracket style
-        // Can be either "allman", "ansi", "bsd", "break", "java", "attach", "kr", "k&r",
+        // Can be one of "allman", "bsd", "break", "java", "attach", "kr", "k&r",
         // "k/r" "stroustrup", "whitesmith", "banner", "gnu", "linux", "horstmann",
-        // "1tbs", "otbs ", "google", "pico", "lisp", "python", or ""
-        "style": "ansi",
+        // "1tbs", "otbs ", "google", "pico", "lisp", "python", "vtk", or null
+        "style": null,
 
         // Tab options
         // Can be either "spaces", "tab" "force-tab" or "force-tab-x"

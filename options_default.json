@@ -10,7 +10,7 @@
     "indent-classes": false,
     "break-after-logical": false,
     "align-reference": "name",
-    "style": "ansi",
+    "style": null,
     "keep-one-line-blocks": false,
     "indent-labels": false,
     "pad-method-colon": "none",
