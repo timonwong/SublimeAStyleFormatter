@@ -119,23 +119,23 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         options_default.update(options_default_override)
         return options_default
 
-    @staticmethod
-    def _read_astylerc(path):
+    _SKIP_COMMENT_RE = re.compile(r'\s*\#')
+
+    @classmethod
+    def _read_astylerc(cls, path):
         # Expand environment variables first
         fullpath = os.path.expandvars(path)
         if not os.path.exists(fullpath) or not os.path.isfile(fullpath):
             return ''
         try:
-            skip_comment = re.compile(r'\s*\#')
             lines = []
             with open(fullpath, 'r') as f:
                 for line in f:
-                    if not skip_comment.match(line):
+                    if not cls._SKIP_COMMENT_RE.match(line):
                         lines.append(line.strip())
             return ' '.join(lines)
-        except:
+        except Exception:
             return ''
-        return ''
 
     @staticmethod
     def _join_options(options_list):
@@ -209,6 +209,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             log_debug('AStyle options: ' + options)
         sublime.status_message('AStyle (v%s) Formatted' % pyastyle.version())
 
+    _STRIP_LEADING_SPACES_RE = re.compile(r'[ \t]*\n([^\r\n])')
+
     def run_selection_only(self, edit, options):
         def get_line_indentation_pos(view, point):
             line_region = view.line(point)
@@ -261,8 +263,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                 for _ in range(indent_count):
                     index = formatted_code.find('{') + 1
                     formatted_code = formatted_code[index:]
-                formatted_code = re.sub(
-                    r'[ \t]*\n([^\r\n])', r'\1', formatted_code, 1)
+                formatted_code = self._STRIP_LEADING_SPACES_RE.sub(
+                    r'\1', formatted_code, 1)
             else:
                 # HACK: While no identation, a '{' will generate a blank line,
                 # so strip it.
