@@ -58,5 +58,5 @@ def json_minify(json, strip_space=True):
 import json
 s = json_minify(open('SublimeAStyleFormatter.sublime-settings').read())
 json_obj = json.loads(s)
-options_default_s = json.dumps(json_obj['options_default'], indent=4, separators=(',', ': '))
+options_default_s = json.dumps(json_obj['options_default'], indent=4, separators=(',', ': '), sort_keys=True)
 open('options_default.json', 'w').write(options_default_s)

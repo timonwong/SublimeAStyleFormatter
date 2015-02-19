@@ -27,9 +27,15 @@
         "style": null,
 
         // Tab options
-        // Can be either "spaces", "tab" "force-tab" or "force-tab-x"
-        "indent": "spaces",
-        "indent-spaces": 4,
+        // "indent": Can be one of "spaces", "tab" "force-tab", "force-tab-x", or null
+        // "indent-spaces": Can be either null or numbers
+        //
+        // While both "indent" or "indent-spaces" are null (default), the indentation options
+        // will be retrieved from Sublime Text view settings: `tab_size`, `translate_tabs_to_spaces`:
+        //   1. If `translate_tabs_to_spaces` is true, "indent" will be "spaces", otherwise, "tab";
+        //   2. "indent-spaces" will equal to `tab_size`.
+        "indent": null,
+        "indent-spaces": null,
 
         // === Bracket Modify Options ===
         // Attach brackets to a namespace statement. This is done regardless of
@@ -135,13 +141,13 @@
 
         // === Padding Options ===
 
-        // ""        - Do nothing
+        // null      - Do nothing
         // "default" - Pad empty lines around header blocks (e.g. 'if',
         //              'for', 'while'...).
         // "all"     - Pad empty lines around header blocks (e.g. 'if',
         //              'for', 'while'...). Treat closing header blocks
         //              (e.g. 'else', 'catch') as stand-alone blocks.
-        "break-blocks": "",
+        "break-blocks": null,
 
         // Insert space padding around operators. Any end of line comments
         // will remain in the original column, if possible. Note that there
@@ -200,7 +206,7 @@
         // or variable name (right), or place it between the type and name (middle).
         // The spacing between the type and name will be preserved, if possible. To format
         // references separately use the following `align-reference` option.
-        // can be either "", "type", "middle" or "name"
+        // can be one of null, "type", "middle" or "name"
         "align-pointer": "name",
 
         // This option will align references separate from pointers. Pointers are not changed
@@ -209,7 +215,7 @@
         // the reference alignment. The other options are the same as for `align-pointer`.
         // In the case of a reference to a pointer (*&) with conflicting alignments, the
         // `align-pointer` value will be used.
-        // can be either "none", "type", "middle", "name"
+        // can be one of "none", "type", "middle", "name"
         "align-reference": "name",
 
         // === Formatting Options ===
@@ -312,7 +318,7 @@
         // spaces will be deleted. Colons immediarely preceeding a paren will not
         // be padded. This option is effective for Objective-C files only.
         //
-        // Can be either "none", "all", "after" or "before"
+        // Can be one of "none", "all", "after" or "before"
         "pad-method-colon": "none"
     },
 

@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__all__ = ["parse_mode_setting", "parse_setting"]
+__all__ = ["build_astyle_mode_option", "build_astyle_options"]
 
 
 class RangeError(Exception):
@@ -40,7 +40,8 @@ def ensure_value_range(option_name, value, minval=None, maxval=None):
 
     minval_str = "-Inf" if minval is None else str(minval)
     maxval_str = "+Inf" if maxval is None else str(maxval)
-    raise RangeError("{0} should between {1} and {2}".format(option_name, minval_str, maxval_str))
+    raise RangeError("{0} should between {1} and {2}".format(
+        option_name, minval_str, maxval_str))
 
 
 def process_option_generic(options, option_name, value):
@@ -55,16 +56,17 @@ STYLE_OPTIONS = set([
 
 
 def process_option_style(options, option_name, value):
-    if option_name != "style":
+    assert option_name == "style"
+    if not value:
         return options
-    if not value in STYLE_OPTIONS:
-        return options
+    assert value in STYLE_OPTIONS
     options.append("--{0}={1}".format(option_name, value))
     return options
 
 
 def process_option_min_conditional_indent(options, option_name, value):
-    if option_name != "min-conditional-indent" or value is None:
+    assert option_name == "min-conditional-indent"
+    if value is None:
         return options
     ensure_value_range(option_name, value, minval=0, maxval=3)
     options.append("--{0}={1}".format(option_name, value))
@@ -72,7 +74,8 @@ def process_option_min_conditional_indent(options, option_name, value):
 
 
 def process_option_max_instatement_indent(options, option_name, value):
-    if option_name != "max-instatement-indent" or value is None:
+    assert option_name == "max-instatement-indent"
+    if value is None:
         return options
     ensure_value_range(option_name, value, minval=40, maxval=120)
     options.append("--{0}={1}".format(option_name, value))
@@ -80,7 +83,8 @@ def process_option_max_instatement_indent(options, option_name, value):
 
 
 def process_option_max_code_length(options, option_name, value):
-    if option_name != "max-code-length" or value is None or value == -1:
+    assert option_name == "max-code-length"
+    if value is None or value == -1:
         return options
     ensure_value_range(option_name, value, minval=50, maxval=200)
     options.append("--{0}={1}".format(option_name, value))
@@ -88,8 +92,10 @@ def process_option_max_code_length(options, option_name, value):
 
 
 def process_option_break_blocks(options, option_name, value):
-    if option_name != "break-blocks" or value is None or value == "":
+    assert option_name == "break-blocks"
+    if not value:
         return options
+    assert value in ("default", "all")
     if value == "default":
         options.append("--break-blocks")
     elif value == "all":
@@ -98,45 +104,33 @@ def process_option_break_blocks(options, option_name, value):
 
 
 def process_option_align_pointer(options, option_name, value):
-    if option_name != "align-pointer":
+    assert option_name == "align-pointer"
+    if not value:
         return options
-    if not value in ("type", "middle", "name"):
-        return options
+    assert value in ("type", "middle", "name")
     options.append("--{0}={1}".format(option_name, value))
     return options
 
 
 def process_option_align_reference(options, option_name, value):
-    if option_name != "align-reference":
+    assert option_name == "align-reference"
+    if not value:
         return options
-    if not value in ("none", "type", "middle", "name"):
-        return options
+    assert value in ("none", "type", "middle", "name")
     options.append("--{0}={1}".format(option_name, value))
     return options
 
 
 def process_option_pad_method_colon(options, option_name, value):
-    if option_name != "pad-method-colon":
+    assert option_name == "pad-method-colon"
+    if not value:
         return options
-    if not value in ("none", "all", "after", "before"):
-        return options
+    assert value in ("none", "all", "after", "before")
     options.append("--{0}={1}".format(option_name, value))
     return options
 
 
-def special_process_option_indent(options, option_name, indent_method, spaces):
-    if option_name != "indent":
-        return options
-    if not indent_method in ("spaces", "tab", "force-tab", "force-tab-x"):
-        return options
-    if not spaces:
-        spaces = 4
-    ensure_value_range("indent=%s" % indent_method, spaces, 2, 20)
-    options.append("--indent={0}={1}".format(indent_method, spaces))
-    return options
-
-
-g_setting_option_map = {
+OPTION_PROCESSOR_MAP = {
     "style":                    process_option_style,
     "indent-classes":           process_option_generic,
     "indent-modifiers":         process_option_generic,
@@ -185,22 +179,35 @@ g_setting_option_map = {
 }
 
 
-def parse_mode_setting(mode):
+def build_astyle_mode_option(mode):
     if not mode:
         return ''
     return '--mode=' + mode
 
 
-def parse_setting(setting):
+def special_process_option_indent(options, indent_method, spaces):
+    if not indent_method:
+        return options
+    assert indent_method in ("spaces", "tab", "force-tab", "force-tab-x")
+    option = '--indent={0}'.format(indent_method)
+    if spaces is not None:
+        ensure_value_range("indent=%s" % indent_method, spaces, 2, 20)
+        option += '={0}'.format(spaces)
+    options.append(option)
+    return options
+
+
+def build_astyle_options(settings, indent_options):
     options = []
     # Special indent option handling
-    if "indent" in setting:
-        indent_method = setting["indent"]
-        spaces = setting.get("indent-spaces", 4)
-        options = special_process_option_indent(options, "indent", indent_method, spaces)
-    for option_name, function in g_setting_option_map.items():
-        if not option_name in setting:
+    if not settings['indent'] and not settings['indent-spaces']:
+        settings['indent'] = indent_options['indent']
+        settings['indent-spaces'] = indent_options['spaces']
+    options = special_process_option_indent(
+        options, settings["indent"], settings.get("indent-spaces"))
+    for option_name, function in OPTION_PROCESSOR_MAP.items():
+        if option_name not in settings:
             continue
-        value = setting[option_name]
+        value = settings[option_name]
         options = function(options, option_name, value)
     return options
