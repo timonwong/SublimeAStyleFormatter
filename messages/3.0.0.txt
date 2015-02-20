@@ -1,9 +1,9 @@
 SublimeAStyleFormatter 3.0.0 Changelog:
 
 
-NOTE: You may have to restart Sublime Text upon upgrade.
+NOTE: A Sublime Text restart may be required upon this upgrade.
 NOTE: Since "ansi" style is removed, you have to update your settings.
-NOTE: Since current version will validate you settings, if anything is broken, you may want to bring up the console to see why.
+NOTE: Since current version will validate your settings, if anything is broken, you may want to bring up the console to see why.
 
 
 * Upgrade astyle binary to v2.05.1.
@@ -13,4 +13,3 @@ NOTE: Since current version will validate you settings, if anything is broken, y
 * Remove "indent-preprocessor" option because it was deprecated in astyle v2.04.
 * Add "indent-preproc-block" option (introduced in astyle v2.05).
 * Add more expanded variables for reaching astylerc file (see `SublimeAStyleFormatter.sublime-settings` for more details, in `additional_options_file`).
-
