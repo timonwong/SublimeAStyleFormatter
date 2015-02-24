@@ -50,7 +50,7 @@ def process_option_generic(options, option_name, value):
     return options
 
 STYLE_OPTIONS = set([
-    "allman", "bsd", "break", "java", "attach", "kr", "k&r", "k/r",
+    "ansi","allman", "bsd", "break", "java", "attach", "kr", "k&r", "k/r",
     "stroustrup", "whitesmith", "banner", "gnu", "linux", "horstmann", "1tbs",
     "otbs", "google", "pico", "lisp", "python", "vtk"])
 
