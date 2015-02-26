@@ -1,3 +1,14 @@
+v3.1.0 (TBD)
+
+* The following default options were changed, according to *Artistic Style* defaults:
+    * `indent-preproc-define`: `true` -> `false`
+    * `indent-col1-comments`: `true` -> `false`
+    * `align-pointer`: `"name"` -> "not set" (Use *Artistic Style* defaults, which is "no change")
+    * `align-reference`: `"name"` -> "not set" (Use *Artistic Style* defaults, which is "same as `align-pointer`")
+    * `keep-one-line-blocks`: `false` -> `true`
+* Now an output panel with user-friendly error message will show if anything goes wrong.
+* Remove `convert-tabs` option, because it's duplicated with Sublime Text's `translate_tabs_to_spaces` setting.
+
 v3.0.0 (02/20/2015)
 
 * Upgrade astyle binary to v2.05.1.
