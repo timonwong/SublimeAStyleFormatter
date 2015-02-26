@@ -1,0 +1,24 @@
+os:
+  - linux
+  - osx
+
+env:
+  global:
+    - PACKAGE="SublimeAStyleFormatter"
+  matrix:
+    - SUBLIME_TEXT_VERSION="2"
+    - SUBLIME_TEXT_VERSION="3"
+
+before_install:
+  - curl -OL https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/travis.sh
+
+install:
+  - sh travis.sh bootstrap
+
+script:
+  - sh travis.sh run_tests
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
