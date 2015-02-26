@@ -24,6 +24,7 @@
         // Can be one of "allman", "bsd", "break", "java", "attach", "kr", "k&r",
         // "k/r" "stroustrup", "whitesmith", "banner", "gnu", "linux", "horstmann",
         // "1tbs", "otbs ", "google", "pico", "lisp", "python", "vtk", or null
+        // for default.
         "style": null,
 
         // Tab options
@@ -91,10 +92,10 @@
         // current indentation, rather than being flushed to the left (the default).
         "indent-labels": false,
 
-        // Indent preprocessor blocks at bracket level zero, and immediately within 
-        // a namespace. There are restrictions on what will be indented. Blocks 
-        // within methods, classes, arrays, etc, will not be indented. Blocks 
-        // containing brackets or multi-line define statements will not be indented. 
+        // Indent preprocessor blocks at bracket level zero, and immediately within
+        // a namespace. There are restrictions on what will be indented. Blocks
+        // within methods, classes, arrays, etc, will not be indented. Blocks
+        // containing brackets or multi-line define statements will not be indented.
         // Without this option the preprocessor block is not indented.
         "indent-preproc-block": false,
 
@@ -102,7 +103,7 @@
         // Should be used with `convert-tabs` for proper results. Does a pretty
         // good job, but cannot perform miracles in obfuscated preprocessor
         // definitions. Without this option the preprocessor statements remain unchanged.
-        "indent-preproc-define": true,
+        "indent-preproc-define": false,
 
         // Indent preprocessor conditional statements to the same level as the
         // source code.
@@ -111,7 +112,7 @@
         // Indent C++ comments beginning in column one. By default C++ comments
         // beginning in column one are not indented. This option will allow the
         // comments to be indented with the code.
-        "indent-col1-comments": true,
+        "indent-col1-comments": false,
 
         // Set the minimal indent that is added when a header is built of multiple
         // lines. This indent helps to easily separate the header from the command
@@ -207,7 +208,7 @@
         // The spacing between the type and name will be preserved, if possible. To format
         // references separately use the following `align-reference` option.
         // can be one of null, "type", "middle" or "name"
-        "align-pointer": "name",
+        "align-pointer": null,
 
         // This option will align references separate from pointers. Pointers are not changed
         // by this option. If pointers and references are to be aligned the same, use the
@@ -215,8 +216,8 @@
         // the reference alignment. The other options are the same as for `align-pointer`.
         // In the case of a reference to a pointer (*&) with conflicting alignments, the
         // `align-pointer` value will be used.
-        // can be one of "none", "type", "middle", "name"
-        "align-reference": "name",
+        // can be one of "none", "type", "middle", "name", or null for default.
+        "align-reference": null,
 
         // === Formatting Options ===
 
@@ -251,7 +252,7 @@
         "remove-brackets": false,
 
         // Don't break one-line blocks.
-        "keep-one-line-blocks": false,
+        "keep-one-line-blocks": true,
 
         // Don't break complex statements and multiple statements residing on a single line.
         "keep-one-line-statements": true,
@@ -318,8 +319,8 @@
         // spaces will be deleted. Colons immediarely preceeding a paren will not
         // be padded. This option is effective for Objective-C files only.
         //
-        // Can be one of "none", "all", "after" or "before"
-        "pad-method-colon": "none"
+        // Can be one of "none", "all", "after" or "before", or null for default.
+        "pad-method-colon": null
     },
 
     //
