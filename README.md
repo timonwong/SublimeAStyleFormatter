@@ -1,6 +1,9 @@
 Sublime Text 2 & 3 AStyle Formatter Plugin
 ==========================================
 
+[![Travis-CI Build Status](https://travis-ci.org/timonwong/SublimeAStyleFormatter.svg?branch=master)](https://travis-ci.org/timonwong/SublimeAStyleFormatter)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/timonwong/SublimeAStyleFormatter?branch=master&svg=true)](https://ci.appveyor.com/project/timonwong/SublimeAStyleFormatter)
+
 Description
 -----------
 
