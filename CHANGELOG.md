@@ -8,6 +8,7 @@ v3.1.0 (TBD)
     * `keep-one-line-blocks`: `false` -> `true`
 * Now an output panel with user-friendly error message will show if anything goes wrong.
 * Remove `convert-tabs` option, because it's duplicated with Sublime Text's `translate_tabs_to_spaces` setting.
+* Fix a NoneType error while formatting unsaved files.
 
 v3.0.0 (02/20/2015)
 

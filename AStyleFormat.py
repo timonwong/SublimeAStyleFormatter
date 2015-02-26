@@ -150,17 +150,20 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     def _build_custom_vars(self):
         view = self.view
-        full_path = view.file_name()
-        file_name = os.path.basename(full_path)
-        file_base_name, file_extension = os.path.splitext(file_name)
         custom_vars = {
-            'file_path': os.path.dirname(full_path),
-            'file': full_path,
-            'file_name': file_name,
-            'file_extension': file_extension,
-            'file_base_name': file_base_name,
             'packages': sublime.packages_path(),
         }
+        full_path = view.file_name()
+        if full_path:
+            file_name = os.path.basename(full_path)
+            file_base_name, file_extension = os.path.splitext(file_name)
+            custom_vars.update({
+                'file_path': os.path.dirname(full_path),
+                'file': full_path,
+                'file_name': file_name,
+                'file_extension': file_extension,
+                'file_base_name': file_base_name,
+            })
         if sublime.version() > '3000':
             window = view.window()
             project_file_name = window.project_file_name()
