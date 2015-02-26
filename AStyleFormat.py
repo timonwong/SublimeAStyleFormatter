@@ -254,8 +254,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, selection_only=False):
         # Close output panel previouslly created each run
-        panel = ErrorMessagePanel("astyle_error_message")
-        panel.close()
+        error_panel = ErrorMessagePanel("astyle_error_message")
+        error_panel.close()
 
         try:
             # Loading options
@@ -264,13 +264,13 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
             options = self._get_options(syntax, formatting_mode)
         except Options.ImproperlyConfigured as e:
             extra_message = e.extra_message
-            panel = ErrorMessagePanel("astyle_error_message")
-            panel.write(
+            error_panel = ErrorMessagePanel("astyle_error_message")
+            error_panel.write(
                 "%s: An error occured while processing options: %s\n\n" % (
                     PLUGIN_NAME, e))
             if extra_message:
-                panel.write("* %s\n" % extra_message)
-            panel.show()
+                error_panel.write("* %s\n" % extra_message)
+            error_panel.show()
             return
         # Options ok, format now
         if selection_only:
@@ -366,8 +366,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         # Replace to view
         _, err = merge_code(view, edit, code, formatted_code)
         if err:
-            sublime.error_message(
-                '%s: Merge failure: "%s"' % (PLUGIN_NAME, err))
+            error_panel = ErrorMessagePanel("astyle_error_message")
+            error_panel.write('%s: Merge failure: "%s"\n' % (PLUGIN_NAME, err))
 
     def is_enabled(self):
         return is_enabled_in_view(self.view)
