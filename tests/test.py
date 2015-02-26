@@ -12,6 +12,7 @@ IS_ST3 = not IS_ST2
 class WithViewTestCaseMixin(object):
     def setUp(self):
         self.view = sublime.active_window().new_file()
+        self.view.settings().set('_UNDER_UNITTEST', True)
 
     def tearDown(self):
         self.view.set_scratch(True)
@@ -19,7 +20,18 @@ class WithViewTestCaseMixin(object):
         self.view.window().run_command("close_file")
 
     def _insert_text(self, string):
-        self.view.run_command("insert", {"characters": string})
+        # We should disable auto indent
+        backup = self.view.settings().get('auto_indent')
+        try:
+            self.view.settings().set('auto_indent', False)
+            self.view.run_command("insert", {"characters": string})
+        finally:
+            self.view.settings().set('auto_indent', backup)
+
+    def _get_text(self, region=None):
+        if not region:
+            region = sublime.Region(0, self.view.size())
+        return self.view.substr(region)
 
     def _set_syntax(self, syntax):
         self.view.settings().set("syntax", syntax)
@@ -104,10 +116,38 @@ class PluginInternalFunctionTests(WithViewTestCaseMixin, TestCase):
         self.assertEqual('cs', plugin.get_syntax_for_view(self.view))
 
     def test_is_supported_syntax(self):
-        self.assertFalse(plugin.get_syntax_for_view(self.view))
-
         actual = list(map(lambda syntax: plugin.is_supported_syntax(self.view,
                                                                     syntax),
                           ['c', 'c++', 'cs', 'java']))
         expected = [True] * len(actual)
         self.assertEqual(expected, actual)
+
+
+class AstyleformatCommandTests(WithViewTestCaseMixin, TestCase):
+    def test_do_not_run_if_synatx_not_supported(self):
+        expected = """\
+int main(void) {
+ int x;
+   int y;
+  }"""
+        self._insert_text(expected)
+        # Plain text
+        self.view.run_command('astyleformat')
+
+        self.assertEqual(expected, self._get_text())
+
+    def test_run_with_c_file(self):
+        self._set_syntax('Packages/C++/C.tmLanguage')
+        original = """\
+int main(void) {
+ int x;
+   int y;
+  }"""
+        expected = """\
+int main(void) {
+ int x;
+   int y;
+  }"""
+        self._insert_text(original)
+        self.view.run_command('astyleformat')
+        self.assertEqual(expected, self._get_text().replace('\t', '    '))

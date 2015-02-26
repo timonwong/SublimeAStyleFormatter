@@ -257,8 +257,11 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, selection_only=False):
         # Close output panel previouslly created each run
-        error_panel = ErrorMessagePanel("astyle_error_message")
+        under_unittest = self.view.settings().get('_UNDER_UNITTEST')
+        error_panel = ErrorMessagePanel("astyle_error_message",
+                                        under_unittest=under_unittest)
         error_panel.close()
+        raise ValueError()
 
         try:
             # Loading options
@@ -398,25 +401,34 @@ class AstylePanelInsertCommand(sublime_plugin.TextCommand):
 
 
 class ErrorMessagePanel(object):
-    def __init__(self, name, word_wrap=False, line_numbers=False, gutter=False,
-                 scroll_past_end=False,
+    def __init__(self, name, under_unittest=False, word_wrap=False,
+                 line_numbers=False, gutter=False, scroll_past_end=False,
                  syntax='Packages/Text/Plain text.tmLanguage'):
+        # If we are under testing, do not manipulate output panel
         self.name = name
-        self.window = sublime.active_window()
-        self.output_view = self.window.get_output_panel(name)
+        self.window = None
+        self.output_view = None
+        if not under_unittest:
+            self.window = sublime.active_window()
+            self.output_view = self.window.get_output_panel(name)
 
-        settings = self.output_view.settings()
-        settings.set("word_wrap", word_wrap)
-        settings.set("line_numbers", line_numbers)
-        settings.set("gutter", gutter)
-        settings.set("scroll_past_end", scroll_past_end)
-        settings.set("syntax", syntax)
+            settings = self.output_view.settings()
+            settings.set("word_wrap", word_wrap)
+            settings.set("line_numbers", line_numbers)
+            settings.set("gutter", gutter)
+            settings.set("scroll_past_end", scroll_past_end)
+            settings.set("syntax", syntax)
 
     def write(self, s):
-        self.output_view.run_command('astyle_panel_insert', {'text': s})
+        if self.output_view:
+            self.output_view.run_command('astyle_panel_insert', {'text': s})
 
     def show(self):
-        self.window.run_command("show_panel", {"panel": "output." + self.name})
+        if self.output_view:
+            self.window.run_command(
+                "show_panel", {"panel": "output." + self.name})
 
     def close(self):
-        self.window.run_command("hide_panel", {"panel": "output." + self.name})
+        if self.output_view:
+            self.window.run_command(
+                "hide_panel", {"panel": "output." + self.name})
