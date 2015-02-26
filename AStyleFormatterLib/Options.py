@@ -165,7 +165,6 @@ OPTION_PROCESSOR_MAP = {
     "add-one-line-brackets":    process_option_generic,
     "keep-one-line-blocks":     process_option_generic,
     "keep-one-line-statements": process_option_generic,
-    "convert-tabs":             process_option_generic,
     "close-templates":          process_option_generic,
     "remove-comment-prefix":    process_option_generic,
     "max-code-length":          process_option_max_code_length,
@@ -197,6 +196,7 @@ def special_process_option_indent(options, indent_method, spaces):
     return options
 
 
+def build_astyle_options(settings, indent_options, convert_tabs=False):
 def build_astyle_options(settings, indent_options):
     options = []
     # Special indent option handling
@@ -205,6 +205,8 @@ def build_astyle_options(settings, indent_options):
         settings['indent-spaces'] = indent_options['spaces']
     options = special_process_option_indent(
         options, settings["indent"], settings.get("indent-spaces"))
+    if convert_tabs:
+        options.append('--convert-tabs')
     for option_name, function in OPTION_PROCESSOR_MAP.items():
         if option_name not in settings:
             continue

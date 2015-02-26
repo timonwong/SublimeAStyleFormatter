@@ -13,7 +13,6 @@
     "break-closing-brackets": false,
     "break-elseifs": false,
     "close-templates": false,
-    "convert-tabs": true,
     "delete-empty-lines": false,
     "fill-empty-lines": false,
     "indent": null,

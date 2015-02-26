@@ -257,12 +257,6 @@
         // Don't break complex statements and multiple statements residing on a single line.
         "keep-one-line-statements": true,
 
-        // Converts tabs into spaces in the non-indentation part of the line. The number of
-        // spaces inserted will maintain the spacing of the tab. The current setting for
-        //  spaces per tab is used. It may not produce the expected results if `convert-tabs`
-        //  is used when changing spaces per tab. Tabs are not replaced in quotes.
-        "convert-tabs": true,
-
         // Closes whitespace in the angle brackets of template definitions. Closing
         // the ending angle brackets is now allowed by the C++11 standard.
         // Be sure your compiler supports this before making the changes.

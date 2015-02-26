@@ -227,7 +227,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         default_settings.update(syntax_settings)
         options = ' '.join(
             Options.build_astyle_options(
-                default_settings, self._build_indent_options()))
+                default_settings, self._build_indent_options()),
+                convert_tabs=self._should_convert_tabs())
         options_list.insert(1, options)
         return self._join_options(options_list)
 
@@ -239,6 +240,10 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
                       else 'tab',
             'spaces': view_settings.get('tab_size'),
         }
+
+    def _should_convert_tabs(self):
+        view_settings = self.view.settings()
+        return view_settings.get('translate_tabs_to_spaces')
 
     def _get_formatting_mode(self, syntax):
         mapping = get_settings_for_view(
