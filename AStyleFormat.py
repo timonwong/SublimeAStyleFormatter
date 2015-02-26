@@ -225,10 +225,12 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         default_settings = self._get_default_options()
         # Merge syntax_settings with default_settings
         default_settings.update(syntax_settings)
-        options = ' '.join(
-            Options.build_astyle_options(
-                default_settings, self._build_indent_options()),
-                convert_tabs=self._should_convert_tabs())
+        options = Options.build_astyle_options(
+            default_settings,
+            self._build_indent_options(),
+            convert_tabs=self._should_convert_tabs()
+        )
+        options = ' '.join(options)
         options_list.insert(1, options)
         return self._join_options(options_list)
 
@@ -251,13 +253,24 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         return get_syntax_mode_mapping(mapping).get(syntax, '')
 
     def run(self, edit, selection_only=False):
+        # Close output panel previouslly created each run
+        panel = ErrorMessagePanel("astyle_error_message")
+        panel.close()
+
         try:
             # Loading options
             syntax = get_syntax_for_view(self.view)
             formatting_mode = self._get_formatting_mode(syntax)
             options = self._get_options(syntax, formatting_mode)
-        except Options.RangeError as e:
-            sublime.error_message(str(e))
+        except Options.ImproperlyConfigured as e:
+            extra_message = e.extra_message
+            panel = ErrorMessagePanel("astyle_error_message")
+            panel.write(
+                "%s: An error occured while processing options: %s\n\n" % (
+                    PLUGIN_NAME, e))
+            if extra_message:
+                panel.write("* %s\n" % extra_message)
+            panel.show()
             return
         # Options ok, format now
         if selection_only:
@@ -370,3 +383,37 @@ class PluginEventListener(sublime_plugin.EventListener):
         if key == 'astyleformat_is_enabled':
             return is_enabled_in_view(view)
         return None
+
+
+class AstylePanelInsertCommand(sublime_plugin.TextCommand):
+
+    def run(self, edit, text):
+        self.view.set_read_only(False)
+        self.view.insert(edit, self.view.size(), text)
+        self.view.set_read_only(True)
+        self.view.show(self.view.size())
+
+
+class ErrorMessagePanel(object):
+    def __init__(self, name, word_wrap=False, line_numbers=False, gutter=False,
+                 scroll_past_end=False,
+                 syntax='Packages/Text/Plain text.tmLanguage'):
+        self.name = name
+        self.window = sublime.active_window()
+        self.output_view = self.window.get_output_panel(name)
+
+        settings = self.output_view.settings()
+        settings.set("word_wrap", word_wrap)
+        settings.set("line_numbers", line_numbers)
+        settings.set("gutter", gutter)
+        settings.set("scroll_past_end", scroll_past_end)
+        settings.set("syntax", syntax)
+
+    def write(self, s):
+        self.output_view.run_command('astyle_panel_insert', {'text': s})
+
+    def show(self):
+        self.window.run_command("show_panel", {"panel": "output." + self.name})
+
+    def close(self):
+        self.window.run_command("hide_panel", {"panel": "output." + self.name})

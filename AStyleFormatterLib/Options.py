@@ -20,11 +20,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__all__ = ["build_astyle_mode_option", "build_astyle_options"]
+
+class ImproperlyConfigured(Exception):
+    def __init__(self, option_name, option_value, extra_message=None):
+        self._name = option_name
+        self._value = option_value
+        self.extra_message = extra_message
+
+    def __str__(self):
+        return "Invalid value '{value}' in option '{name}'".format(
+            name=self._name, value=self._value)
 
 
-class RangeError(Exception):
-    pass
+class RangeError(ImproperlyConfigured):
+    def __init__(self, option_name, option_value, minval, maxval):
+        super(RangeError, self).__init__(option_name, option_value)
+        self._minval = minval
+        self._maxval = maxval
+
+    def __str__(self):
+        return "Value in option '{name}' should be between '{minval}' and " \
+               "'{maxval}'".format(name=self._name,
+                                   minval=self._minval,
+                                   maxval=self._range_max)
 
 
 def ensure_value_range(option_name, value, minval=None, maxval=None):
@@ -40,8 +58,7 @@ def ensure_value_range(option_name, value, minval=None, maxval=None):
 
     minval_str = "-Inf" if minval is None else str(minval)
     maxval_str = "+Inf" if maxval is None else str(maxval)
-    raise RangeError("{0} should between {1} and {2}".format(
-        option_name, minval_str, maxval_str))
+    raise RangeError(option_name, value, minval_str, maxval_str)
 
 
 def process_option_generic(options, option_name, value):
@@ -59,7 +76,16 @@ def process_option_style(options, option_name, value):
     assert option_name == "style"
     if not value:
         return options
-    assert value in STYLE_OPTIONS
+    if value not in STYLE_OPTIONS:
+        extra_message = None
+        if value == "ansi":
+            # Give user a hint about 'ansi' format style
+            extra_message = \
+                "'ansi' style is removed from astyle in v2.05, please update" \
+                " your settings and use 'allman' instead. See " \
+                "http://astyle.sourceforge.net/news.html for more information."
+        raise ImproperlyConfigured(option_name, value,
+                                   extra_message=extra_message)
     options.append("--{0}={1}".format(option_name, value))
     return options
 
@@ -95,7 +121,8 @@ def process_option_break_blocks(options, option_name, value):
     assert option_name == "break-blocks"
     if not value:
         return options
-    assert value in ("default", "all")
+    if value not in ("default", "all"):
+        raise ImproperlyConfigured(option_name, value)
     if value == "default":
         options.append("--break-blocks")
     elif value == "all":
@@ -107,7 +134,8 @@ def process_option_align_pointer(options, option_name, value):
     assert option_name == "align-pointer"
     if not value:
         return options
-    assert value in ("type", "middle", "name")
+    if value not in ("type", "middle", "name"):
+        raise ImproperlyConfigured(option_name, value)
     options.append("--{0}={1}".format(option_name, value))
     return options
 
@@ -116,7 +144,8 @@ def process_option_align_reference(options, option_name, value):
     assert option_name == "align-reference"
     if not value:
         return options
-    assert value in ("none", "type", "middle", "name")
+    if value not in ("none", "type", "middle", "name"):
+        raise ImproperlyConfigured(option_name, value)
     options.append("--{0}={1}".format(option_name, value))
     return options
 
@@ -125,7 +154,8 @@ def process_option_pad_method_colon(options, option_name, value):
     assert option_name == "pad-method-colon"
     if not value:
         return options
-    assert value in ("none", "all", "after", "before")
+    if value not in ("none", "all", "after", "before"):
+        raise ImproperlyConfigured(option_name, value)
     options.append("--{0}={1}".format(option_name, value))
     return options
 
@@ -187,7 +217,8 @@ def build_astyle_mode_option(mode):
 def special_process_option_indent(options, indent_method, spaces):
     if not indent_method:
         return options
-    assert indent_method in ("spaces", "tab", "force-tab", "force-tab-x")
+    if indent_method not in ("spaces", "tab", "force-tab", "force-tab-x"):
+        raise ImproperlyConfigured("indent", "%s:%s" % (indent_method, spaces))
     option = '--indent={0}'.format(indent_method)
     if spaces is not None:
         ensure_value_range("indent=%s" % indent_method, spaces, 2, 20)
@@ -197,7 +228,6 @@ def special_process_option_indent(options, indent_method, spaces):
 
 
 def build_astyle_options(settings, indent_options, convert_tabs=False):
-def build_astyle_options(settings, indent_options):
     options = []
     # Special indent option handling
     if not settings['indent'] and not settings['indent-spaces']:
