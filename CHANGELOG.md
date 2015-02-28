@@ -1,4 +1,4 @@
-v3.1.0 (TBD)
+v3.1.0 (02/28/2015)
 
 * The following default options were changed, according to *Artistic Style* defaults:
     * `indent-preproc-define`: `true` -> `false`
