@@ -1,18 +1,53 @@
+import json
 import sublime
 import sys
 import os
+
 from unittest import TestCase
 
 IS_ST2 = sublime.version() < '3000'
 IS_ST3 = not IS_ST2
 
-# for testing sublime command
+
+if IS_ST2:
+    plugin = sys.modules["AStyleFormat"]
+else:
+    plugin = sys.modules["SublimeAStyleFormatter.AStyleFormat"]
+
+
+plugin_default_options = {}
+
+
+def _load_default_options():
+    global plugin_default_options
+
+    with open(os.path.join(plugin.__path__, 'options_default.json')) as f:
+        plugin_default_options = {
+            'debug': False,
+            'autoformat_on_save': False,
+            'user_defined_syntax_mode_mapping': {},
+            'options_c': {
+                'use_only_additional_options': False,
+                'additional_options_file': "",
+                'additional_options': []
+            },
+            'options_c++': {
+                'use_only_additional_options': False,
+                'additional_options_file': "",
+                'additional_options': []
+            },
+            'options_default': json.loads(f.read())
+        }
+_load_default_options()
 
 
 class WithViewTestCaseMixin(object):
     def setUp(self):
         self.view = sublime.active_window().new_file()
-        self.view.settings().set('_UNDER_UNITTEST', True)
+        settings = self.view.settings()
+        settings.set('_UNDER_UNITTEST', True)
+        # Use default astyle formatter in every tests
+        settings.set('AStyleFormatter', plugin_default_options)
 
     def tearDown(self):
         self.view.set_scratch(True)
@@ -35,13 +70,6 @@ class WithViewTestCaseMixin(object):
 
     def _set_syntax(self, syntax):
         self.view.settings().set("syntax", syntax)
-
-
-# for testing internal function
-if IS_ST2:
-    plugin = sys.modules["AStyleFormat"]
-else:
-    plugin = sys.modules["SublimeAStyleFormatter.AStyleFormat"]
 
 
 class PluginInternalFunctionTests(WithViewTestCaseMixin, TestCase):
@@ -144,8 +172,7 @@ int main(void) {
    int y;
   }"""
         expected = """\
-int main(void)
-{
+int main(void) {
     int x;
     int y;
 }"""
