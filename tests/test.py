@@ -144,10 +144,11 @@ int main(void) {
    int y;
   }"""
         expected = """\
-int main(void) {
- int x;
-   int y;
-  }"""
+int main(void)
+{
+    int x;
+    int y;
+}"""
         self._insert_text(original)
         self.view.run_command('astyleformat')
         self.assertEqual(expected, self._get_text().replace('\t', '    '))
