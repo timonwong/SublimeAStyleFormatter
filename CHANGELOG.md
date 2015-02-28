@@ -1,3 +1,7 @@
+v3.1.1 (02/28/2015)
+
+* Hot-Fix for mysterious ValueError(), introduced in v3.1.0.
+
 v3.1.0 (02/28/2015)
 
 * The following default options were changed, according to *Artistic Style* defaults:

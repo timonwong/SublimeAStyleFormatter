@@ -261,7 +261,6 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
         error_panel = ErrorMessagePanel("astyle_error_message",
                                         under_unittest=under_unittest)
         error_panel.close()
-        raise ValueError()
 
         try:
             # Loading options
