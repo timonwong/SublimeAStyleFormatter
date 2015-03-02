@@ -197,7 +197,8 @@ class AstyleformatCommand(sublime_plugin.TextCommand):
 
     @staticmethod
     def _join_options(options_list):
-        return ' '.join(o for o in options_list if o)
+        return Options.strip_invalid_options_string(
+            ' '.join(o for o in options_list if o))
 
     def _get_options(self, syntax, formatting_mode):
         syntax_settings = self._get_syntax_settings(syntax, formatting_mode)
