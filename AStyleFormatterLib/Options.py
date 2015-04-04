@@ -43,7 +43,7 @@ class RangeError(ImproperlyConfigured):
         return "Value in option '{name}' should be between '{minval}' and " \
                "'{maxval}'".format(name=self._name,
                                    minval=self._minval,
-                                   maxval=self._range_max)
+                                   maxval=self._maxval)
 
 
 def ensure_value_range(option_name, value, minval=None, maxval=None):
