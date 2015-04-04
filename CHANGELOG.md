@@ -1,3 +1,8 @@
+v3.1.2 (04/04/2015)
+
+* Add user friendly error messages for invalid options.
+* Strip invalid options in astylerc.
+
 v3.1.1 (02/28/2015)
 
 * Hot-Fix for mysterious ValueError(), introduced in v3.1.0.

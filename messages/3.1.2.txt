@@ -1,0 +1,8 @@
+SublimeAStyleFormatter 3.1.2 Changelog:
+
+*************************  NOTE  *************************
+A Sublime Text restart may be required upon this upgrade.
+**********************************************************
+
+* Add user friendly error messages for invalid options.
+* Strip invalid options in astylerc.
