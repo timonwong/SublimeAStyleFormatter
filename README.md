@@ -17,7 +17,7 @@ It provides ability to format C, C++, Cuda-C++, OpenCL, Arduino, C#, and Java fi
 If you find my work useful, please consider buying me a cup of coffee, all
 donations are much appreciated :)
 
-[![Donate via PayPal](http://dl.dropbox.com/u/2451120/donate-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGVE2BPUP7KEC)
+[![Donate via PayPal](http://dl.dropbox.com/u/2451120/donate-with-paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGVE2BPUP7KEC) [![Greenkeeper badge](https://badges.greenkeeper.io/timonwong/SublimeAStyleFormatter.svg)](https://greenkeeper.io/)
 
 Installation
 ------------
