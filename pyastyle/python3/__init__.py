@@ -22,4 +22,8 @@ except ImportError:
                         from ._macosx_universal.pyastyle import *
                         platform = "MacOS X Universal"
                     except ImportError:
-                        raise ImportError("Could not find a suitable pyastyle binary for your platform and architecture.")
+                        try:
+                            from ._darwin.pyastyle import *
+                            platform = "MacOS X Darwin"
+                        except ImportError:
+                            raise ImportError("Could not find a suitable pyastyle binary for your platform and architecture.")
